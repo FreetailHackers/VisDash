@@ -172,7 +172,7 @@ UserController.getById = function (id, callback){
 };
 
 /**
- * Update a user's profile object, given an id and a profile.
+ * Update a user's name field given an id and a name.
  *
  * @param  {String}   id       Id of the user
  * @param  {String}   name     Name string
@@ -195,10 +195,10 @@ UserController.getById = function (id, callback){
  };
 
 /**
- * Update a user's profile object, given an id and a profile.
+ * Update a user's code field, given an id and code.
  *
  * @param  {String}   id       Id of the user
- * @param  {String}   code     code to update
+ * @param  {String}   code     code to replace old code with
  * @param  {Function} callback Callback with args (err, user)
  */
 UserController.updateCodeById = function (id, code, callback){
@@ -219,7 +219,7 @@ UserController.updateCodeById = function (id, code, callback){
 
 
 /**
- * Change a user's password, given their old password.
+ * Change a user's password, given their old password and a new one.
  * @param  {String}   id          User id
  * @param  {String}   oldPassword old password
  * @param  {String}   newPassword new password
@@ -257,6 +257,8 @@ UserController.changePassword = function(id, oldPassword, newPassword, callback)
 
 /**
  * Reset a user's password to a given password, given a authentication token.
+ * NOT DONE OR WORKING YET
+ * TODO: Add control flow to rest of backend api
  * @param  {String}   token       Authentication token
  * @param  {String}   password    New Password
  * @param  {Function} callback    args(err, user)

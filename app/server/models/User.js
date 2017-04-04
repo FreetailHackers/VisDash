@@ -4,7 +4,7 @@ var mongoose   = require('mongoose'),
     jwt        = require('jsonwebtoken');
     JWT_SECRET = process.env.JWT_SECRET;
 
-// define the schema for our admin model
+// define the schema for our model
 var schema = new mongoose.Schema({
 
   email: {
@@ -84,6 +84,7 @@ schema.methods.generateAuthToken = function(){
 
 /**
  * Generate a temporary authentication token (for changing passwords)
+ * TODO: Add control flow to API, (pairs with UserController.resetPassword)
  * @return JWT
  * payload: {
  *   id: userId
@@ -109,6 +110,7 @@ schema.statics.generateHash = function(password) {
 
 /**
  * Verify a temporary authentication token.
+ * Generate a temporary authentication token (for changing passwords)
  * @param  {[type]}   token    temporary auth token
  * @param  {Function} callback args(err, id)
  */
