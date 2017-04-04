@@ -1,3 +1,3 @@
 # VisDash
 
-```npm install``` to install dependencies 
+```yarn install``` to install dependencies

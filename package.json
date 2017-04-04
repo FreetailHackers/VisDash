@@ -1,16 +1,37 @@
 {
-  "name": "musichacks",
+  "name": "music-hacks",
   "version": "1.0.0",
   "description": "Musichacks react",
-  "main": "index.js",
+  "main": "app.js",
+  "dependencies": {
+    "async": "^1.4.2",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.8.4",
+    "cookie-parser": "~1.3.2",
+    "dotenv": "^1.2.0",
+    "email-templates": "^2.0.1",
+    "express": "^4.9.8",
+    "handlebars": "^3.0.3",
+    "jsonwebtoken": "5.0.4",
+    "method-override": "^2.3.5",
+    "moment": "^2.10.3",
+    "mongoose": "^4.1.2",
+    "morgan": "^1.6.1",
+    "passport-local": "^1.0.0",
+    "request": "^2.60.0",
+    "underscore": "^1.8.3",
+    "validator": "^3.40.1"
+  },
   "scripts": {
+    "mongo": "mongod --dbpath db",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "music",
     "hacks"
   ],
-  "author": "",
+  "author": "Freetail Hackers",
   "license": "ISC",
   "devDependencies": {
     "react": "^15.4.2",
