@@ -1,3 +1,5 @@
+require('dotenv').load();
+
 // Connect to mongodb
 var mongoose        = require('mongoose');
 var database        = process.env.DATABASE || { url: "mongodb://localhost:27017"};
