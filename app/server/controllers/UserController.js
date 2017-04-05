@@ -194,28 +194,27 @@ UserController.getById = function (id, callback){
      callback);
  };
 
-/**
- * Update a user's code field, given an id and code.
- *
- * @param  {String}   id       Id of the user
- * @param  {String}   code     code to replace old code with
- * @param  {Function} callback Callback with args (err, user)
- */
-UserController.updateCodeById = function (id, code, callback){
-  User.findOneAndUpdate({
-    _id: id,
-  },
-    {
-      $set: {
-        'lastUpdated': Date.now(),
-        'code': code,
-      }
-    },
-    {
-      new: true
-    },
-    callback);
-};
+ /**
+  * Push a user's submission, given an id and a submission.
+  *
+  * @param  {String}   id          Id of the user
+  * @param  {Object}   submission  submission object
+  * @param  {Function} callback    Callback with args (err, user)
+  */
+ UserController.pushSubmissionById = function (id, submission, callback){
+   User.findOneAndUpdate({
+     _id: id,
+   },
+     {
+       $push: {
+         'submissions': submission
+       }
+     },
+     {
+       new: true
+     },
+     callback);
+ };
 
 
 /**
