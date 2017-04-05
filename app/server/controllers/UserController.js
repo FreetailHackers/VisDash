@@ -296,4 +296,13 @@ UserController.resetPassword = function(token, password, callback){
   });
 };
 
+/**
+ * Remove a user by id.
+ * @param  {String}   id       User id
+ * @param  {Function} callback args(err, user)
+ */
+UserController.removeById = function (id, callback){
+  User.findByIdAndRemove(id, callback);
+};
+
 module.exports = UserController;
