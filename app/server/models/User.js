@@ -8,6 +8,7 @@ var submission = {
 
   title: {
     type: String,
+    required: true,
     min: 1,
     max: 100,
   },

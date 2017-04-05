@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var User = require('../models/User');
+const util = require('util');
 
 var validator = require('validator');
 var moment = require('moment');
@@ -11,8 +12,10 @@ var UserController = {};
 function endsWith(s, test){
   return test.indexOf(s, test.length - s.length) !== -1;
 }
+
 /**
- * Determine whether or not a user can register.
+ * Determines whether or not a given title is valid
+ * No idea if this actually works
  * @param  {String}   id      Id of the user
  * @param  {String}   title   proposed submission title
  * @param  {Function} callback args(err, true, false)
@@ -20,18 +23,20 @@ function endsWith(s, test){
  */
 function isValidTitle(id, title, callback){
   User
-  .findById(id)
-  .select('submissions')
-  .exec(function(err,submissions){
-          if(err)
-                return console.log(err);
-          submissions.forEach(function(submission){
-              if(submission.title == title){
-                    return callback({ message: "You already have a submission with this title, please choose a new one."}, false);
-              }
-          }
-          return callback(null, true););
-  }
+    .findById(id)
+    .exec(function(err, bundle){
+      if (err) {
+        return callback(err);
+      }
+      for (let submission of bundle.submissions){
+        if(submission.title == title){
+          return callback({
+            message: 'You already have a submission with this title, please choose a new one.'
+          });
+        }
+      }
+      return callback(null, true);
+  });
 }
 
 /**
@@ -164,9 +169,7 @@ UserController.createUser = function(email, password, callback) {
             }
 
           });
-
         }
-
     });
   });
 };
@@ -217,27 +220,49 @@ UserController.getById = function (id, callback){
  };
 
  /**
-  * Push a user's submission, given an id and a submission.
+  * Push a user's new submission, given an id and a submission.
   *
   * @param  {String}   id          Id of the user
   * @param  {Object}   submission  submission object
   * @param  {Function} callback    Callback with args (err, user)
   */
  UserController.pushSubmissionById = function (id, submission, callback){
-   User.findOneAndUpdate({
-     _id: id,
-   },
-     {
-       $push: {
-         'submissions': submission
-       }
-     },
-     {
-       new: true
-     },
-     callback);
+   isValidTitle(id, submission.title, function(err, valid){
+     if (err || !valid){
+       return callback(err);
+     }
+      User.findOneAndUpdate({
+        _id: id,
+      },
+      {
+        $push: {
+          'submissions': submission
+        }
+      },
+      {
+        new: true
+      },
+      callback);
+   });
  };
 
+ /**
+  * Update a user's submission, given a user id and a submission title.
+  *
+  * @param  {String}   userId          Id of the user
+  * @param  {String}   submissionId       title of the submission
+  * @param  {Object}   submission  submission object
+  * @param  {Function} callback    Callback with args (err, user)
+  */
+ UserController.updateSubmissionById = function (userId, submissionId, submission, callback){
+   User.findById(userId).then(user => {
+    let old_submission = user.submissions.id(submissionId);
+    old_submission.code = submission.code;
+    old_submission.likes = submission.likes;
+    user.save();
+    callback(null, user);
+  });
+ };
 
 /**
  * Change a user's password, given their old password and a new one.
