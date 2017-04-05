@@ -19,7 +19,7 @@ var adminConfig     = require('./config/admin');
 var app             = express();
 
 // Static directory!
-app.use(express.static(path.join(__dirname + 'public')))
+app.use(express.static(path.join(__dirname + '/public')))
 
 // Connect to mongodb
 mongoose.connect(database);

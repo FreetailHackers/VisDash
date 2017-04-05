@@ -1,5 +1,5 @@
 import React from 'react';
-import TopBar from 'topbar/topbar.js';
+import TopBar from './topbar/topbar.js';
 
 
 export default class Main extends React.Component {
@@ -8,6 +8,7 @@ export default class Main extends React.Component {
      your initial state, and binding functions to the class variable 'this'
      */
     constructor(props) {
+        super();
     }
 
     /*
