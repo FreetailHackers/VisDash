@@ -2,6 +2,7 @@
 require('dotenv').load();
 
 var express         = require('express');
+var path            = require('path');
 
 // Middleware!
 var bodyParser      = require('body-parser');
@@ -16,6 +17,9 @@ var database        = process.env.DATABASE || "mongodb://localhost:27017";
 var adminConfig     = require('./config/admin');
 
 var app             = express();
+
+// Static directory!
+app.use(express.static(path.join(__dirname + 'public')))
 
 // Connect to mongodb
 mongoose.connect(database);
