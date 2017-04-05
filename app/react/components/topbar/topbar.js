@@ -9,7 +9,15 @@ export default class TopBar extends React.Component {
     render() {
         return (
             <div id="topbar">
-        
+                <div className="topbar-container first-half">
+                    <HomeButton/>
+                </div>
+                <div className="topbar-container last-half">
+                    <Toggle/>
+                    <InputDropDown/>
+                    <Primary/>
+                    <LoginButton/>
+                </div>
             </div>
         )
     }
