@@ -128,13 +128,26 @@ module.exports = function(router) {
   /**
    * [OWNER/ADMIN]
    *
-   * PUT - push a new user's submission.
+   * POST - push a new submission object to a given user's list
    */
   router.post('/users/:id/submissions', isOwnerOrAdmin, function(req, res){
     var submission = req.body.submission;
     var id = req.params.id;
 
     UserController.pushSubmissionById(id, submission , defaultResponse(req, res));
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
+   * PUT - update a submission object to a given user's list
+   */
+  router.put('/users/:userId/submissions/:submissionId', isOwnerOrAdmin, function(req, res){
+    var submission = req.body.submission;
+    var submissionId = req.params.submissionId;
+    var userId = req.params.userId;
+
+    UserController.updateSubmissionById(userId, submissionId, submission , defaultResponse(req, res));
   });
 
   /**

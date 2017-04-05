@@ -195,7 +195,7 @@ UserController.getById = function (id, callback){
  };
 
  /**
-  * Push a user's submission, given an id and a submission.
+  * Push a user's new submission, given an id and a submission.
   *
   * @param  {String}   id          Id of the user
   * @param  {Object}   submission  submission object
@@ -205,17 +205,34 @@ UserController.getById = function (id, callback){
    User.findOneAndUpdate({
      _id: id,
    },
-     {
-       $push: {
-         'submissions': submission
-       }
-     },
-     {
-       new: true
-     },
-     callback);
+   {
+     $push: {
+       'submissions': submission
+     }
+   },
+   {
+     new: true
+   },
+   callback);
  };
 
+ /**
+  * Update a user's submission, given a user id and a submission title.
+  *
+  * @param  {String}   userId          Id of the user
+  * @param  {String}   submissionId       title of the submission
+  * @param  {Object}   submission  submission object
+  * @param  {Function} callback    Callback with args (err, user)
+  */
+ UserController.updateSubmissionById = function (userId, submissionId, submission, callback){
+   User.findById(userId).then(user => {
+    let old_submission = user.submissions.id(submissionId);
+    old_submission.code = submission.code;
+    old_submission.likes = submission.likes;
+    user.save();
+    callback(null, user);
+  });
+ };
 
 /**
  * Change a user's password, given their old password and a new one.
