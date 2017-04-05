@@ -106,6 +106,16 @@ module.exports = function(router) {
   /**
    * [OWNER/ADMIN]
    *
+   * DELETE - remove a user by ID.
+   */
+  router.delete('/users/:id', isOwnerOrAdmin, function(req, res){
+    var id = req.params.id;
+    UserController.removeById(id, defaultResponse(req, res));
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
    * PUT - Update a specific user's name.
    */
   router.put('/users/:id/name', isOwnerOrAdmin, function(req, res){
