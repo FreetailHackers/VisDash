@@ -10453,6 +10453,93 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Home = function (_React$Component) {
+<<<<<<< HEAD
+    _inherits(Home, _React$Component);
+
+    /*
+     Initialize your component here. This usually involves creating
+     your initial state, and binding functions to the class variable 'this'
+     */
+    function Home(props) {
+        _classCallCheck(this, Home);
+
+        // Test panel object; feel free to change this schema if necessary
+        // There's probably a better way to do this
+        var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+
+        _this.panels = [{
+            id: 1, // lol
+            user: "KanyeWest",
+            title: "Famous",
+            likes: 4
+        }];
+        return _this;
+    }
+
+    /*
+     *Fires after the component is mounted and the DOM is loaded
+     *it would be useful to add event handlers here
+     */
+
+
+    _createClass(Home, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+
+        /*
+         This is useful for updating the component's state upon receiving
+         a component property update, i.e. <MyComponent color='blue'> was
+         changed to <MyComponent color='red'>.
+        */
+
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {}
+
+        /*
+         Return false if a component should not be re-rendered
+         upon a state change. No return or true return = AOK
+         */
+
+    }, {
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {}
+    }, {
+        key: 'handleTitleChange',
+        value: function handleTitleChange(id, title) {
+            for (i = 0; i < this.panels.length; i++) {
+                if (this.panels[i].id === id) {
+                    this.panels[i].title = title;
+                    break;
+                }
+            }
+        }
+    }, {
+        key: 'handleLike',
+        value: function handleLike(id, liked) {
+            var likes = this.panels[i].likes;
+            for (i = 0; i < this.panels.length; i++) {
+                if (this.panels[i].id === id) {
+                    this.panels[i].likes = liked ? likes + 1 : likes - 1;
+                    break;
+                }
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var testPanel = this.panels[0];
+            return _react2.default.createElement(
+                'div',
+                { className: 'dashboard-home' },
+                _react2.default.createElement(_panel2.default, { user: testPanel.user, title: testPanel.title, likes: testPanel.likes, onTitleChange: this.handleTitleChange,
+                    onLike: this.handleLike })
+            );
+        }
+    }]);
+
+    return Home;
+=======
   _inherits(Home, _React$Component);
 
   /*
@@ -10505,6 +10592,7 @@ var Home = function (_React$Component) {
   }]);
 
   return Home;
+>>>>>>> 95fc6bcf99842f0fa1a23252691531b720c2bb4c
 }(_react2.default.Component);
 
 exports.default = Home;
@@ -10637,7 +10725,11 @@ exports.default = LikeInfo;
 
 
 Object.defineProperty(exports, "__esModule", {
+<<<<<<< HEAD
+	value: true
+=======
   value: true
+>>>>>>> 95fc6bcf99842f0fa1a23252691531b720c2bb4c
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -10663,6 +10755,39 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Panel = function (_React$Component) {
+<<<<<<< HEAD
+	_inherits(Panel, _React$Component);
+
+	function Panel() {
+		_classCallCheck(this, Panel);
+
+		return _possibleConstructorReturn(this, (Panel.__proto__ || Object.getPrototypeOf(Panel)).apply(this, arguments));
+	}
+
+	_createClass(Panel, [{
+		key: 'changeTitle',
+		value: function changeTitle() {
+			this.setState();
+		}
+	}, {
+		key: 'handleChange',
+		value: function handleChange(e) {
+			this.props.onTitleChange(e.target.value);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ className: 'dashboard panel' },
+				_react2.default.createElement(_vis_display2.default, null),
+				_react2.default.createElement(_vis_info2.default, { username: this.props.user, title: this.props.title, likes: this.props.likes })
+			);
+		}
+	}]);
+
+	return Panel;
+=======
   _inherits(Panel, _React$Component);
 
   function Panel() {
@@ -10684,6 +10809,7 @@ var Panel = function (_React$Component) {
   }]);
 
   return Panel;
+>>>>>>> 95fc6bcf99842f0fa1a23252691531b720c2bb4c
 }(_react2.default.Component);
 
 exports.default = Panel;
