@@ -6,10 +6,25 @@ import LoginButton from './login_button';
 import Primary from './primary_button';
 
 export default class TopBar extends React.Component {
+    constructor() {
+        super();
+        this.state={
+            
+        }
+    }
+
     render() {
         return (
             <div id="topbar">
-        
+                <div className="topbar-container first-half">
+                    <HomeButton/>
+                </div>
+                <div className="topbar-container last-half">
+                    <LoginButton/>
+                    <Primary/>
+                    <InputDropDown/>
+                    <Toggle/>
+                </div>
             </div>
         )
     }

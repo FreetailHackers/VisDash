@@ -8,7 +8,16 @@ export default class Home extends React.Component {
      */
     constructor(props) {
     	super(props);
-
+        // Test panel object; feel free to change this schema if necessary
+        // There's probably a better way to do this
+        this.panels = [
+            {
+                id: 1, // lol
+                user: "KanyeWest",
+                title: "Famous",
+                likes: 4,
+            },
+        ]
     }
 
     /*
@@ -36,10 +45,36 @@ export default class Home extends React.Component {
 
     }
 
+    handleTitleChange(id, title) {
+        for (i = 0; i < this.panels.length; i++) {
+            if (this.panels[i].id === id) {
+                this.panels[i].title = title;
+                break;
+            }
+        }
+    }
+
+    handleLike(id, liked) {
+        const likes = this.panels[i].likes;
+        for (i = 0; i < this.panels.length; i++) {
+            if (this.panels[i].id === id) {
+                this.panels[i].likes = liked ? likes + 1 : likes - 1; 
+                break;
+            }
+        }
+    }
+
     render() {
+        const testPanel = this.panels[0]
         return (
             <div className="dashboard-home">
-                // Render all existing panels here
+<<<<<<< HEAD
+                { /* Render all existing panels here */ }
+                <Panel user={testPanel.user} title={testPanel.title} likes={testPanel.likes} onTitleChange={this.handleTitleChange} 
+                onLike={this.handleLike}/>
+=======
+                Page goes here
+>>>>>>> 95fc6bcf99842f0fa1a23252691531b720c2bb4c
             </div>
         )
     }

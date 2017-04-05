@@ -11,6 +11,28 @@ var UserController = {};
 function endsWith(s, test){
   return test.indexOf(s, test.length - s.length) !== -1;
 }
+/**
+ * Determine whether or not a user can register.
+ * @param  {String}   id      Id of the user
+ * @param  {String}   title   proposed submission title
+ * @param  {Function} callback args(err, true, false)
+ * @return {[type]}            [description]
+ */
+function isValidTitle(id, title, callback){
+  User
+  .findById(id)
+  .select('submissions')
+  .exec(function(err,submissions){
+          if(err)
+                return console.log(err);
+          submissions.forEach(function(submission){
+              if(submission.title == title){
+                    return callback({ message: "You already have a submission with this title, please choose a new one."}, false);
+              }
+          }
+          return callback(null, true););
+  }
+}
 
 /**
  * Determine whether or not a user can register.
