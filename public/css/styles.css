@@ -66,4 +66,5 @@ table {
   margin: 25px;
   float: right;
   border-radius: 10px;
-  background-color: #DDDDDD; }
+  background-color: #DDDDDD;
+  transition: background-color .2s; }

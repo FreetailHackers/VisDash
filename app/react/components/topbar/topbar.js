@@ -20,10 +20,10 @@ export default class TopBar extends React.Component {
                     <HomeButton/>
                 </div>
                 <div className="topbar-container last-half">
-                    <Toggle/>
-                    <InputDropDown/>
-                    <Primary/>
                     <LoginButton/>
+                    <Primary/>
+                    <InputDropDown/>
+                    <Toggle/>
                 </div>
             </div>
         )
