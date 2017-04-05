@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "nodemon app.js",
-    "build": "node_modules/.bin/webpack || node-sass public/css/styles.scss public/css/styles.css",
+    "build": "node_modules/.bin/webpack && node-sass public/css/styles.scss public/css/styles.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
