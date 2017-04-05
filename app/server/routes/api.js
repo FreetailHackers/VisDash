@@ -121,7 +121,6 @@ module.exports = function(router) {
   router.put('/users/:id/name', isOwnerOrAdmin, function(req, res){
     var name = req.body.name;
     var id = req.params.id;
-
     UserController.updateNameById(id, name , defaultResponse(req, res));
   });
 
@@ -133,8 +132,12 @@ module.exports = function(router) {
   router.post('/users/:id/submissions', isOwnerOrAdmin, function(req, res){
     var submission = req.body.submission;
     var id = req.params.id;
-
-    UserController.pushSubmissionById(id, submission , defaultResponse(req, res));
+    UserController.pushSubmissionById(id, submission , function(err, user){
+      if (err || !user){
+        return res.status(400).send(err);
+      }
+      return res.json(user);
+    });
   });
 
   /**

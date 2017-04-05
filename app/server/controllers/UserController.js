@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var User = require('../models/User');
+const util = require('util');
 
 var validator = require('validator');
 var moment = require('moment');
@@ -23,18 +24,17 @@ function endsWith(s, test){
 function isValidTitle(id, title, callback){
   User
     .findById(id)
-    .select('submissions')
-    .exec(function(err, submissions){
+    .exec(function(err, bundle){
       if (err) {
         return callback(err);
       }
-      submissions.forEach(function(submission){
+      for (let submission of bundle.submissions){
         if(submission.title == title){
           return callback({
             message: 'You already have a submission with this title, please choose a new one.'
           });
         }
-      });
+      }
       return callback(null, true);
   });
 }
@@ -169,9 +169,7 @@ UserController.createUser = function(email, password, callback) {
             }
 
           });
-
         }
-
     });
   });
 };
@@ -229,18 +227,23 @@ UserController.getById = function (id, callback){
   * @param  {Function} callback    Callback with args (err, user)
   */
  UserController.pushSubmissionById = function (id, submission, callback){
-   User.findOneAndUpdate({
-     _id: id,
-   },
-   {
-     $push: {
-       'submissions': submission
+   isValidTitle(id, submission.title, function(err, valid){
+     if (err || !valid){
+       return callback(err);
      }
-   },
-   {
-     new: true
-   },
-   callback);
+      User.findOneAndUpdate({
+        _id: id,
+      },
+      {
+        $push: {
+          'submissions': submission
+        }
+      },
+      {
+        new: true
+      },
+      callback);
+   });
  };
 
  /**
