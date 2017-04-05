@@ -39,7 +39,7 @@ export default class Home extends React.Component {
     render() {
         return (
             <div className="dashboard-home">
-                // Render all existing panels here
+                Page goes here
             </div>
         )
     }

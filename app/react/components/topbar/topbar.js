@@ -6,6 +6,13 @@ import LoginButton from './login_button';
 import Primary from './primary_button';
 
 export default class TopBar extends React.Component {
+    constructor() {
+        super();
+        this.state={
+            
+        }
+    }
+
     render() {
         return (
             <div id="topbar">

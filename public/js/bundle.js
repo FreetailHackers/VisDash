@@ -10499,7 +10499,7 @@ var Home = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: 'dashboard-home' },
-        '// Render all existing panels here'
+        'Page goes here'
       );
     }
   }]);
@@ -11186,7 +11186,10 @@ var TopBar = function (_React$Component) {
     function TopBar() {
         _classCallCheck(this, TopBar);
 
-        return _possibleConstructorReturn(this, (TopBar.__proto__ || Object.getPrototypeOf(TopBar)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (TopBar.__proto__ || Object.getPrototypeOf(TopBar)).call(this));
+
+        _this.state = {};
+        return _this;
     }
 
     _createClass(TopBar, [{
