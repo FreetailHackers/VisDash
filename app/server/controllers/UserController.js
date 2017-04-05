@@ -11,6 +11,28 @@ var UserController = {};
 function endsWith(s, test){
   return test.indexOf(s, test.length - s.length) !== -1;
 }
+/**
+ * Determine whether or not a user can register.
+ * @param  {String}   id      Id of the user
+ * @param  {String}   title   proposed submission title
+ * @param  {Function} callback args(err, true, false)
+ * @return {[type]}            [description]
+ */
+function isValidTitle(id, title, callback){
+  User
+  .findById(id)
+  .select('submissions')
+  .exec(function(err,submissions){
+          if(err)
+                return console.log(err);
+          submissions.forEach(function(submission){
+              if(submission.title == title){
+                    return callback({ message: "You already have a submission with this title, please choose a new one."}, false);
+              }
+          }
+          return callback(null, true););
+  }
+}
 
 /**
  * Determine whether or not a user can register.
@@ -194,28 +216,27 @@ UserController.getById = function (id, callback){
      callback);
  };
 
-/**
- * Update a user's code field, given an id and code.
- *
- * @param  {String}   id       Id of the user
- * @param  {String}   code     code to replace old code with
- * @param  {Function} callback Callback with args (err, user)
- */
-UserController.updateCodeById = function (id, code, callback){
-  User.findOneAndUpdate({
-    _id: id,
-  },
-    {
-      $set: {
-        'lastUpdated': Date.now(),
-        'code': code,
-      }
-    },
-    {
-      new: true
-    },
-    callback);
-};
+ /**
+  * Push a user's submission, given an id and a submission.
+  *
+  * @param  {String}   id          Id of the user
+  * @param  {Object}   submission  submission object
+  * @param  {Function} callback    Callback with args (err, user)
+  */
+ UserController.pushSubmissionById = function (id, submission, callback){
+   User.findOneAndUpdate({
+     _id: id,
+   },
+     {
+       $push: {
+         'submissions': submission
+       }
+     },
+     {
+       new: true
+     },
+     callback);
+ };
 
 
 /**
@@ -295,6 +316,15 @@ UserController.resetPassword = function(token, password, callback){
         }
       });
   });
+};
+
+/**
+ * Remove a user by id.
+ * @param  {String}   id       User id
+ * @param  {Function} callback args(err, user)
+ */
+UserController.removeById = function (id, callback){
+  User.findByIdAndRemove(id, callback);
 };
 
 module.exports = UserController;

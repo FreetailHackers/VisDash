@@ -1,0 +1,30 @@
+@import "css-reset";
+@import "parameters";
+
+#topbar {
+    height: 100px;
+    width: 100vw;
+    box-shadow: 0px 0px 2px 0px $shadow;
+}
+
+.topbar-container {
+    height: 100%;
+    max-width: 50%;
+}
+
+.topbar-container.first-half {
+    float: left;
+}
+
+.topbar-container.last-half {
+    float: right;
+}
+
+.topbar-button {
+    height: 50px;
+    width: 50px;
+    margin: 25px;
+    float: right;
+    border-radius: 10px;
+    background-color: #DDDDDD;
+}

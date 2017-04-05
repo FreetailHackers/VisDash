@@ -68,9 +68,13 @@ export default class Home extends React.Component {
         const testPanel = this.panels[0]
         return (
             <div className="dashboard-home">
+<<<<<<< HEAD
                 { /* Render all existing panels here */ }
                 <Panel user={testPanel.user} title={testPanel.title} likes={testPanel.likes} onTitleChange={this.handleTitleChange} 
                 onLike={this.handleLike}/>
+=======
+                Page goes here
+>>>>>>> 95fc6bcf99842f0fa1a23252691531b720c2bb4c
             </div>
         )
     }
