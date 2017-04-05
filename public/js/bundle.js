@@ -10431,7 +10431,7 @@ exports.default = Main;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -10453,7 +10453,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Home = function (_React$Component) {
-<<<<<<< HEAD
     _inherits(Home, _React$Component);
 
     /*
@@ -10539,60 +10538,6 @@ var Home = function (_React$Component) {
     }]);
 
     return Home;
-=======
-  _inherits(Home, _React$Component);
-
-  /*
-   Initialize your component here. This usually involves creating
-   your initial state, and binding functions to the class variable 'this'
-   */
-  function Home(props) {
-    _classCallCheck(this, Home);
-
-    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
-  }
-
-  /*
-   *Fires after the component is mounted and the DOM is loaded
-   *it would be useful to add event handlers here
-   */
-
-
-  _createClass(Home, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {}
-
-    /*
-     This is useful for updating the component's state upon receiving
-     a component property update, i.e. <MyComponent color='blue'> was
-     changed to <MyComponent color='red'>.
-    */
-
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {}
-
-    /*
-     Return false if a component should not be re-rendered
-     upon a state change. No return or true return = AOK
-     */
-
-  }, {
-    key: 'shouldComponentUpdate',
-    value: function shouldComponentUpdate(nextProps, nextState) {}
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'dashboard-home' },
-        'Page goes here'
-      );
-    }
-  }]);
-
-  return Home;
->>>>>>> 95fc6bcf99842f0fa1a23252691531b720c2bb4c
 }(_react2.default.Component);
 
 exports.default = Home;
@@ -10725,11 +10670,7 @@ exports.default = LikeInfo;
 
 
 Object.defineProperty(exports, "__esModule", {
-<<<<<<< HEAD
 	value: true
-=======
-  value: true
->>>>>>> 95fc6bcf99842f0fa1a23252691531b720c2bb4c
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -10755,7 +10696,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Panel = function (_React$Component) {
-<<<<<<< HEAD
 	_inherits(Panel, _React$Component);
 
 	function Panel() {
@@ -10787,29 +10727,6 @@ var Panel = function (_React$Component) {
 	}]);
 
 	return Panel;
-=======
-  _inherits(Panel, _React$Component);
-
-  function Panel() {
-    _classCallCheck(this, Panel);
-
-    return _possibleConstructorReturn(this, (Panel.__proto__ || Object.getPrototypeOf(Panel)).apply(this, arguments));
-  }
-
-  _createClass(Panel, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'dashboard panel' },
-        _react2.default.createElement(_vis_display2.default, null),
-        _react2.default.createElement(_vis_info2.default, null)
-      );
-    }
-  }]);
-
-  return Panel;
->>>>>>> 95fc6bcf99842f0fa1a23252691531b720c2bb4c
 }(_react2.default.Component);
 
 exports.default = Panel;
@@ -11246,13 +11163,29 @@ var Toggle = function (_React$Component) {
     function Toggle() {
         _classCallCheck(this, Toggle);
 
-        return _possibleConstructorReturn(this, (Toggle.__proto__ || Object.getPrototypeOf(Toggle)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Toggle.__proto__ || Object.getPrototypeOf(Toggle)).call(this));
+
+        _this.state = {
+            status: 'Play'
+        };
+        _this.toggleState = _this.toggleState.bind(_this);
+        return _this;
     }
 
     _createClass(Toggle, [{
-        key: "render",
+        key: 'toggleState',
+        value: function toggleState() {
+            var new_status = this.state.status == 'Play' ? 'Pause' : 'Play';
+            this.setState({ status: new_status });
+        }
+    }, {
+        key: 'render',
         value: function render() {
-            return _react2.default.createElement("div", { className: "topbar-button toggle" });
+            return _react2.default.createElement(
+                'div',
+                { className: 'topbar-button toggle', onClick: this.toggleState },
+                this.state.status
+            );
         }
     }]);
 
@@ -11332,10 +11265,10 @@ var TopBar = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'topbar-container last-half' },
-                    _react2.default.createElement(_toggle_play2.default, null),
-                    _react2.default.createElement(_drop_down2.default, null),
+                    _react2.default.createElement(_login_button2.default, null),
                     _react2.default.createElement(_primary_button2.default, null),
-                    _react2.default.createElement(_login_button2.default, null)
+                    _react2.default.createElement(_drop_down2.default, null),
+                    _react2.default.createElement(_toggle_play2.default, null)
                 )
             );
         }
