@@ -4,6 +4,27 @@ var mongoose   = require('mongoose'),
     jwt        = require('jsonwebtoken');
     JWT_SECRET = process.env.JWT_SECRET;
 
+var submission = {
+
+  title: {
+    type: String,
+    min: 1,
+    max: 100,
+  },
+
+  code: {
+    type: String,
+    required: true,
+    default: ""
+  },
+
+  likes: {
+    type: Number,
+    required: true,
+    default: 0,
+  }
+};
+
 // define the schema for our model
 var schema = new mongoose.Schema({
 
@@ -34,12 +55,6 @@ var schema = new mongoose.Schema({
     default: false
   },
 
-  code: {
-    type: String,
-    required: false,
-    default: ""
-  },
-
   timestamp: {
     type: Number,
     required: true,
@@ -57,6 +72,8 @@ var schema = new mongoose.Schema({
     default: Date.now(),
     select: false
   },
+
+  submissions: [submission]
 
 });
 

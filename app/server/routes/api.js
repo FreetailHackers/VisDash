@@ -128,13 +128,13 @@ module.exports = function(router) {
   /**
    * [OWNER/ADMIN]
    *
-   * PUT - Update a specific user's code.
+   * PUT - push a new user's submission.
    */
-  router.put('/users/:id/code', isOwnerOrAdmin, function(req, res){
-    var code = req.body.code;
+  router.post('/users/:id/submissions', isOwnerOrAdmin, function(req, res){
+    var submission = req.body.submission;
     var id = req.params.id;
 
-    UserController.updateCodeById(id, code , defaultResponse(req, res));
+    UserController.pushSubmissionById(id, submission , defaultResponse(req, res));
   });
 
   /**

@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname + '/public')))
 // Connect to mongodb
 mongoose.connect(database);
 
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({
