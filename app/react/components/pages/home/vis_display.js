@@ -5,7 +5,7 @@ export default class VisDisplay extends React.Component {
 	render() {
         return (
             <div className="dashboard panel display">
-            	// <Visualizer/>
+            	{/*<Visualizer/>*/}
             </div>
         )
     }
