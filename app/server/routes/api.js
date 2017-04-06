@@ -49,8 +49,12 @@ module.exports = function(router) {
 
     UserController.getByToken(token, function(err, user){
 
-      if (err || !user) {
+      if (err) {
         return res.status(500).send(err);
+      }
+
+      if (!user) {
+        return res.status(500).send("No user found for given token.");
       }
 
       if (user._id == userId || user.admin){
