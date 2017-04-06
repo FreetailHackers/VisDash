@@ -49,14 +49,18 @@ module.exports = function(router) {
 
     UserController.getByToken(token, function(err, user){
 
-      if (err || !user) {
+      if (err) {
         return res.status(500).send(err);
+      }
+
+      if (!user) {
+        return res.status(401).send("No user found for given token.");
       }
 
       if (user._id == userId || user.admin){
         return next();
       }
-      return res.status(400).send({
+      return res.status(401).send({
         message: 'Token does not match user id.'
       });
     });
@@ -151,6 +155,18 @@ module.exports = function(router) {
     var userId = req.params.userId;
 
     UserController.updateSubmissionById(userId, submissionId, submission , defaultResponse(req, res));
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
+   * DELETE - remove a given submission object
+   */
+  router.delete('/users/:userId/submissions/:submissionId', isOwnerOrAdmin, function(req, res){
+    var submissionId = req.params.submissionId;
+    var userId = req.params.userId;
+
+    UserController.pullSubmissionById(userId, submissionId, defaultResponse(req, res));
   });
 
   /**
