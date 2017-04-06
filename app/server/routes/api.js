@@ -156,6 +156,18 @@ module.exports = function(router) {
   /**
    * [OWNER/ADMIN]
    *
+   * DELETE - remove a given submission object
+   */
+  router.delete('/users/:userId/submissions/:submissionId', isOwnerOrAdmin, function(req, res){
+    var submissionId = req.params.submissionId;
+    var userId = req.params.userId;
+
+    UserController.pullSubmissionById(userId, submissionId, defaultResponse(req, res));
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
    * Update a user's password.
    * {
    *   oldPassword: STRING,

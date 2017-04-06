@@ -10,7 +10,7 @@ var methodOverride  = require('method-override');
 var morgan          = require('morgan');
 var cookieParser    = require('cookie-parser');
 
-var mongoose        = require('mongoose');
+var mongoose        = require('mongoose'); mongoose.Promise = require('bluebird');
 var port            = process.env.PORT || 3000;
 var database        = process.env.DATABASE || "mongodb://localhost:27017";
 

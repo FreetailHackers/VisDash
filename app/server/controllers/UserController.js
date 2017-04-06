@@ -247,12 +247,36 @@ UserController.getById = function (id, callback){
  };
 
  /**
-  * Update a user's submission, given a user id and a submission title.
+  * Pull a user's submission, given a user id and a submission id.
   *
   * @param  {String}   userId          Id of the user
+  * @param  {Object}   submissionId    Id of the submission
+  * @param  {Function} callback        Callback with args (err, user)
+  */
+ UserController.pullSubmissionById = function (userId, submissionId, callback){
+  User.findOneAndUpdate({
+    _id: userId,
+  },
+  {
+    $pull: {
+      'submissions': {
+        _id: submissionId
+      }
+    }
+  },
+  {
+    new: true
+  },
+  callback);
+ };
+
+ /**
+  * Update a user's submission, given a user id and a submission title.
+  *
+  * @param  {String}   userId             Id of the user
   * @param  {String}   submissionId       title of the submission
-  * @param  {Object}   submission  submission object
-  * @param  {Function} callback    Callback with args (err, user)
+  * @param  {Object}   submission         submission object
+  * @param  {Function} callback           Callback with args (err, user)
   */
  UserController.updateSubmissionById = function (userId, submissionId, submission, callback){
    User.findById(userId).then(user => {
