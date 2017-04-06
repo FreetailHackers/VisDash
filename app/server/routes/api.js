@@ -54,13 +54,13 @@ module.exports = function(router) {
       }
 
       if (!user) {
-        return res.status(500).send("No user found for given token.");
+        return res.status(401).send("No user found for given token.");
       }
 
       if (user._id == userId || user.admin){
         return next();
       }
-      return res.status(400).send({
+      return res.status(401).send({
         message: 'Token does not match user id.'
       });
     });
