@@ -18,6 +18,10 @@ export default class Toggle extends React.Component {
         store.dispatch(togglePlay());
     }
 
+    componentDidMount() {
+        // store.subscribe(() => console.log(store.getState()));
+    }
+
     render() {
         return (
             <div className="topbar-button toggle" onClick={this.toggleState}>
