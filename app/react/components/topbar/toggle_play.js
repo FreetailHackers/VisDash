@@ -19,7 +19,7 @@ export default class Toggle extends React.Component {
     }
 
     componentDidMount() {
-        // store.subscribe(() => console.log(store.getState()));
+        store.subscribe(() => console.log(store.getState()));
     }
 
     render() {
