@@ -3,7 +3,7 @@ import { TOGGLE_PLAY, SET_TOKEN } from "./actions";
 
 const initialState = {
     playing: false,
-    token: null,
+    token: null
 }
 
 function reducer(state = initialState, action) {
