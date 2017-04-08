@@ -12,12 +12,21 @@ function reducer(state = initialState, action) {
             return Object.assign({}, state, {
                 token: action.token,
             })
-        case 'LOAD_STORED_STATE':
-            return action.storedState;
+        case SET_USER:
+            return Object.assign({}, state, {
+                user: action.user
+            })
+        case SET_USER_AND_TOKEN:
+            return Object.assign({}, state, {
+                user: action.user,
+                token: action.token,
+            })
         case TOGGLE_PLAY:
             return Object.assign({}, state, {
                 playing: !state.playing,
             })
+        case 'LOAD_STORED_STATE':
+            return action.storedState;
         default:
             return state;
     }
