@@ -8,6 +8,9 @@ export default class Home extends React.Component {
      */
     constructor(props) {
     	super(props);
+
+        this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleLike = this.handleLike.bind(this);
         // Test panel object; feel free to change this schema if necessary
         // There's probably a better way to do this
         this.panels = [
