@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { TOGGLE_PLAY, SET_TOKEN } from "./actions";
+import { TOGGLE_PLAY, SET_TOKEN, SET_USER, SET_USER_AND_TOKEN } from "./actions";
 
 const initialState = {
     playing: false,

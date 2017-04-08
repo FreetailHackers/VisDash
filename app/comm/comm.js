@@ -1,5 +1,5 @@
-export function post(url, data, callback) {
-    xhr = new XMLHttpRequest();
+function post(url, data, callback) {
+    var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.onreadystatechange = function () { 
@@ -11,3 +11,5 @@ export function post(url, data, callback) {
     var data = JSON.stringify(data);
     xhr.send(data);
 }
+
+export default post
