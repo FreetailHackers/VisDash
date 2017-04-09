@@ -28,11 +28,13 @@ function isValidTitle(id, title, callback){
       if (err) {
         return callback(err);
       }
-      for (let submission of bundle.submissions){
-        if(submission.title == title){
-          return callback({
-            message: 'You already have a submission with this title, please choose a new one.'
-          });
+      if (bundle) {
+        for (let submission of bundle.submissions){
+          if(submission.title == title){
+            return callback({
+              message: 'You already have a submission with this title, please choose a new one.'
+            });
+          }
         }
       }
       return callback(null, true);
@@ -245,6 +247,51 @@ UserController.getById = function (id, callback){
       callback);
    });
  };
+
+ /**
+  * Push a user's new like given a user id and a submission id.
+  *
+  * @param  {String}   userId         Id of the user
+  * @param  {Object}   submissionId   submission object
+  * @param  {Function} callback       Callback with args (err, user)
+  */
+ UserController.pushLikeById = function (userId, submissionId, callback){
+   User.findOneAndUpdate({
+     _id: userId,
+   },
+   {
+     $push: {
+       'likes': submissionId
+     }
+   },
+   {
+     new: true
+   },
+   callback);
+ };
+
+ /**
+  * Pull a user's like, given a user id and a submission id.
+  *
+  * @param  {String}   userId          Id of the user
+  * @param  {Object}   submissionId    Id of the submission
+  * @param  {Function} callback        Callback with args (err, user)
+  */
+ UserController.pullLikeById = function (userId, submissionId, callback){
+  User.findOneAndUpdate({
+    _id: userId,
+  },
+  {
+    $pull: {
+      'likes': submissionId
+    }
+  },
+  {
+    new: true
+  },
+  callback);
+ };
+
 
  /**
   * Pull a user's submission, given a user id and a submission id.

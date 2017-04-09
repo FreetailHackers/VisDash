@@ -60,7 +60,7 @@ header {
 	}
 }
 
-header > div, main, footer {
+main, footer {
 	max-width: 1200px;
 	margin: auto;
 }
@@ -133,8 +133,15 @@ main {
 				top: 0;
 				right: 0;
 				padding: 0.2em;
-				i {
+				&, i {
+					transition: all 0.3s ease-in-out;
 					font-size: 1em;
+				}
+				&:hover {
+					transform: scale(1.2);
+					&, > i {
+						color: #ff00ff !important; // overwrites inline
+					}
 				}
 			}
 		}
@@ -231,6 +238,12 @@ footer {
 			float: left;
 			padding: $pad;
 		}
+		button {
+			opacity: 0.9;
+			&.open {
+				opacity: 1;
+			}
+		}
 		.primary {
 			background: #1fc8db;
 			color: #222324;
@@ -244,6 +257,8 @@ footer {
 			line-height: 150px;
 			border-radius: 100px;
 			text-indent: 10px;
+			cursor: pointer;
+			transition: all 0.1s ease-in-out;
 			> div {
 				position: absolute;
 				top: 50%;
@@ -252,6 +267,13 @@ footer {
 				left: 0;
 				width: 70px;
 				text-align: center;
+				transition: all 0.1s ease-in-out;
+			}
+			&:hover {
+				transform: translateX(-6px);
+				> div {
+					transform: translateY(-50%) translateX(3px);
+				}
 			}
 		}
 	}
@@ -268,6 +290,24 @@ footer {
 	box-shadow: 0 4px 7px rgba(0,0,0,0.3), 0 5px 10px rgba(0,0,0,0.1);
 	border-radius: 3px;
 	text-align: center;
+	transition: all 0.3s ease-in-out;
+	transform: scale(0.1) translateY(40px);
+    transform-origin: 57% bottom; // (200-86)/200*100
+	opacity: 0;
+	visibility: hidden;
+	&.open {
+		transform: none;
+		opacity: 1;
+		visibility: visible;
+	}
+	.cover {
+		position: absolute;
+		right: 86px;
+		top: 100%;
+		width: 40px;
+		height: 20px;
+		margin-right: -20px;
+	}
 	strong {
 		text-transform: uppercase;
 		font-size: 0.8em;
@@ -354,7 +394,7 @@ footer {
 		border: 10px solid transparent;
 		position: absolute;
 		top: 100%;
-	    right: 86px;
+		right: 86px;
 		margin: -1px -10px;
 	}
 	&:before {

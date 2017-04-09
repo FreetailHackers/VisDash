@@ -4,7 +4,7 @@ import React from 'react';
 export default class VisDisplay extends React.Component {
 	render() {
         return (
-			<div className="canvas" id="{canvasID}">
+			<div className="canvas" id={this.props.canvasID}>
 				<canvas width="400" height="300"></canvas>
             	{/*<Visualizer/>*/}
 			</div>
