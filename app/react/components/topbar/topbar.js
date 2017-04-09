@@ -38,6 +38,7 @@ export default class TopBar extends React.Component {
 					<button className="media"><i className="material-icons">volume_up</i></button>
 					<LoginButton/>
 				</div>
+				<InputDropDown />
 			</div>
         )
     }

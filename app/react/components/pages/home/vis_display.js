@@ -4,9 +4,10 @@ import React from 'react';
 export default class VisDisplay extends React.Component {
 	render() {
         return (
-            <div className="dashboard panel display">
+			<div className="canvas" id="{canvasID}">
+				<canvas width="400" height="300"></canvas>
             	{/*<Visualizer/>*/}
-            </div>
+			</div>
         )
     }
 }

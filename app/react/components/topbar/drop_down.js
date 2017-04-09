@@ -1,33 +1,42 @@
 import React from 'react';
-import MediaSongSelection from "./media_song_selection.js";
+import MediaPlaylist from "./dropdown/playlist.js";
+import MicPrompt from "./dropdown/mic.js";
+import FilePicker from "./dropdown/file.js";
 
 export default class InputDropDown extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            volume: 0,
+        }
+        this.scrub = this.scrub.bind(this);
+    }
+
+	scrub() {
+		store.dispatch(updateVolume(this.refs.scrubber.value));
+	}
+
     render() {
         return (
             <div id="media">
+				<strong>Source</strong>
 				<div className="type">
-					<input type="radio" name="input" value="music" id="musicinput" />
-					<label for="musicinput"><i className="material-icons">queue_music</i></label>
+					<input type="radio" name="input" value="music" id="musicinput" defaultChecked />
+					<label htmlFor="musicinput" title="Playlist"><i className="material-icons">queue_music</i></label>
 					<input type="radio" name="input" value="mic" id="micinput" />
-					<label for="micinput"><i className="material-icons">mic</i></label>
+					<label htmlFor="micinput" title="Microphone"><i className="material-icons">mic</i></label>
 					<input type="radio" name="input" value="file" id="fileinput" />
-					<label for="fileinput"><i className="material-icons">insert_drive_file</i></label>
+					<label htmlFor="fileinput" title="File"><i className="material-icons">insert_drive_file</i></label>
 				</div>
 				<div className="options">
-					<MediaSongSelection />
-					<div className="mic">
-						You will need to grant permission to access your microphone.
-						<button id="allowmic">Allow</button>
-					</div>
-					<div className="file">
-						Drop a file or
-						<div className="select">
-							select
-							<input type="file" />
-						</div>
-					</div>
+					<MediaPlaylist />
+					<MicPrompt />
+					<FilePicker />
 				</div>
-				<input type="range" className="volume" />
+				<strong>Volume</strong>
+				<div className="volume">
+					<input type="range" min="0" max="1" step="0.01" ref="scrubber" onChange={this.scrub} />
+				</div>
 			</div>
         )
     }

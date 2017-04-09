@@ -59,8 +59,8 @@ export default class Login extends React.Component {
 
         return (
             <div>
-                <div className="primary login" onClick={clickAction}>
-                    log in
+                <div className="primary" onClick={clickAction}>
+                    <div>log in</div>
                 </div>
                 <ModalLogin
                     isOpen={this.state.modalIsOpen}

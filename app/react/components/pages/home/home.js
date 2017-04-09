@@ -61,7 +61,7 @@ export default class Home extends React.Component {
         const likes = this.panels[i].likes;
         for (i = 0; i < this.panels.length; i++) {
             if (this.panels[i].id === id) {
-                this.panels[i].likes = liked ? likes + 1 : likes - 1; 
+                this.panels[i].likes = liked ? likes + 1 : likes - 1;
                 break;
             }
         }
@@ -70,9 +70,9 @@ export default class Home extends React.Component {
     render() {
         const testPanel = this.panels[0]
         return (
-            <div className="dashboard-home">
+            <div className="dashboard">
                 { /* Render all existing panels here */ }
-                <Panel user={testPanel.user} title={testPanel.title} likes={testPanel.likes} onTitleChange={this.handleTitleChange} 
+                <Panel user={testPanel.user} title={testPanel.title} likes={testPanel.likes} onTitleChange={this.handleTitleChange}
                 onLike={this.handleLike}/>
             </div>
         )

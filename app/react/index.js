@@ -13,6 +13,6 @@ window.onload = () => {
         <Route exact={true} path="/" component={Home} />
       </Main>
     </Router>,
-    document.getElementById('main')
+    document.getElementsByTagName('main')[0]
   )
 };
