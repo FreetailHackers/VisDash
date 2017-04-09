@@ -74,6 +74,12 @@ var schema = new mongoose.Schema({
     select: false
   },
 
+  likes: {
+    type: [String],
+    required: false,
+    select: true
+  },
+
   submissions: [submission]
 
 });

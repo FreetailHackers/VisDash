@@ -172,6 +172,39 @@ module.exports = function(router) {
   /**
    * [OWNER/ADMIN]
    *
+   * POST - add a new like given a submissionId
+   */
+  router.post('/users/:userId/likes/:submissionId', isOwnerOrAdmin, function(req, res){
+    var submissionId = req.params.submissionId;
+    var userId = req.params.userId;
+    UserController.pushLikeById(userId, submissionId , function(err, user){
+      if (err || !user){
+        return res.status(400).send(err);
+      }
+      return res.json(user);
+    });
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
+   * DELETE - add a new like given a submissionId
+   */
+  router.delete('/users/:userId/likes/:submissionId', isOwnerOrAdmin, function(req, res){
+    var submissionId = req.params.submissionId;
+    var userId = req.params.userId;
+    UserController.pullLikeById(userId, submissionId , function(err, user){
+      if (err || !user){
+        return res.status(400).send(err);
+      }
+      return res.json(user);
+    });
+  });
+
+
+  /**
+   * [OWNER/ADMIN]
+   *
    * Update a user's password.
    * {
    *   oldPassword: STRING,
