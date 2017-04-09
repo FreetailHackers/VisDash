@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { TOGGLE_PLAY, SET_TOKEN, SET_USER, SET_USER_AND_TOKEN, SET_TIME, SET_VOLUME, LOAD_STORED_STATE, USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE } from "./actions";
+import { TOGGLE_PLAY, SET_TOKEN, SET_DROP_DOWN, SET_USER, SET_USER_AND_TOKEN, SET_TIME, SET_VOLUME, LOAD_STORED_STATE, USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE } from "./actions";
 
 const initialState = {
     playing: false,
@@ -48,7 +48,7 @@ function reducer(state = initialState, action) {
                 isError: false,
                 users: state.users
             })
-        case USERS_SUCCESS: 
+        case USERS_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
                 isError: false,

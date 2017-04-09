@@ -14,7 +14,7 @@ export default class Home extends React.Component {
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleLike = this.handleLike.bind(this);
         this.getUsers = this.getUsers.bind(this);
-        
+
         // Test panel object; feel free to change this schema if necessary
         // There's probably a better way to do this
         this.panels = [

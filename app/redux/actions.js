@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import { schema, Array, normalize } from 'normalizr';
 
-const submissionSchema = schema.Entity('submissions');
+const submissionSchema = schema.Entity('submissions'); // <-- something is wrong here...
 const submissionListSchema = [ submissionSchema ];
 const userSchema = schema.Entity('users', { submissions: submissionListSchema }, {
 	processStrategy: (user) => omit(user, ['_id', 'email', '__v', 'timestamp'])
@@ -59,7 +59,7 @@ export function fetchUsers() {
 			endpoint: `/api/users`,
 			method: 'GET',
 			types: [
-				USERS_REQUEST, 
+				USERS_REQUEST,
 				{
 					type: USERS_SUCCESS,
 					payload: (action, state, res) => {
@@ -68,7 +68,7 @@ export function fetchUsers() {
 							return res.json().then((json) => normalize(json, responseSchema))
 						}
 					}
-				}, 
+				},
 				{
 					type: USERS_FAILURE,
 					meta: (action, state, res) => {
