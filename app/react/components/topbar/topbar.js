@@ -7,12 +7,14 @@ import Primary from './primary_button';
 import NowPlaying from "./now_playing";
 import updateTime from "../../../redux/actions.js"
 
+
 export default class TopBar extends React.Component {
     constructor() {
         super();
         this.state={
             playbackProgress: 0,
 			dropDownOpen: false,
+			preparingToCloseDropDown: false,
         }
         this.scrub = this.scrub.bind(this);
 		this.openDropDown = this.openDropDown.bind(this);
@@ -20,11 +22,26 @@ export default class TopBar extends React.Component {
     }
 
 	openDropDown() {
-		this.setState({dropDownOpen: true})
+		this.setState({
+			dropDownOpen: true,
+			preparingToCloseDropDown: false,
+		})
 	}
 
 	requestCloseDropDown() {
-		this.setState({dropDownOpen: false})
+		this.setState({preparingToCloseDropDown: true})
+		setTimeout(() => {
+			if (this.state.preparingToCloseDropDown) {
+				this.closeDropDown();
+			}
+		}, 2000)
+	}
+
+	closeDropDown() {
+		this.setState({
+			preparingToCloseDropDown: false,
+			dropDownOpen: false,
+		})
 	}
 
 	scrub() {
@@ -53,7 +70,9 @@ export default class TopBar extends React.Component {
 					</button>
 					<LoginButton/>
 				</div>
-				<InputDropDown open={this.state.dropDownOpen}/>
+				<InputDropDown open={this.state.dropDownOpen} 
+				               onMouseEnter={this.openDropDown} 
+							   onMouseLeave={this.requestCloseDropDown}/>
 			</div>
         )
     }

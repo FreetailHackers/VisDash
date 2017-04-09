@@ -36,6 +36,10 @@ function reducer(state = initialState, action) {
             return Object.assign({}, state, {
                 volume: action.volume,
             })
+        case SET_DROP_DOWN:
+            return Object.assign({}, state, {
+                dropDownOpen: action.dropDownOpen,
+            })
         case LOAD_STORED_STATE:
             return action.storedState;
         case USERS_REQUEST:

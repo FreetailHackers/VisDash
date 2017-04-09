@@ -1,7 +1,7 @@
 import React from 'react';
 import EditorToolbar from './toolbar';
 
-export default class Primary extends React.Component {
+export default class Editor extends React.Component {
 	componentDidMount() {
 		var editor = ace.edit("code"),
 			session  = editor.getSession();
@@ -9,7 +9,6 @@ export default class Primary extends React.Component {
 		editor.setShowPrintMargin(false);
 		editor.setHighlightActiveLine(false);
 		session.setMode("ace/mode/javascript");
-		session.setTabSize(4);
 		session.setTabSize(4);
 		var Range = ace.require("ace/range").Range,
 			range = new Range(0, 0, 2, 0),
