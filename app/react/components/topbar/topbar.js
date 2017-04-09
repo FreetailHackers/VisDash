@@ -33,7 +33,7 @@ export default class TopBar extends React.Component {
 					<input type="range" min="0" max="1" step="0.0001" ref="scrubber" onChange={this.scrub} />
 				</div>
 				<div className="controls">
-					<a href="#">saffron</a>
+					<a href="/">saffron</a>
 					<button className="repeat"><i className="material-icons">repeat</i></button>
 					<button className="media"><i className="material-icons">volume_up</i></button>
 					<LoginButton/>

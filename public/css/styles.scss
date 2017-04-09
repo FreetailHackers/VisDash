@@ -60,7 +60,7 @@ header {
 	}
 }
 
-header > div, main, footer {
+main, footer {
 	max-width: 1200px;
 	margin: auto;
 }
@@ -244,6 +244,8 @@ footer {
 			line-height: 150px;
 			border-radius: 100px;
 			text-indent: 10px;
+			cursor: pointer;
+			transition: all 0.1s ease-in-out;
 			> div {
 				position: absolute;
 				top: 50%;
@@ -252,6 +254,13 @@ footer {
 				left: 0;
 				width: 70px;
 				text-align: center;
+				transition: all 0.1s ease-in-out;
+			}
+			&:hover {
+				transform: translateX(-6px);
+				> div {
+					transform: translateY(-50%) translateX(3px);
+				}
 			}
 		}
 	}
