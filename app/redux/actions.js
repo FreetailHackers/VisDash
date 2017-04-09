@@ -49,7 +49,6 @@ export function fetchUsers() {
 		[CALL_API]: {
 			endpoint: `/api/users`,
 			method: 'GET',
-			headers: { 'Content-Type': 'application/json' },
 			types: [
 				USERS_REQUEST, 
 				{
