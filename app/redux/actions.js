@@ -1,9 +1,9 @@
 import { CALL_API } from 'redux-api-middleware';
-import { schema, Array, normalize } from 'normalizr';
+import { normalize, schema } from 'normalizr';
 
-const submissionSchema = schema.Entity('submissions'); // <-- something is wrong here...
+const submissionSchema = new schema.Entity('submissions'); // <-- something is wrong here...
 const submissionListSchema = [ submissionSchema ];
-const userSchema = schema.Entity('users', { submissions: submissionListSchema }, {
+const userSchema = new schema.Entity('users', { submissions: submissionListSchema }, {
 	processStrategy: (user) => omit(user, ['_id', 'email', '__v', 'timestamp'])
 });
 const responseSchema = { users: [ userSchema ] };
