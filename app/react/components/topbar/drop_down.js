@@ -18,7 +18,7 @@ export default class InputDropDown extends React.Component {
 
     render() {
         return (
-            <div id="media">
+            <div id="media" className = {this.props.open ? "open" : ""}>
 				<strong>Source</strong>
 				<div className="type">
 					<input type="radio" name="input" value="music" id="musicinput" defaultChecked />
@@ -37,6 +37,7 @@ export default class InputDropDown extends React.Component {
 				<div className="volume">
 					<input type="range" min="0" max="1" step="0.01" ref="scrubber" onChange={this.scrub} />
 				</div>
+				<div className="cover"></div>
 			</div>
         )
     }
