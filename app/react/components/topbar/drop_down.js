@@ -18,7 +18,7 @@ export default class InputDropDown extends React.Component {
 
     render() {
         return (
-            <div id="media" className = {this.props.open ? "open" : ""}>
+            <div id="media" onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} className = {this.props.open ? "open" : ""}>
 				<strong>Source</strong>
 				<div className="type">
 					<input type="radio" name="input" value="music" id="musicinput" defaultChecked />
