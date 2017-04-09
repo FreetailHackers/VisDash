@@ -1,9 +1,12 @@
 import { combineReducers } from 'redux';
-import { TOGGLE_PLAY, SET_TOKEN, SET_USER, SET_USER_AND_TOKEN, SET_TIME, SET_VOLUME, LOAD_STORED_STATE } from "./actions";
+import { TOGGLE_PLAY, SET_TOKEN, SET_USER, SET_USER_AND_TOKEN, SET_TIME, SET_VOLUME, LOAD_STORED_STATE, USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE } from "./actions";
 
 const initialState = {
     playing: false,
     token: null,
+    isFetching: false,
+    isError: false,
+    users: {}
 }
 
 function reducer(state = initialState, action) {
@@ -31,10 +34,28 @@ function reducer(state = initialState, action) {
             })
         case SET_VOLUME:
             return Object.assign({}, state, {
-                time: action.volume,
+                volume: action.volume,
             })
         case LOAD_STORED_STATE:
             return action.storedState;
+        case USERS_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+                isError: false,
+                users: state.users
+            })
+        case USERS_SUCCESS: 
+            return Object.assign({}, state, {
+                isFetching: false,
+                isError: false,
+                users: action.payload // Contains the API response body
+            })
+        case USERS_FAILURE:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isError: true,
+                users: null
+            })
         default:
             return state;
     }
