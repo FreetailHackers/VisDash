@@ -41,14 +41,14 @@ export function updateVolume(volume) {
     return {type: SET_VOLUME, volume: volume}
 }
 
-<<<<<<< HEAD
 export function setDropdownStatus() {
 	return {
         type: SET_DROP_DOWN,
         dropDownOpen: true,
         preparingToCloseDropdown: false,
     }
-=======
+}
+
 const USERS_REQUEST = 'users/REQUEST';
 const USERS_SUCCESS = 'users/SUCCESS';
 const USERS_FAILURE = 'users/FAILURE';
@@ -87,5 +87,4 @@ export function fetchUsers() {
 			]
 		}
 	}
->>>>>>> 600ca1c89f5edc061fb03d2c8c4dd1f2a3572086
 }
