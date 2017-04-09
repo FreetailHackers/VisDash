@@ -9,7 +9,7 @@ export default class Home extends React.Component {
      your initial state, and binding functions to the class variable 'this'
      */
     constructor(props) {
-    	super(props);
+    	super();
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleLike = this.handleLike.bind(this);
