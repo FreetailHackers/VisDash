@@ -178,13 +178,36 @@ footer {
 		}
 	}
 	.progress {
-		height: 10px;
-		background: red;
 		position: relative;
-		div {
-			background: green;
+		background: #AC219C;
+		height: 6px;
+		transition: height 0.3s ease-in-out;
+		&:hover {
+			height: 10px;
+		}
+		> div {
+			background: #EB3E58;
 			height: 100%;
 			width: 40%;
+			position: relative;
+			> div {
+				position: absolute;
+				top: 50%;
+				right: 0;
+				height: 16px;
+				width: 16px;
+				margin: -8px;
+				z-index: 2;
+				background: #8f0f22;
+				border-radius: 99px;
+				opacity: 0;
+				transform: scale(0.4);
+				transition: all 0.3s ease-in-out;
+			}
+		}
+		&:hover > div > div {
+			opacity: 1;
+			transform: scale(1);
 		}
 		input {
 			position: absolute;
@@ -194,6 +217,7 @@ footer {
 			height: 100%;
 			width: 100%;
 			opacity: 0;
+			z-index: 3;
 		}
 	}
 	.controls {

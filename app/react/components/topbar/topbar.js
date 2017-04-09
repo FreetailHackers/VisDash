@@ -29,7 +29,7 @@ export default class TopBar extends React.Component {
 					<button className="next"><i className="material-icons">skip_next</i></button>
 				</div>
 				<div className="progress">
-					<div style={{width:this.state.playbackProgress*100+"%"}}></div>
+					<div style={{width:this.state.playbackProgress*100+"%"}}><div></div></div>
 					<input type="range" min="0" max="1" step="0.0001" ref="scrubber" onChange={this.scrub} />
 				</div>
 				<div className="controls">
