@@ -328,8 +328,12 @@ UserController.getById = function (id, callback){
  UserController.updateSubmissionById = function (userId, submissionId, submission, callback){
    User.findById(userId).then(user => {
     let old_submission = user.submissions.id(submissionId);
-    old_submission.code = submission.code;
-    old_submission.likes = submission.likes;
+    if (submission.code) {
+      old_submission.code = submission.code;
+    }
+    if (submission.likes) {
+      old_submission.likes = submission.likes;
+    }
     user.save();
     callback(null, user);
   });

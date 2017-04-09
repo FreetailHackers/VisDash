@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
+<<<<<<< HEAD
+import { TOGGLE_PLAY, SET_TOKEN, SET_USER, SET_USER_AND_TOKEN, SET_TIME, SET_VOLUME, LOAD_STORED_STATE, SET_DROP_DOWN } from "./actions";
+=======
 import { TOGGLE_PLAY, SET_TOKEN, SET_USER, SET_USER_AND_TOKEN, SET_TIME, SET_VOLUME, LOAD_STORED_STATE, USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE } from "./actions";
+>>>>>>> 600ca1c89f5edc061fb03d2c8c4dd1f2a3572086
 
 const initialState = {
     playing: false,
@@ -35,6 +39,10 @@ function reducer(state = initialState, action) {
         case SET_VOLUME:
             return Object.assign({}, state, {
                 volume: action.volume,
+            })
+        case SET_DROP_DOWN:
+            return Object.assign({}, state, {
+                dropDownOpen: action.dropDownOpen,
             })
         case LOAD_STORED_STATE:
             return action.storedState;
