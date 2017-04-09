@@ -1,5 +1,7 @@
 import React from 'react';
 import Panel from './panel';
+import store from '../../../../redux/store'
+import fetchUsers from '../../../../redux/actions'
 
 export default class Home extends React.Component {
     /*
@@ -11,6 +13,8 @@ export default class Home extends React.Component {
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleLike = this.handleLike.bind(this);
+        this.getUsers = this.getUsers.bind(this);
+        
         // Test panel object; feel free to change this schema if necessary
         // There's probably a better way to do this
         this.panels = [
@@ -23,12 +27,15 @@ export default class Home extends React.Component {
         ]
     }
 
+    getUsers() {
+        return store.dispatch(fetchUsers());
+    }
     /*
      *Fires after the component is mounted and the DOM is loaded
      *it would be useful to add event handlers here
      */
     componentDidMount() {
-
+        console.log(this.getUsers());
     }
 
     /*
