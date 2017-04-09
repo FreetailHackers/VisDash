@@ -24,7 +24,7 @@ export default class Login extends React.Component {
         if (this.state.user == null) {
             /*Attempt to verify*/
             let token = store.getState().token;
-            if (token) { 
+            if (token) {
                 post("/login", {token: token}, user => this.setState({user: user}));
             }
         }
@@ -48,17 +48,6 @@ export default class Login extends React.Component {
     }
 
     render() {
-        const customStyles = {
-            content : {
-                top                   : '50%',
-                left                  : '50%',
-                right                 : 'auto',
-                bottom                : 'auto',
-                marginRight           : '-50%',
-                transform             : 'translate(-50%, -50%)'
-            }
-        }
-
         var current_user = this.state.user;
         var clickAction = null;
         if (this.state.modalIsOpen)
@@ -70,10 +59,10 @@ export default class Login extends React.Component {
 
         return (
             <div>
-                <div className="topbar-button login" onClick={clickAction}>
-                    {JSON.stringify(current_user)};
+                <div className="primary login" onClick={clickAction}>
+                    log in
                 </div>
-                <ModalLogin 
+                <ModalLogin
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
