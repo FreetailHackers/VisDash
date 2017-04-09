@@ -365,3 +365,56 @@ footer {
 		border-top-color: #f5f7fa;
 	}
 }
+
+$pad: 0.3em;
+
+#editor {
+	&, .top, #code {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+}
+
+#editor {
+	transition: all 0.3s ease-in-out;
+	transform: translateY(100%) translateY(200px);
+	position: fixed;
+	bottom: 50px;
+	&.shown {
+		transform: none;
+	}
+	.tools {
+		input, button {
+			position: absolute;
+			padding: $pad;
+			font-size: 1.2em;
+			border: 0;
+			line-height: 1;
+			display: block;
+		}
+		input {
+			width: 100%;
+			box-sizing: border-box;
+			padding-right: $pad*2+3;
+		}
+		button {
+			right: 0;
+			width: 3em;
+			i {
+				font-size: 1em;
+			}
+		}
+	}
+	#code {
+		margin: 0;
+		top: $pad*4+1.2;
+		.readonly {
+			background: red;
+			opacity: 0.2;
+			position: absolute;
+		}
+	}
+}

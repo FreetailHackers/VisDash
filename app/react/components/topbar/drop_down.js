@@ -1,7 +1,7 @@
 import React from 'react';
-import MediaPlaylist from "./dropdown/playlist.js";
-import MicPrompt from "./dropdown/mic.js";
-import FilePicker from "./dropdown/file.js";
+import MediaPlaylist from "./dropdown/playlist";
+import MicPrompt from "./dropdown/mic";
+import FilePicker from "./dropdown/file";
 
 export default class InputDropDown extends React.Component {
     constructor() {
