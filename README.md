@@ -1,4 +1,4 @@
-# VisDash
+# Saffron
 
 Make sure you have the following installed:
 
