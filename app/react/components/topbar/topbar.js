@@ -12,9 +12,20 @@ export default class TopBar extends React.Component {
         super();
         this.state={
             playbackProgress: 0,
+			dropDownOpen: false,
         }
         this.scrub = this.scrub.bind(this);
+		this.openDropDown = this.openDropDown.bind(this);
+		this.requestCloseDropDown = this.requestCloseDropDown.bind(this);
     }
+
+	openDropDown() {
+		this.setState({dropDownOpen: true})
+	}
+
+	requestCloseDropDown() {
+		this.setState({dropDownOpen: false})
+	}
 
 	scrub() {
 		store.dispatch(updateTime(this.refs.scrubber.value));
@@ -35,10 +46,14 @@ export default class TopBar extends React.Component {
 				<div className="controls">
 					<a href="/">saffron</a>
 					<button className="repeat"><i className="material-icons">repeat</i></button>
-					<button className="media"><i className="material-icons">volume_up</i></button>
+					<button onMouseEnter={this.openDropDown} 
+					        onMouseLeave={this.requestCloseDropDown} 
+							className="media">
+						<i className="material-icons">volume_up</i>
+					</button>
 					<LoginButton/>
 				</div>
-				<InputDropDown />
+				<InputDropDown open={this.state.dropDownOpen}/>
 			</div>
         )
     }
