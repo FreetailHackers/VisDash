@@ -25,9 +25,8 @@ export default class Panel extends React.Component {
 
 	render() {
 		return (
-            <div className="dashboard panel">
+            <div className="item">
             	<VisDisplay/>
-            	<p>Username: {this.props.user}, Title: {this.props.title}, Likes: {this.props.likes}</p>
             	<VisInfo username={this.props.user} title={this.props.title} likes={this.props.likes}/>
             </div>
         )
