@@ -188,7 +188,7 @@ module.exports = function(router) {
   /**
    * [OWNER/ADMIN]
    *
-   * DELETE - add a new like given a submissionId
+   * DELETE - delete an existing like given a submissionId
    */
   router.delete('/users/:userId/likes/:submissionId', isOwnerOrAdmin, function(req, res){
     var submissionId = req.params.submissionId;
