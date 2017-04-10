@@ -1,7 +1,7 @@
 import React from 'react';
 import Panel from './panel';
 import store from '../../../../redux/store'
-import fetchUsers from '../../../../redux/actions'
+import { fetchUsers } from '../../../../redux/actions'
 
 export default class Home extends React.Component {
     /*
@@ -24,18 +24,30 @@ export default class Home extends React.Component {
                 title: "Famous",
                 likes: 4,
             },
-        ]
+        ];
     }
 
     getUsers() {
-        return store.dispatch(fetchUsers());
+        return store.dispatch(fetchUsers())
+            .then(response => {
+                return response;
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
     /*
      *Fires after the component is mounted and the DOM is loaded
      *it would be useful to add event handlers here
      */
     componentDidMount() {
-        console.log(this.getUsers());
+        store.dispatch(fetchUsers())
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 
     /*

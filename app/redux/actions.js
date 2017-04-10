@@ -65,6 +65,7 @@ export function fetchUsers() {
 					payload: (action, state, res) => {
 						const contentType = res.headers.get('Content-Type');
 						if (contentType && ~contentType.indexOf('json')) {
+							console.debug(res);
 							return res.json().then((json) => normalize(json, responseSchema))
 						}
 					}
