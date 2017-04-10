@@ -20,7 +20,7 @@
 		</header>
 		<!--react mounts here--> <main></main>
 		<footer>
-			<p>saffron is a collection of visualizers made by participants of <a href="https://freetailhackers.com/music-hacks/"  target="_blank">Music Hacks 2017</a>. This event is hosted by <a href="https://freetailhackers.com/"  target="_blank">Freetail Hackers</a> at the University of Texas at Austin. </p>
+			<p>saffron is a collection of visualizers made by participants of <a href="https://freetailhackers.com/music-hacks/"  target="_blank">Music Hacks 2017</a>. <br> This event is hosted by <a href="https://freetailhackers.com/"  target="_blank">Freetail Hackers</a> at the University of Texas at Austin. </p>
 			<strong>Music Hacks</strong>
 			&times;
 			<strong>Freetail Hackers</strong>

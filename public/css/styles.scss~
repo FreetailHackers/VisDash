@@ -50,8 +50,6 @@ header {
 	.intro {
  		h1 {
                    line-height: 1;
-                   -webkit-margin-before: 0.3em;
-                   -webkit-margin-after: 0.3em;
                 }
 		background: $maindark;
 		padding: 1em;
