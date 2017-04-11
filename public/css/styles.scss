@@ -1,5 +1,6 @@
 $pad: 0.3em;
 $maindark: #1d2044;
+$textcolor: #69707a;
 
 html, body {
 	margin: 0;
@@ -8,7 +9,7 @@ html, body {
 	font-size: 16px;
 	line-height: 1.3;
 	background: white;
-	color: #69707a;
+	color: $textcolor;
 	background-color: #f5f7fa;
 }
 
@@ -30,40 +31,115 @@ button {
 	outline: none;
 }
 
-header {
+nav {
+	text-align: center;
+	position: relative;
 	color: white;
-	.logo {
-		padding: 2em;
-		background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0, #AC219C), color-stop(1, #EB3E58) );
-		background-image: -o-linear-gradient(bottom, #AC219C 0%, #EB3E58 100%);
-		background-image: -moz-linear-gradient(bottom, #AC219C 0%, #EB3E58 100%);
-		background-image: -webkit-linear-gradient(bottom, #AC219C 0%, #EB3E58 100%);
-		background-image: -ms-linear-gradient(bottom, #AC219C 0%, #EB3E58 100%);
-		background-image: linear-gradient(to bottom, #AC219C 0%, #EB3E58 100%);
-		img {
-			width: 100%;
-			max-width: 425px;
-			margin: 1em auto;
-			display: block;
+	.cover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 2;
+	}
+	&, .cover {
+		background: #1d2044;
+	}
+	a, .dropdown {
+		display: inline-block;
+	}
+	a, .dropdown span {
+		padding: $pad;
+		position: relative;
+		z-index: 3;
+	}
+	.dropdown {
+		position: relative;
+		span {
+			cursor: default;
+		}
+		div {
+			position: absolute;
+			left: 1px;
+			top: 1em+1*$pad;
+			text-align: left;
+			padding-top: 2*$pad;
+			background: white;
+			transition: 0.3s transform ease-in-out;
+			transform: translateY(-100%) translateY(-20px);
+			z-index: 1;
+			box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+			a {
+				display: block;
+				width: 160px;
+				line-height: 1;
+				padding: $pad;
+				color: $textcolor;
+				&:hover {
+					color: $maindark;
+				}
+			}
+		}
+		&:hover {
+			span {
+				position: relative;
+				background: white;
+				color: $textcolor;
+			}
+			div {
+				transform: none;
+			}
 		}
 	}
-	.intro {
- 		h1 {
-                   line-height: 1;
-                   -webkit-margin-before: 0.3em;
-                   -webkit-margin-after: 0.3em;
-                }
-		background: $maindark;
-		padding: 1em;
-		text-align: center;
-		line-height: 1.5;
-		a {
-			border-bottom: 1px solid;
+}
+
+header {
+	color: white;
+	background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0, #AC219C), color-stop(1, #EB3E58) );
+	background-image: -o-linear-gradient(bottom, #AC219C 0%, #EB3E58 100%);
+	background-image: -moz-linear-gradient(bottom, #AC219C 0%, #EB3E58 100%);
+	background-image: -webkit-linear-gradient(bottom, #AC219C 0%, #EB3E58 100%);
+	background-image: -ms-linear-gradient(bottom, #AC219C 0%, #EB3E58 100%);
+	background-image: linear-gradient(to bottom, #AC219C 0%, #EB3E58 100%);
+	> div {
+		min-height: 120px;
+		padding: 2em;
+		max-width: 600px;
+		margin: auto;
+		filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+		img {
+			width: 120px;
+			max-width: 100%;
+			position: absolute;
+			display: block;
 		}
-		p {
-			max-width: 500px;
-			margin: 0 auto;
+		.intro {
+			margin-left: 120px;
+			padding-left: 1em;
+	 		h1 {
+				line-height: 1;
+				margin: 0;
+			}
+			p {
+				margin-bottom: 0;
+			}
 		}
+		@media screen and (max-width: 600px) {
+			padding: $pad;
+			img {
+				position: static;
+				margin: 1-$pad auto;
+			}
+			.intro {
+				margin: 0;
+				padding: 0 0 1-$pad 0;
+				text-align: center;
+			}
+		}
+	}
+	a {
+		border-bottom: 1px solid;
 	}
 }
 
@@ -157,8 +233,7 @@ main {
 
 footer {
 	text-align: center;
-	padding-top: 4em;
-	padding-bottom: 120px;
+	padding: 4em $pad 120px $pad;
 	opacity: 0.8;
 }
 
@@ -198,6 +273,7 @@ footer {
 		position: relative;
 		background: #AC219C;
 		height: 10px;
+		margin-top: -5px;
 		transition: transform 0.3s ease-in-out;
 		transform: translateY(4px) scaleY(0.5);
 		z-index: 2;
