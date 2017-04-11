@@ -29,7 +29,10 @@
   },
   "scripts": {
     "start": "nodemon app.js",
-    "build": "node_modules/.bin/webpack && node-sass public/css/styles.scss public/css/styles.css",
+    "build:dll": "node_modules/.bin/webpack --config build/webpack.dll.js",
+    "build:css": "node-sass public/css/styles.scss public/css/styles.css",
+    "build:all": "npm run build:dll && npm run build",
+    "build": "node_modules/.bin/webpack --config build/webpack.config.js && npm run build:css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
