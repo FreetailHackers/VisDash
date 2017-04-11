@@ -6,15 +6,15 @@ module.exports = {
 		vendor: [path.join(__dirname, "vendors.js")]
 	},
 	output: {
-		path: path.join(__dirname, "dll"),
-		filename: "dll.[name].js",
+		path: path.join(__dirname, "../public/js"),
+		filename: "[name].js",
 		library: "[name]"
 	},
 	plugins: [
 		new webpack.DllPlugin({
-			path: path.join(__dirname, "dll", "[name]-manifest.json"),
+			path: path.join(__dirname, "[name]-manifest.json"),
 			name: "[name]",
-			context: path.resolve(__dirname, "client")
+			context: path.resolve(__dirname, "build")
 		}),
 		new webpack.optimize.UglifyJsPlugin()
 	]
