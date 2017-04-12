@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import store from '../../../redux/store'
-import setUserAndToken from '../../../redux/actions'
+import { setUserAndToken } from '../../../redux/actions'
 import post from '../../../comm/comm'
 
 export default class ModalLogin extends React.Component {
@@ -11,14 +11,14 @@ export default class ModalLogin extends React.Component {
     }
 
     submit() {
-        var form = {username: this.refs.username.value, password: this.refs.password.value};
-        post('/login', form, user => {
+        var form = {email: this.refs.email.value, password: this.refs.password.value};
+        post('/auth/login', form, user => {
             if (user.token) {
                 store.dispatch(setUserAndToken(user.user, user.token));
             }
         })
         if (!store.getState().user) {
-            post('/register', form, user => {
+            post('/auth/register', form, user => {
                 store.dispatch(setUserAndToken(user.user, user.token));
             })
         }
@@ -38,7 +38,7 @@ export default class ModalLogin extends React.Component {
                         {/*I dont use a standard form here because I dont want
                         the page to refresh*/}
                         <form ref="login">
-                            <input type="text" ref="username" name="username"/>
+                            <input type="text" ref="email" name="email"/>
                             <input type="password" ref="password" name="password"/>
                         </form>
                         <div className="button login" onClick={this.submit}>
