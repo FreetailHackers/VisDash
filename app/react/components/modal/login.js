@@ -22,7 +22,7 @@ export default class ModalLogin extends React.Component {
                 this.setState({loggedIn: true});
             }
         })
-        if (!store.getState().user) {
+        if (!this.state.loggedIn) {
             post('/auth/register', form, user => {
                 store.dispatch(setUserAndToken(user.user, user.token));
                 this.setState({loggedIn: true});
@@ -33,7 +33,7 @@ export default class ModalLogin extends React.Component {
     //This page will automatically be togglable once the user is no longer logged in.
     componentDidMount() {
         store.subscribe(() => {
-            userHasToken = (store.getState().token != null);
+            let userHasToken = (store.getState().token != null);
             if (this.state.loggedIn != userHasToken) {
                 this.setState({loggedIn: userHasToken});
             }

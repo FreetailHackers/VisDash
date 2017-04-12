@@ -18,14 +18,23 @@ export default class Login extends React.Component {
 
     componentDidMount() {
         this.attemptTokenLogin();
+        store.subscribe(() => {
+            let user = this.state.user;
+            if (this.state.user != user) {
+                this.setState({user: user})
+            }
+        })
     }
 
+    //Sets this components user state if token is found
     attemptTokenLogin() {
         if (this.state.user == null) {
             /*Attempt to verify*/
-            let token = store.getState().token;
-            if (token) {
-                post("/login", {token: token}, user => this.setState({user: user}));
+            let storeState = store.getState();
+            let token = storeState.token;
+            let user  = storeState.user;
+            if (token && !user) {
+                post("/auth/login", {token: token}, user => this.setState({user: user}));
             }
         }
     }
@@ -49,6 +58,7 @@ export default class Login extends React.Component {
 
     render() {
         var current_user = this.state.user;
+
         var clickAction = null;
         if (this.state.modalIsOpen)
             clickAction = this.closeModal;
@@ -56,11 +66,13 @@ export default class Login extends React.Component {
             clickAction = this.createSubmission;
         else
             clickAction = this.openModal;
-
+        
         return (
             <div>
                 <div className="primary" onClick={clickAction}>
-                    <div>log in</div>
+                    <div>
+                        {current_user ? "+" : "log in"}
+                    </div>
                 </div>
                 <ModalLogin
                     isOpen={this.state.modalIsOpen}

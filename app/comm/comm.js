@@ -5,6 +5,7 @@ function post(url, data, callback) {
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.setRequestHeader("x-access-token", store.getState().token);
+    console.log(data);
     xhr.onreadystatechange = function () { 
         if (xhr.readyState == 4 && xhr.status == 200) {
             var json = JSON.parse(xhr.responseText);
