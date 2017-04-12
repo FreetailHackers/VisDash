@@ -1,15 +1,13 @@
 import store from '../redux/store.js';
 
-function post(url, data, callback) {
+function httpdo(type, url, data, callback) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
+    xhr.open(type, url, true);
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.setRequestHeader("x-access-token", store.getState().token);
-    console.log(data);
     xhr.onreadystatechange = function () { 
         if (xhr.readyState == 4 && xhr.status == 200) {
             var json = JSON.parse(xhr.responseText);
-            console.log(json);
             callback(json);
         }
     }
@@ -17,4 +15,10 @@ function post(url, data, callback) {
     xhr.send(data);
 }
 
-export default post
+export function post(url, data, callback) {
+    httpdo('POST', url, data, callback)
+}
+
+export function httpdelete(url, data, callback) {
+    httpdo('DELETE', url, data, callback)
+}

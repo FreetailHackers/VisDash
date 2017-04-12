@@ -1,7 +1,7 @@
 import React from 'react';
 import ModalLogin from '../modal/login'
 import store from '../../../redux/store'
-import post from '../../../comm/comm'
+import { post }from '../../../comm/comm'
 
 export default class Login extends React.Component {
     constructor() {
@@ -11,7 +11,6 @@ export default class Login extends React.Component {
             modalIsOpen: false,
         }
         this.attemptTokenLogin = this.attemptTokenLogin.bind(this);
-        this.loginUser = this.loginUser.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
@@ -19,7 +18,7 @@ export default class Login extends React.Component {
     componentDidMount() {
         this.attemptTokenLogin();
         store.subscribe(() => {
-            let user = this.state.user;
+            let user = store.getState().user;
             if (this.state.user != user) {
                 this.setState({user: user})
             }
@@ -39,18 +38,12 @@ export default class Login extends React.Component {
         }
     }
 
-    loginUser(username, password) {
-        attemptTokenLogin();
-    };
-
     openModal() {
         this.setState({modalIsOpen: true});
     }
     closeModal() {
         this.setState({modalIsOpen: false});
     };
-    afterOpenModal() {
-    }
 
     createSubmission() {
 
@@ -58,7 +51,7 @@ export default class Login extends React.Component {
 
     render() {
         var current_user = this.state.user;
-
+        console.log(store.getState());
         var clickAction = null;
         if (this.state.modalIsOpen)
             clickAction = this.closeModal;
@@ -71,7 +64,7 @@ export default class Login extends React.Component {
             <div>
                 <div className="primary" onClick={clickAction}>
                     <div>
-                        {current_user ? "+" : "log in"}
+                        {(current_user != null) ? "+" : "log in"}
                     </div>
                 </div>
                 <ModalLogin

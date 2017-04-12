@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import store from '../../../redux/store'
 import { setUserAndToken } from '../../../redux/actions'
-import post from '../../../comm/comm'
+import { post } from '../../../comm/comm'
 
 export default class ModalLogin extends React.Component {
     constructor() {

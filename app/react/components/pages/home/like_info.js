@@ -1,4 +1,6 @@
 import React from 'react';
+import store from '../../../../redux/store';
+import { post, httpdelete } from '../../../../comm/comm'
 
 export default class LikeInfo extends React.Component {
 	constructor() {
@@ -15,9 +17,23 @@ export default class LikeInfo extends React.Component {
 		this.getClassFromState = this.getClassFromState.bind(this);
 	}
 
+	//checks if the submission is liked when the user is loaded
+	componentDidMount() {
+		//TODO: FINISH THIS
+	}
+
+	//Changes the internal state, then sends to server
 	toggleLike() {
 		var liked = this.state.liked;
+		var user = store.getState().user;
 		this.setState({liked: !liked});
+		if (liked) {
+			//then, it is no longer liked after we toggle it
+			post(`/api/${user.id}/likes/${this.props.submissionid}`);
+		}
+		if (!liked) {
+			httpdelete(`/api/${user.id}/likes/${this.props.submissionid}`);
+		}
 	}
 
 	getColorFromState() {
@@ -27,6 +43,7 @@ export default class LikeInfo extends React.Component {
 	getClassFromState() {
 		return this.state.liked ? "favorite" : "favorite_border";	
 	}
+
 	render() {
 		return (
 			<div className="likes">
