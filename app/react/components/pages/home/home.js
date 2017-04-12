@@ -29,8 +29,8 @@ export default class Home extends React.Component {
 
     getUsers() {
         return store.dispatch(fetchUsers())
-            .then(response => {
-                return response;
+            .then((response) => {
+                response;
             })
             .catch(error => {
                 console.error(error);
@@ -41,13 +41,7 @@ export default class Home extends React.Component {
      *it would be useful to add event handlers here
      */
     componentDidMount() {
-        store.dispatch(fetchUsers())
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+	console.log(this.getUsers());
     }
 
     /*

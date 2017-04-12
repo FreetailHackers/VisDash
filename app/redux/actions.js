@@ -1,12 +1,31 @@
 import { CALL_API } from 'redux-api-middleware';
 import { normalize, schema } from 'normalizr';
 
-const submissionSchema = new schema.Entity('submissions'); // <-- something is wrong here...
-const submissionListSchema = [ submissionSchema ];
-const userSchema = new schema.Entity('users', { submissions: submissionListSchema }, {
-	processStrategy: (user) => omit(user, ['_id', 'email', '__v', 'timestamp'])
-});
-const responseSchema = { users: [ userSchema ] };
+const testData = [
+	{
+		_id: "58ea7f9cde1dda5f2440388c",
+		email: "admin@freetailhackers.com",
+		__v: 0,
+		submissions: [
+			{
+				title: "test",
+				code: "test();",
+				likes: 2
+			}	
+		],
+		likes: [ ],
+		lastUpdated: 1491763100228,
+		timestamp: 1491763100228,
+		admin: true,
+		name: "Real Lyfe Hacker",
+		id: "58ea7f9cde1dda5f2440388c"
+	}
+]
+
+const user = new schema.Entity('user');
+const submission = new schema.Entity('submission');
+const submissionList = [ submission ];
+const userList = [ user ];
 
 export const TOGGLE_PLAY = "TOGGLE_PLAY";
 export const SET_TOKEN   = "SET_TOKEN";
@@ -65,8 +84,12 @@ export function fetchUsers() {
 					payload: (action, state, res) => {
 						const contentType = res.headers.get('Content-Type');
 						if (contentType && ~contentType.indexOf('json')) {
-							console.debug(res);
-							return res.json().then((json) => normalize(json, responseSchema))
+						        // console.debug(res);
+							return res.json().then((json) => {
+								// console.debug(json);
+								// console.log('normalized response', normalize(json, userList));
+							       	return normalize(json, userList);
+							});
 						}
 					}
 				},
