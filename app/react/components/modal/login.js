@@ -8,27 +8,43 @@ export default class ModalLogin extends React.Component {
     constructor() {
         super();
         this.submit = this.submit.bind(this);
+        this.state = {
+            loggedIn: (store.getState().token != null),
+        }
     }
 
+    //Attempts to log the user in with their email and password before registering
     submit() {
         var form = {email: this.refs.email.value, password: this.refs.password.value};
         post('/auth/login', form, user => {
             if (user.token) {
                 store.dispatch(setUserAndToken(user.user, user.token));
+                this.setState({loggedIn: true});
             }
         })
         if (!store.getState().user) {
             post('/auth/register', form, user => {
                 store.dispatch(setUserAndToken(user.user, user.token));
+                this.setState({loggedIn: true});
             })
         }
+    }
+
+    //This page will automatically be togglable once the user is no longer logged in.
+    componentDidMount() {
+        store.subscribe(() => {
+            userHasToken = (store.getState().token != null);
+            if (this.state.loggedIn != userHasToken) {
+                this.setState({loggedIn: userHasToken});
+            }
+        })
     }
 
     render() {
         return (       
             <div>
                 <Modal
-                    isOpen={this.props.isOpen}
+                    isOpen={this.props.isOpen && !this.state.loggedIn}
                     onAfterOpen={this.props.onAfterOpen}
                     onRequestClose={this.props.onRequestClose}
                     contentLabel="Login"
