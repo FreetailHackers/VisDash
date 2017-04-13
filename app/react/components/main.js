@@ -1,6 +1,6 @@
 import React from 'react';
 import TopBar from './topbar/topbar.js';
-
+import Editor from './editor/editor';
 
 export default class Main extends React.Component {
     /*
@@ -43,6 +43,7 @@ export default class Main extends React.Component {
             <div>
                 <TopBar/>
                 {this.props.children}
+				<Editor />
             </div>
         )
     }

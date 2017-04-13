@@ -15,16 +15,42 @@ export default class Home extends React.Component {
         this.handleLike = this.handleLike.bind(this);
         this.getUsers = this.getUsers.bind(this);
 
-        // Test panel object; feel free to change this schema if necessary
-        // There's probably a better way to do this
-        this.panels = [
-            {
-                id: 1, // lol
-                user: "KanyeWest",
-                title: "Famous",
-                likes: 4,
-            },
-        ];
+		 // Test panel object; feel free to change this schema if necessary
+		 // There's probably a better way to do this
+		 /*this.panels = [
+			 {
+				id: 1, // lol
+				user: "KanyeWest",
+				title: "Famous",
+				likes: 4,
+			 },
+		];*/
+		this.panels = [];
+
+		store.dispatch(fetchUsers())
+ 		   .then(() => {
+				var submissions = [], things = store.getState().users.entities;
+ 				console.log(things);
+				for (var u in things) {
+					if (things.hasOwnProperty(s)) {
+						var id = Object.keys(things[u])[0], subs = things[u][id];
+						for (var i = 0; i < subs.length; i++) {
+							var s = subs[i];
+							submissions.push({
+								user: u.name,
+								title: s.title,
+								likes: s.likes.length
+							});
+						}
+					}
+				}
+				this.panels = submissions;
+				console.log(this.panels);
+				this.forceUpdate();
+ 		   })
+ 		   .catch(error => {
+ 			   console.error(error);
+ 		   });
     }
 
     getUsers() {
@@ -41,7 +67,7 @@ export default class Home extends React.Component {
      *it would be useful to add event handlers here
      */
     componentDidMount() {
-	   this.getUsers();
+	   //this.getUsers();
     }
 
     /*
@@ -81,13 +107,23 @@ export default class Home extends React.Component {
     }
 
     render() {
-        const testPanel = this.panels[0]
-        return (
-            <div className="dashboard">
-                { /* Render all existing panels here */ }
-                <Panel user={testPanel.user} title={testPanel.title} likes={testPanel.likes} onTitleChange={this.handleTitleChange}
-                onLike={this.handleLike}/>
-            </div>
-        )
+		if (this.panels.length > 0) {
+			var items = [];
+			for (var i = 0; i < this.panels.length; i++) {
+				var panel = this.panels[i];
+				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} onTitleChange={this.handleTitleChange} onLike={this.handleLike} />);
+			}
+	        return (
+	            <div className="dashboard">
+	                { items }
+	            </div>
+	        )
+		} else {
+	        return (
+	            <div className="dashboard">
+	                <div className="empty">empty</div>
+	            </div>
+	        )
+		}
     }
 }
