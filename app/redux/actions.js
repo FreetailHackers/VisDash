@@ -68,9 +68,9 @@ export function setDropdownStatus() {
     }
 }
 
-const USERS_REQUEST = 'users/REQUEST';
-const USERS_SUCCESS = 'users/SUCCESS';
-const USERS_FAILURE = 'users/FAILURE';
+export const USERS_REQUEST = 'users/REQUEST';
+export const USERS_SUCCESS = 'users/SUCCESS';
+export const USERS_FAILURE = 'users/FAILURE';
 
 export function fetchUsers() {
 	return {
@@ -84,12 +84,7 @@ export function fetchUsers() {
 					payload: (action, state, res) => {
 						const contentType = res.headers.get('Content-Type');
 						if (contentType && ~contentType.indexOf('json')) {
-						        // console.debug(res);
-							return res.json().then((json) => {
-								// console.debug(json);
-								// console.log('normalized response', normalize(json, userList));
-							       	return normalize(json, userList);
-							});
+							return res.json().then((json) => normalize(json, userList));
 						}
 					}
 				},
