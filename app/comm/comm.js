@@ -5,7 +5,7 @@ function httpdo(type, url, data, callback) {
     xhr.open(type, url, true);
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.setRequestHeader("x-access-token", store.getState().token);
-    xhr.onreadystatechange = function () { 
+    xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var json = JSON.parse(xhr.responseText);
             callback(json);
