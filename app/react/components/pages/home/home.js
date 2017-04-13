@@ -1,7 +1,7 @@
 import React from 'react';
 import Panel from './panel';
 import store from '../../../../redux/store'
-import { fetchUsers } from '../../../../redux/actions'
+import { fetchUsers, fetchUserById } from '../../../../redux/actions'
 
 export default class Home extends React.Component {
     /*
@@ -15,22 +15,14 @@ export default class Home extends React.Component {
         this.handleLike = this.handleLike.bind(this);
         this.getUsers = this.getUsers.bind(this);
 
-		 // Test panel object; feel free to change this schema if necessary
-		 // There's probably a better way to do this
-		 /*this.panels = [
-			 {
-				id: 1, // lol
-				user: "KanyeWest",
-				title: "Famous",
-				likes: 4,
-			 },
-		];*/
 		this.panels = [];
 
 		store.dispatch(fetchUsers())
  		   .then(() => {
 				var submissions = [], things = store.getState().users.entities;
- 				console.log(things);
+                
+                // console.log(dummyId);
+ 				// console.log(things);
 				for (var u in things) {
 					if (things.hasOwnProperty(s)) {
 						var id = Object.keys(things[u])[0], subs = things[u][id];
@@ -51,6 +43,13 @@ export default class Home extends React.Component {
  		   .catch(error => {
  			   console.error(error);
  		   });
+        
+        // const dummyId = store.getState().users.result[0];
+        // console.log(dummyId);
+        // store.dispatch(fetchUserById(dummyId))
+        //     .then(() => {
+        //         console.log(store.getState().currentUser);
+        //     });
     }
 
     getUsers() {
@@ -67,7 +66,7 @@ export default class Home extends React.Component {
      *it would be useful to add event handlers here
      */
     componentDidMount() {
-	   //this.getUsers();
+	   // this.getUsers();
     }
 
     /*
