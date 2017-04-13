@@ -1,7 +1,8 @@
 import React from 'react';
-import ModalLogin from '../modal/login'
-import store from '../../../redux/store'
-import { post }from '../../../comm/comm'
+import ModalLogin from '../modal/login';
+import store from '../../../redux/store';
+import Editor from '../editor/editor';
+import { post }from '../../../comm/comm';
 
 export default class Login extends React.Component {
     constructor() {
@@ -9,10 +10,13 @@ export default class Login extends React.Component {
         this.state = {
             user: null,
             modalIsOpen: false,
+			editorShown: false
         }
         this.attemptTokenLogin = this.attemptTokenLogin.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.showEditor = this.showEditor.bind(this);
+        this.hideEditor = this.hideEditor.bind(this);
     }
 
     componentDidMount() {
@@ -45,8 +49,13 @@ export default class Login extends React.Component {
         this.setState({modalIsOpen: false});
     };
 
-    createSubmission() {
-
+    showEditor() {
+		this.setState({editorShown: true});
+		console.log(this.state);
+    }
+    hideEditor() {
+		this.setState({editorShown: false});
+		console.log(this.state);
     }
 
     render() {
@@ -55,16 +64,18 @@ export default class Login extends React.Component {
         var clickAction = null;
         if (this.state.modalIsOpen)
             clickAction = this.closeModal;
+        else if (this.state.user && this.state.editorShown)
+            clickAction = this.hideEditor;
         else if (this.state.user)
-            clickAction = this.createSubmission;
+            clickAction = this.showEditor;
         else
             clickAction = this.openModal;
-        
+
         return (
             <div>
                 <div className="primary" onClick={clickAction}>
                     <div>
-                        {(current_user != null) ? "+" : "log in"}
+                        { (current_user != null) ? <i className="material-icons">add</i> : "log in" }
                     </div>
                 </div>
                 <ModalLogin
@@ -72,6 +83,7 @@ export default class Login extends React.Component {
                     onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
                 />
+				<Editor isShown={this.state.editorShown} />
             </div>
         )
     }

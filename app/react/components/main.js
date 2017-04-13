@@ -1,6 +1,5 @@
 import React from 'react';
-import TopBar from './topbar/topbar.js';
-
+import TopBar from './topbar/topbar';
 
 export default class Main extends React.Component {
     /*
