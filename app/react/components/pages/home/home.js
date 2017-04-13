@@ -1,12 +1,7 @@
 import React from 'react';
 import Panel from './panel';
-<<<<<<< HEAD
 import store from '../../../../redux/store'
 import { fetchUsers, fetchUserById } from '../../../../redux/actions'
-=======
-import store from '../../../../redux/store';
-import { fetchUsers } from '../../../../redux/actions';
->>>>>>> e948a2ae8639f94bb46074a2d214a16988d71096
 
 export default class Home extends React.Component {
     /*
@@ -25,12 +20,6 @@ export default class Home extends React.Component {
 		store.dispatch(fetchUsers())
  		   .then(() => {
 				var submissions = [], things = store.getState().users.entities;
-<<<<<<< HEAD
-                
-                // console.log(dummyId);
- 				// console.log(things);
-=======
->>>>>>> e948a2ae8639f94bb46074a2d214a16988d71096
 				for (var u in things) {
 					if (things.hasOwnProperty(s)) {
 						var id = Object.keys(things[u])[0], subs = things[u][id];
