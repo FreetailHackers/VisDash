@@ -1,7 +1,16 @@
 import React from 'react';
+import store from '../../../redux/store';
 import EditorToolbar from './toolbar';
 
 export default class Editor extends React.Component {
+	constructor() {
+		super();
+		this.submit = this.submit.bind(this);
+		this.state = {
+			editorShown: store.getState().editorShown,
+		}
+	}
+	submit() {}
 	componentDidMount() {
 		var editor = ace.edit("code"),
 			session  = editor.getSession();
@@ -10,7 +19,7 @@ export default class Editor extends React.Component {
 		editor.setHighlightActiveLine(false);
 		session.setMode("ace/mode/javascript");
 		session.setTabSize(4);
-		var Range = ace.require("ace/range").Range,
+		/*var Range = ace.require("ace/range").Range,
 			range = new Range(0, 0, 2, 0),
 			markerId = session.addMarker(range, "readonly");
 		editor.keyBinding.addKeyboardHandler({
@@ -26,10 +35,13 @@ export default class Editor extends React.Component {
 		/*editor.getSession().on("change", function(e) {
 		    // e.type, etc
 		});*/
-	}
+        store.subscribe(() => {
+            this.setState({editorShown: store.getState().editorShown});
+        })
+    }
     render() {
         return (
-            <div id="editor">
+            <div id="editor" className={this.state.editorShown ? "shown" : ""}>
 				<EditorToolbar title={this.props.title} />
 				<pre id="code">{this.props.code}</pre>
             </div>

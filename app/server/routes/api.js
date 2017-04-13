@@ -110,6 +110,17 @@ module.exports = function(router) {
   /**
    * [OWNER/ADMIN]
    *
+   * GET - Get the current user
+   */
+  router.get('/whoami', isOwnerOrAdmin, function(req, res){
+    var token = req.get('x-access-token');
+    console.log(token);
+    UserController.getByToken(token, defaultResponse(req, res));
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
    * DELETE - remove a user by ID.
    */
   router.delete('/users/:id', isOwnerOrAdmin, function(req, res){

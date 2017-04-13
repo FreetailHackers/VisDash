@@ -41,7 +41,7 @@ export default class LikeInfo extends React.Component {
 	}
 
 	getClassFromState() {
-		return this.state.liked ? "favorite" : "favorite_border";	
+		return this.state.liked ? "favorite" : "favorite_border";
 	}
 
 	render() {

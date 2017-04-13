@@ -9,10 +9,10 @@ export default class EditorToolbar extends React.Component {
 
     render() {
         return (
-			<div class="tools">
+			<div className="tools">
 				<input type="text" value="{this.props.title}" value="Your Awesome Visualizer" />
-				<button class="run" title="Run">
-					<i class="material-icons">play_arrow</i>
+				<button className="run" title="Run">
+					<i className="material-icons">play_arrow</i>
 				</button>
 			</div>
         )
