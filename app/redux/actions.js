@@ -1,27 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import { normalize, schema } from 'normalizr';
 
-const testData = [
-	{
-		_id: "58ea7f9cde1dda5f2440388c",
-		email: "admin@freetailhackers.com",
-		__v: 0,
-		submissions: [
-			{
-				title: "test",
-				code: "test();",
-				likes: 2
-			}	
-		],
-		likes: [ ],
-		lastUpdated: 1491763100228,
-		timestamp: 1491763100228,
-		admin: true,
-		name: "Real Lyfe Hacker",
-		id: "58ea7f9cde1dda5f2440388c"
-	}
-]
-
 const user = new schema.Entity('user');
 const submission = new schema.Entity('submission');
 const submissionList = [ submission ];
@@ -75,7 +54,7 @@ export const USERS_FAILURE = 'users/FAILURE';
 export function fetchUsers() {
 	return {
 		[CALL_API]: {
-			endpoint: `/api/users`,
+			endpoint: '/api/users',
 			method: 'GET',
 			types: [
 				USERS_REQUEST,
@@ -107,3 +86,45 @@ export function fetchUsers() {
 		}
 	}
 }
+
+export const USER_BY_ID_REQUEST = 'users/:id/REQUEST';
+export const USER_BY_ID_SUCCESS = 'users/:id/SUCCESS';
+export const USER_BY_ID_FAILURE = 'users/:id/FAILURE';
+
+export function fetchUserById(id) {
+	return {
+		[CALL_API]: {
+			endpoint: '/api/users/${id}',
+			method: 'GET',
+			types: {
+				USER_BY_ID_REQUEST,
+				{
+					type: USER_BY_ID_SUCCESS,
+					payload: (action, state, res) => {
+						const contentType = res.headers.get('Content-Type');
+						if (contentType && ~contentType.indexOf('json')) {
+							return res.json().then((json) => normalize(json, user));
+						}
+					}
+				}
+			},
+			{
+				type: USER_BY_ID_FAILURE,
+				meta: (action, state, res) => {
+					if (res) {
+						return {
+							status: res.status,
+							statusText: res.statusText
+						};
+					} else {
+						return {
+							status: 'Network request failed'
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+

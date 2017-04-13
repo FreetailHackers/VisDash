@@ -1,12 +1,15 @@
 import { combineReducers } from 'redux';
-import { TOGGLE_PLAY, SET_TOKEN, SET_DROP_DOWN, SET_USER, SET_USER_AND_TOKEN, SET_TIME, SET_VOLUME, LOAD_STORED_STATE, USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE } from "./actions";
+import { TOGGLE_PLAY, SET_TOKEN, SET_DROP_DOWN, SET_USER, SET_USER_AND_TOKEN, SET_TIME, SET_VOLUME, LOAD_STORED_STATE, 
+    USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE,
+    USER_BY_ID_REQUEST, USER_BY_ID_SUCCESS, USER_BY_ID_FAILURE } from "./actions";
 
 const initialState = {
     playing: false,
     token: null,
     isFetching: false,
     isError: false,
-    users: {}
+    users: [],
+    currentUser: {}
 }
 
 function reducer(state = initialState, action) {
@@ -59,6 +62,24 @@ function reducer(state = initialState, action) {
                 isFetching: false,
                 isError: true,
                 users: null
+            })
+        case USER_BY_ID_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+                isError: false,
+                currentUser: state.currentUser
+            })
+        case USER_BY_ID_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isError: false,
+                currentUser: action.payload // Contains the API response body
+            })
+        case USER_BY_ID_FAILURE:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isError: true,
+                currentUser: null
             })
         default:
             return state;
