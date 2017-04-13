@@ -10,7 +10,7 @@ export default class Editor extends React.Component {
 		editor.setHighlightActiveLine(false);
 		session.setMode("ace/mode/javascript");
 		session.setTabSize(4);
-		var Range = ace.require("ace/range").Range,
+		/*var Range = ace.require("ace/range").Range,
 			range = new Range(0, 0, 2, 0),
 			markerId = session.addMarker(range, "readonly");
 		editor.keyBinding.addKeyboardHandler({
