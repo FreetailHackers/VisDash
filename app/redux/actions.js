@@ -96,7 +96,7 @@ export function fetchUserById(id) {
 		[CALL_API]: {
 			endpoint: '/api/users/${id}',
 			method: 'GET',
-			types: {
+			types: [
 				USER_BY_ID_REQUEST,
 				{
 					type: USER_BY_ID_SUCCESS,
@@ -106,25 +106,24 @@ export function fetchUserById(id) {
 							return res.json().then((json) => normalize(json, user));
 						}
 					}
-				}
-			},
-			{
-				type: USER_BY_ID_FAILURE,
-				meta: (action, state, res) => {
-					if (res) {
-						return {
-							status: res.status,
-							statusText: res.statusText
-						};
-					} else {
-						return {
-							status: 'Network request failed'
+				},
+				{
+					type: USER_BY_ID_FAILURE,
+					meta: (action, state, res) => {
+						if (res) {
+							return {
+								status: res.status,
+								statusText: res.statusText
+							};
+						} else {
+							return {
+								status: 'Network request failed'
+							}
 						}
 					}
 				}
-			}
+			]
 		}
 	}
 }
-
 
