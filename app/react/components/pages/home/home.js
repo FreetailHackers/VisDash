@@ -1,7 +1,7 @@
 import React from 'react';
 import Panel from './panel';
-import store from '../../../../redux/store'
-import { fetchUsers } from '../../../../redux/actions'
+import store from '../../../../redux/store';
+import { fetchUsers } from '../../../../redux/actions';
 
 export default class Home extends React.Component {
     /*
@@ -30,7 +30,6 @@ export default class Home extends React.Component {
 		store.dispatch(fetchUsers())
  		   .then(() => {
 				var submissions = [], things = store.getState().users.entities;
- 				console.log(things);
 				for (var u in things) {
 					if (things.hasOwnProperty(s)) {
 						var id = Object.keys(things[u])[0], subs = things[u][id];
@@ -45,7 +44,7 @@ export default class Home extends React.Component {
 					}
 				}
 				this.panels = submissions;
-				console.log(this.panels);
+				//console.log(this.panels);
 				this.forceUpdate();
  		   })
  		   .catch(error => {
