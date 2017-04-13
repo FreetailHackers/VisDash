@@ -73,7 +73,7 @@ export default class Login extends React.Component {
 
         return (
             <div>
-                <div className="primary" onClick={clickAction}>
+                <div className={this.state.editorShown ? "primary close" : "primary"} onClick={clickAction}>
                     <div>
                         { (current_user != null) ? <i className="material-icons">add</i> : "log in" }
                     </div>

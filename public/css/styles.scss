@@ -348,6 +348,12 @@ footer {
 			text-indent: 10px;
 			cursor: pointer;
 			transition: all 0.1s ease-in-out;
+			i {
+				transition: transform 0.2s ease-in-out;
+			}
+			&.close i {
+				transform: rotate(-135deg);
+			}
 			> div {
 				position: absolute;
 				top: 50%;
@@ -509,13 +515,18 @@ $pad: 0.3em;
 
 #editor {
 	transition: all 0.3s ease-in-out;
-	transform: translateY(100%) translateY(200px);
+	transform: scale(0) translateY(100%) translateY(200px);
+	transform-origin: bottom right;
+	visibility: hidden;
 	position: fixed;
 	top: 30px;
 	bottom: 88px;
 	z-index: 2;
+	opacity: 0;
 	&.shown {
 		transform: none;
+		opacity: 1;
+		visibility: visible;
 	}
 	.tools {
 		input, button {
