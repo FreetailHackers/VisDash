@@ -92,9 +92,10 @@ export const USER_BY_ID_SUCCESS = 'users/:id/SUCCESS';
 export const USER_BY_ID_FAILURE = 'users/:id/FAILURE';
 
 export function fetchUserById(id) {
+	console.log(id);
 	return {
 		[CALL_API]: {
-			endpoint: '/api/users/${id}',
+			endpoint: `/api/users/${id}`,
 			method: 'GET',
 			types: [
 				USER_BY_ID_REQUEST,

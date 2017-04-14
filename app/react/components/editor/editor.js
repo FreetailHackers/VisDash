@@ -6,11 +6,19 @@ export default class Editor extends React.Component {
 	constructor() {
 		super();
 		this.submit = this.submit.bind(this);
-		this.state = {
-			editorShown: store.getState().editorShown,
-		}
 	}
-	submit() {}
+	submit() {
+		var form = {
+			title: this.refs.title.value,
+			submission: this.editor.getValue()
+		};
+		post('/auth/login', form, user => {
+			if (user.token) {
+				store.dispatch(setUserAndToken(user.user, user.token));
+				this.setState({loggedIn: true});
+			}
+		});
+	}
 	componentDidMount() {
 		var editor = ace.edit("code"),
 			session  = editor.getSession();
@@ -35,13 +43,12 @@ export default class Editor extends React.Component {
 		/*editor.getSession().on("change", function(e) {
 		    // e.type, etc
 		});*/
-        store.subscribe(() => {
-            this.setState({editorShown: store.getState().editorShown});
-        })
+		this.editor = editor;
+		this.session  = session;
     }
     render() {
         return (
-            <div id="editor" className={this.state.editorShown ? "shown" : ""}>
+            <div id="editor" className={this.props.isShown ? "shown" : ""}>
 				<EditorToolbar title={this.props.title} />
 				<pre id="code">{this.props.code}</pre>
             </div>

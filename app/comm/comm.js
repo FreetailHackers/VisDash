@@ -15,6 +15,10 @@ function httpdo(type, url, data, callback) {
     xhr.send(data);
 }
 
+export function get(url, callback) {
+  httpdo('GET', url, null, callback);
+}
+
 export function post(url, data, callback) {
     httpdo('POST', url, data, callback)
 }

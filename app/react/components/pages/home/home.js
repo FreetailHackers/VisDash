@@ -1,7 +1,7 @@
 import React from 'react';
 import Panel from './panel';
-import store from '../../../../redux/store';
-import { fetchUsers } from '../../../../redux/actions';
+import store from '../../../../redux/store'
+import { fetchUsers, fetchUserById } from '../../../../redux/actions'
 
 export default class Home extends React.Component {
     /*
@@ -15,41 +15,42 @@ export default class Home extends React.Component {
         this.handleLike = this.handleLike.bind(this);
         this.getUsers = this.getUsers.bind(this);
 
-		 // Test panel object; feel free to change this schema if necessary
-		 // There's probably a better way to do this
-		 /*this.panels = [
-			 {
-				id: 1, // lol
-				user: "KanyeWest",
-				title: "Famous",
-				likes: 4,
-			 },
-		];*/
 		this.panels = [];
 
 		store.dispatch(fetchUsers())
  		   .then(() => {
-				var submissions = [], things = store.getState().users.entities;
-				for (var u in things) {
-					if (things.hasOwnProperty(s)) {
-						var id = Object.keys(things[u])[0], subs = things[u][id];
-						for (var i = 0; i < subs.length; i++) {
-							var s = subs[i];
+				var submissions = [], ids = store.getState().users.result;
+				var users = store.getState().users.entities.user;
+                
+                for (var i = 0; i < ids.length; i++) {
+                    var id = ids[i];
+                    if (users[id].hasOwnProperty("submissions")) {
+						var tempSubmissions = users[id].submissions;
+                        
+						for (var j = 0; j < tempSubmissions.length; j++) {
+							var s = tempSubmissions[j];
 							submissions.push({
-								user: u.name,
+								user: users[id].name,
 								title: s.title,
-								likes: s.likes.length
+								likes: s.likes
 							});
 						}
 					}
 				}
 				this.panels = submissions;
-				//console.log(this.panels);
+				console.log(this.panels);
 				this.forceUpdate();
  		   })
  		   .catch(error => {
  			   console.error(error);
  		   });
+        
+        // const dummyId = store.getState().users.result[0];
+        // console.log(dummyId);
+        // store.dispatch(fetchUserById(dummyId))
+        //     .then(() => {
+        //         console.log(store.getState().currentUser);
+        //     });
     }
 
     getUsers() {
@@ -66,7 +67,7 @@ export default class Home extends React.Component {
      *it would be useful to add event handlers here
      */
     componentDidMount() {
-	   //this.getUsers();
+	   // this.getUsers();
     }
 
     /*
