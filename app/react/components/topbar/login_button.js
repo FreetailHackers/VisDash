@@ -55,7 +55,7 @@ export default class Login extends React.Component {
     }
     hideEditor() {
 		this.setState({editorShown: false});
-		co  nsole.log(this.state);
+		  console.log(this.state);
     }
 
     render() {
