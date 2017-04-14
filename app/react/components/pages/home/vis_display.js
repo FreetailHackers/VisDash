@@ -1,11 +1,24 @@
 import React from 'react';
+import store from '../../../../redux/store'
+import { updateEditing } from '../../../../redux/actions'
+
 // import Visualizer from './magical_p5_shit'
 
 export default class VisDisplay extends React.Component {
+	constructor() {
+		super();
+		this.setEditorOn = this.setEditorOn.bind(this);
+	}
+
+	setEditorOn() {
+		console.log("clicked");
+		store.dispatch(updateEditing(true));
+	}
+
 	render() {
         return (
 			<div className="canvas">
-				<canvas id={this.props.canvasID} width="400" height="300"></canvas>
+				<canvas onClick={this.setEditorOn} id={this.props.canvasID} width="400" height="300"></canvas>
 				<script dangerouslySetInnerHTML={{__html:
 				`
 				console.log("TACOOOOOOOOOOOOS");
