@@ -15,7 +15,6 @@ function endsWith(s, test){
 
 /**
  * Determines whether or not a given title is valid
- * No idea if this actually works
  * @param  {String}   id      Id of the user
  * @param  {String}   title   proposed submission title
  * @param  {Function} callback args(err, true, false)
@@ -256,18 +255,61 @@ UserController.getById = function (id, callback){
   * @param  {Function} callback       Callback with args (err, user)
   */
  UserController.pushLikeById = function (userId, submissionId, callback){
-   User.findOneAndUpdate({
-     _id: userId,
-   },
-   {
-     $push: {
-       'likes': submissionId
-     }
-   },
-   {
-     new: true
-   },
-   callback);
+   var found = false;
+   User
+     .findById(userId)
+     .exec(function(err, user){
+       if (err) {
+         return callback(err);
+       }
+       if (user) {
+         for (let like of user.likes){
+           if(like == submissionId){
+             return callback({
+               message: 'You already liked this submission.'
+             });
+           }
+         }
+         User.findOneAndUpdate({
+             _id: userId,
+           },
+           {
+             $push: {
+               'likes': submissionId
+             }
+           },
+           {
+             new: true
+           }, function(){
+             User.find({}).exec(function(err, bundle){
+                 if (err) {
+                   return callback(err);
+                 }
+                 if (bundle) {
+                   for (let user of bundle){
+                     for (let submission of user.submissions){
+                       if(submission._id == submissionId){
+                         found = true;
+                         User.findById(user._id).then(user => {
+                          user.submissions.id(submissionId).likes = user.submissions.id(submissionId).likes + 1;
+                          user.save();
+                          callback(null, user);
+                        });
+                       }
+                     }
+                   }
+                  }
+                  if(! found){
+                  return callback(
+                    {
+                      message: 'Submission not found'
+                    });
+                  }
+
+                });
+             });
+           }
+         });
  };
 
  /**
@@ -289,7 +331,34 @@ UserController.getById = function (id, callback){
   {
     new: true
   },
-  callback);
+  function(){
+    User.find({}).exec(function(err, bundle){
+        if (err) {
+          return callback(err);
+        }
+        if (bundle) {
+          for (let user of bundle){
+            for (let submission of user.submissions){
+              if(submission._id == submissionId){
+                found = true;
+                User.findById(user._id).then(user => {
+                 user.submissions.id(submissionId).likes = user.submissions.id(submissionId).likes - 1;
+                 user.save();
+                 callback(null, user);
+               });
+              }
+            }
+          }
+         }
+         if(! found){
+         return callback(
+           {
+             message: 'Submission not found'
+           });
+         }
+
+       });
+    });
  };
 
 
