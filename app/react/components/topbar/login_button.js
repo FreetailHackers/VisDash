@@ -51,16 +51,15 @@ export default class Login extends React.Component {
 
     showEditor() {
 		this.setState({editorShown: true});
-		console.log(this.state);
+		  console.log(this.state);
     }
     hideEditor() {
 		this.setState({editorShown: false});
-		console.log(this.state);
+		co  nsole.log(this.state);
     }
 
     render() {
         var current_user = this.state.user;
-        console.log(store.getState());
         var clickAction = null;
         if (this.state.modalIsOpen)
             clickAction = this.closeModal;
