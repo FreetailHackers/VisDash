@@ -55,7 +55,6 @@ export default class Login extends React.Component {
     };
 
     showEditor() {
-<<<<<<< HEAD
 		//this.setState({editorShown: true});
         store.dispatch(updateEditing(true));
 		console.log(this.state);
