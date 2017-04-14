@@ -19,14 +19,10 @@ export default class Panel extends React.Component {
 
     }
 
-	handleChange(e) {
-		this.props.onTitleChange(e.target.value);
-	}
-
 	render() {
 		return (
             <div className="item">
-            	<VisDisplay/>
+            	<VisDisplay code={this.props.code} canvasID={this.props.id}/>
             	<VisInfo username={this.props.user} title={this.props.title} likes={this.props.likes} id={this.props.id}/>
             </div>
         )

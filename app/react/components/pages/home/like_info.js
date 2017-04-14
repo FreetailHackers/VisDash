@@ -15,20 +15,27 @@ export default class LikeInfo extends React.Component {
 		this.toggleLike = this.toggleLike.bind(this);
 		this.getColorFromState = this.getColorFromState.bind(this);
 		this.getClassFromState = this.getClassFromState.bind(this);
+		this.tempUpdateLikes = this.tempUpdateLikes.bind(this);
 	}
 
-	//checks if the submission is liked when the user is loaded
+	// checks if the submission is liked when the user is loaded
 	componentDidMount() {
-		//TODO: FINISH THIS
-		console.log(store.getState().user);
-		this.setState({liked: (store.getState().user.likes.includes(String(this.props.id)))})
+		// TODO: FINISH THIS
+		this.setState({ liked: (store.getState().user.likes.includes(String(this.props.id))), likes: this.props.likes });
+	}
+
+	tempUpdateLikes(liked) {
+		var newLikes = liked ? this.state.likes + 1 : this.state.likes - 1;
+		this.setState({ likes: newLikes });
 	}
 
 	//Changes the internal state, then sends to server
 	toggleLike() {
 		var liked = this.state.liked;
 		var user = store.getState().user;
+
 		this.setState({liked: !liked});
+		this.tempUpdateLikes(!liked);
 		if (liked) {
 			//then, it is no longer liked after we toggle it
 			httpdelete(`/api/users/${user.id}/likes/${this.props.id}`);
@@ -49,7 +56,7 @@ export default class LikeInfo extends React.Component {
 	render() {
 		return (
 			<div className="likes">
-				<span>{this.props.likes}</span>
+				<span>{this.state.likes}</span>
 				<button onClick={this.toggleLike}>
 					<i style={{color: this.getColorFromState()}} className="material-icons">
 						{this.getClassFromState()}

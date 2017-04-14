@@ -4,6 +4,8 @@ import store from '../../../../redux/store'
 import { fetchUsers, fetchUserById, setUser } from '../../../../redux/actions'
 import { get } from '../../../../comm/comm'
 
+import AlertContainer from 'react-alert';
+
 export default class Home extends React.Component {
     /*
      Initialize your component here. This usually involves creating
@@ -12,14 +14,22 @@ export default class Home extends React.Component {
     constructor(props) {
     	super();
 
-        this.state = {
-            likes: [],
-        }
+      this.alertOptions = {
+        offset: 14,
+        position: 'bottom left',
+        theme: 'light',
+        time: 5000,
+        transition: 'scale'
+      };
 
-        this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleLike = this.handleLike.bind(this);
-        this.getUsers = this.getUsers.bind(this);
-        this.fetchSubmissions = this.fetchSubmissions.bind(this);
+      this.state = {
+          likes: [],
+      }
+
+      this.handleTitleChange = this.handleTitleChange.bind(this);
+      this.handleLike = this.handleLike.bind(this);
+      this.getUsers = this.getUsers.bind(this);
+      this.fetchSubmissions = this.fetchSubmissions.bind(this);
 
 		this.panels = [];
 
@@ -29,10 +39,10 @@ export default class Home extends React.Component {
     getUsers() {
         return store.dispatch(fetchUsers())
             .then(() => {
-                console.log("[LOG] Current state is: " + store.getState().users);
+                console.log(store.getState().users);
             })
             .catch(error => {
-                console.error(error);
+                this.showAlert();
             });
     }
 
@@ -48,12 +58,13 @@ export default class Home extends React.Component {
                         var tempSubmissions = users[id].submissions;
 
                         tempSubmissions.map((s) => {
-                            submissions.push({
-                                id: s._id,
-                                user: users[id].name,
-                                title: s.title,
-                                likes: s.likes
-                            });
+                          submissions.push({
+                              id: s._id,
+                              user: users[id].name,
+                              code: s.code,
+                              title: s.title,
+                              likes: s.likes
+                          });
                         })
                     }
                 }
@@ -77,7 +88,7 @@ export default class Home extends React.Component {
            if (this.state.likes != store.getState().user.likes) {
                 this.setState({likes: store.getState().user.likes});
            }
-       }) 
+       })
     }
 
     /*
@@ -94,7 +105,7 @@ export default class Home extends React.Component {
      upon a state change. No return or true return = AOK
      */
     shouldComponentUpdate(nextProps, nextState) {
-
+      return true;
     }
 
     handleTitleChange(id, title) {
@@ -106,14 +117,22 @@ export default class Home extends React.Component {
         }
     }
 
-    handleLike(id, liked) {
-        const likes = this.panels[i].likes;
-        for (i = 0; i < this.panels.length; i++) {
-            if (this.panels[i].id === id) {
-                this.panels[i].likes = liked ? likes + 1 : likes - 1;
-                break;
-            }
-        }
+    handleLike() {
+        // const likes = this.panels[i].likes;
+        // for (i = 0; i < this.panels.length; i++) {
+        //     if (this.panels[i].id === id) {
+        //         this.panels[i].likes = liked ? likes + 1 : likes - 1;
+        //         break;
+        //     }
+        // }
+        this.forceUpdate();
+    }
+
+    showAlert(){
+      msg.show('An Error Occured', {
+        time: 2000,
+        type: 'error'
+      });
     }
 
     render() {
@@ -121,17 +140,19 @@ export default class Home extends React.Component {
 			var items = [];
 			for (var i = 0; i < this.panels.length; i++) {
 				var panel = this.panels[i];
-				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} onTitleChange={this.handleTitleChange} onLike={this.handleLike} id={panel.id} key={panel.id}/>);
+				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} code={panel.code} onTitleChange={this.handleTitleChange} onLike={this.handleLike} id={panel.id} key={panel.id}/>);
 			}
 	        return (
 	            <div className="dashboard">
 	                { items }
+                  <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
 	            </div>
 	        )
 		} else {
 	        return (
 	            <div className="dashboard">
 	                <div className="empty">empty</div>
+                  <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
 	            </div>
 	        )
 		}
