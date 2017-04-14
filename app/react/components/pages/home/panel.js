@@ -19,10 +19,6 @@ export default class Panel extends React.Component {
 
     }
 
-	handleChange(e) {
-		this.props.onTitleChange(e.target.value);
-	}
-
 	render() {
 		return (
             <div className="item">

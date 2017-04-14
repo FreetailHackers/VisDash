@@ -107,14 +107,15 @@ export default class Home extends React.Component {
         }
     }
 
-    handleLike(id, liked) {
-        const likes = this.panels[i].likes;
-        for (i = 0; i < this.panels.length; i++) {
-            if (this.panels[i].id === id) {
-                this.panels[i].likes = liked ? likes + 1 : likes - 1;
-                break;
-            }
-        }
+    handleLike() {
+        // const likes = this.panels[i].likes;
+        // for (i = 0; i < this.panels.length; i++) {
+        //     if (this.panels[i].id === id) {
+        //         this.panels[i].likes = liked ? likes + 1 : likes - 1;
+        //         break;
+        //     }
+        // }
+        this.forceUpdate();
     }
 
     render() {
