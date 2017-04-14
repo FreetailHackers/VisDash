@@ -29,10 +29,10 @@ export default class LikeInfo extends React.Component {
 		this.setState({liked: !liked});
 		if (liked) {
 			//then, it is no longer liked after we toggle it
-			post(`/api/${user.id}/likes/${this.props.submissionid}`);
+			post(`/api/${user.id}/likes/${this.props.id}`);
 		}
 		if (!liked) {
-			httpdelete(`/api/${user.id}/likes/${this.props.submissionid}`);
+			httpdelete(`/api/${user.id}/likes/${this.props.id}`);
 		}
 	}
 

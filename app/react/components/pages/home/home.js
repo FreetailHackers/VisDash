@@ -42,15 +42,14 @@ export default class Home extends React.Component {
                     if (users[id].hasOwnProperty("submissions")) {
                         var tempSubmissions = users[id].submissions;
 
-                        for (var j = 0; j < tempSubmissions.length; j++) {
-                            var s = tempSubmissions[j];
+                        tempSubmissions.map((s) => {
                             submissions.push({
-                                id: id,
+                                id: s._id,
                                 user: users[id].name,
                                 title: s.title,
                                 likes: s.likes
                             });
-                        }
+                        })
                     }
                 }
                 this.panels = submissions;
@@ -114,7 +113,7 @@ export default class Home extends React.Component {
 			var items = [];
 			for (var i = 0; i < this.panels.length; i++) {
 				var panel = this.panels[i];
-				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} onTitleChange={this.handleTitleChange} onLike={this.handleLike} key={panel.id}/>);
+				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} onTitleChange={this.handleTitleChange} onLike={this.handleLike} id={panel.id} key={panel.id}/>);
 			}
 	        return (
 	            <div className="dashboard">

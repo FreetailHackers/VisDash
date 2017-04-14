@@ -10,7 +10,7 @@ export default class VisInfo extends React.Component {
 					<span> by </span>
 					<a className="author" href={`/user/${this.props.username}`}>{this.props.username}</a>
 	            </div>
-            	<LikeInfo likes={this.props.likes} />
+            	<LikeInfo likes={this.props.likes} id={this.props.id}/>
             </div>
         )
 	}
