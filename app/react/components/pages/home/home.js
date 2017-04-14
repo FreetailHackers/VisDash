@@ -1,7 +1,8 @@
 import React from 'react';
 import Panel from './panel';
 import store from '../../../../redux/store'
-import { fetchUsers, fetchUserById } from '../../../../redux/actions'
+import { fetchUsers, fetchUserById, setUser } from '../../../../redux/actions'
+import { get } from '../../../../comm/comm'
 
 export default class Home extends React.Component {
     /*
@@ -10,6 +11,10 @@ export default class Home extends React.Component {
      */
     constructor(props) {
     	super();
+
+        this.state = {
+            likes: [],
+        }
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleLike = this.handleLike.bind(this);
@@ -60,16 +65,19 @@ export default class Home extends React.Component {
            });
     }
 
-    getCurrentUser() {
-
-    }
-
     /*
      *Fires after the component is mounted and the DOM is loaded
      *it would be useful to add event handlers here
      */
     componentDidMount() {
-	   // this.getUsers();
+	   get("/api/whoami", user => {
+           store.dispatch(setUser(user));
+        });
+       store.subscribe(() => {
+           if (this.state.likes != store.getState().user.likes) {
+                this.setState({likes: store.getState().user.likes});
+           }
+       }) 
     }
 
     /*

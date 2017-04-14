@@ -21,7 +21,7 @@ export default class LikeInfo extends React.Component {
 	componentDidMount() {
 		//TODO: FINISH THIS
 		console.log(store.getState().user);
-		this.setState({liked: (this.props.id in store.getState().user.likes)})
+		this.setState({liked: (store.getState().user.likes.includes(String(this.props.id)))})
 	}
 
 	//Changes the internal state, then sends to server
