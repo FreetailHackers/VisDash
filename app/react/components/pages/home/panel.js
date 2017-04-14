@@ -27,7 +27,7 @@ export default class Panel extends React.Component {
 		return (
             <div className="item">
             	<VisDisplay/>
-            	<VisInfo username={this.props.user} title={this.props.title} likes={this.props.likes}/>
+            	<VisInfo username={this.props.user} title={this.props.title} likes={this.props.likes} id={this.props.id}/>
             </div>
         )
 	}

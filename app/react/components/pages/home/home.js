@@ -1,7 +1,8 @@
 import React from 'react';
 import Panel from './panel';
 import store from '../../../../redux/store'
-import { fetchUsers, fetchUserById } from '../../../../redux/actions'
+import { fetchUsers, fetchUserById, setUser } from '../../../../redux/actions'
+import { get } from '../../../../comm/comm'
 
 export default class Home extends React.Component {
     /*
@@ -11,46 +12,18 @@ export default class Home extends React.Component {
     constructor(props) {
     	super();
 
+        this.state = {
+            likes: [],
+        }
+
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleLike = this.handleLike.bind(this);
         this.getUsers = this.getUsers.bind(this);
+        this.fetchSubmissions = this.fetchSubmissions.bind(this);
 
 		this.panels = [];
 
-		store.dispatch(fetchUsers())
- 		   .then(() => {
-				var submissions = [], ids = store.getState().users.result;
-				var users = store.getState().users.entities.user;
-
-                for (var i = 0; i < ids.length; i++) {
-                    var id = ids[i];
-                    if (users[id].hasOwnProperty("submissions")) {
-						var tempSubmissions = users[id].submissions;
-
-						for (var j = 0; j < tempSubmissions.length; j++) {
-							var s = tempSubmissions[j];
-							submissions.push({
-								user: users[id].name,
-								title: s.title,
-								likes: s.likes
-							});
-						}
-					}
-				}
-				this.panels = submissions;
-				console.log("[LOG] Panels object: " + this.panels.toString());
-				this.forceUpdate();
- 		   })
- 		   .catch(error => {
- 			   console.error(error);
- 		   });
-
-        // const dummyId = store.getState().users.result[0];
-        // console.log(dummyId);
-        // store.dispatch(fetchUserById(dummyId))
-        //     .then(() => {
-        //         console.log(store.getState().currentUser);
-        //     });
+    this.fetchSubmissions();
     }
 
     getUsers() {
@@ -62,12 +35,49 @@ export default class Home extends React.Component {
                 console.error(error);
             });
     }
+
+    fetchSubmissions() {
+        store.dispatch(fetchUsers())
+           .then(() => {
+                var submissions = [], ids = store.getState().users.result;
+                var users = store.getState().users.entities.user;
+
+                for (var i = 0; i < ids.length; i++) {
+                    var id = ids[i];
+                    if (users[id].hasOwnProperty("submissions")) {
+                        var tempSubmissions = users[id].submissions;
+
+                        tempSubmissions.map((s) => {
+                            submissions.push({
+                                id: s._id,
+                                user: users[id].name,
+                                title: s.title,
+                                likes: s.likes
+                            });
+                        })
+                    }
+                }
+                this.panels = submissions;
+                this.forceUpdate();
+           })
+           .catch(error => {
+               console.error(error);
+           });
+    }
+
     /*
      *Fires after the component is mounted and the DOM is loaded
      *it would be useful to add event handlers here
      */
     componentDidMount() {
-	   // this.getUsers();
+	   get("/api/whoami", user => {
+           store.dispatch(setUser(user));
+        });
+       store.subscribe(() => {
+           if (this.state.likes != store.getState().user.likes) {
+                this.setState({likes: store.getState().user.likes});
+           }
+       }) 
     }
 
     /*
@@ -111,7 +121,7 @@ export default class Home extends React.Component {
 			var items = [];
 			for (var i = 0; i < this.panels.length; i++) {
 				var panel = this.panels[i];
-				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} onTitleChange={this.handleTitleChange} onLike={this.handleLike} />);
+				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} onTitleChange={this.handleTitleChange} onLike={this.handleLike} id={panel.id} key={panel.id}/>);
 			}
 	        return (
 	            <div className="dashboard">

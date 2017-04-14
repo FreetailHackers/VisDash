@@ -118,9 +118,8 @@ module.exports = function(router) {
    *
    * GET - Get the current user
    */
-  router.get('/whoami', isOwnerOrAdmin, function(req, res){
+  router.get('/whoami', function(req, res){
     var token = req.get('x-access-token');
-    console.log(token);
     UserController.getByToken(token, defaultResponse(req, res));
   });
 

@@ -20,6 +20,8 @@ export default class LikeInfo extends React.Component {
 	//checks if the submission is liked when the user is loaded
 	componentDidMount() {
 		//TODO: FINISH THIS
+		console.log(store.getState().user);
+		this.setState({liked: (store.getState().user.likes.includes(String(this.props.id)))})
 	}
 
 	//Changes the internal state, then sends to server
@@ -29,10 +31,10 @@ export default class LikeInfo extends React.Component {
 		this.setState({liked: !liked});
 		if (liked) {
 			//then, it is no longer liked after we toggle it
-			post(`/api/${user.id}/likes/${this.props.submissionid}`);
+			httpdelete(`/api/users/${user.id}/likes/${this.props.id}`);
 		}
 		if (!liked) {
-			httpdelete(`/api/${user.id}/likes/${this.props.submissionid}`);
+			post(`/api/users/${user.id}/likes/${this.props.id}`);
 		}
 	}
 

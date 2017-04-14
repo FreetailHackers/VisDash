@@ -8,7 +8,9 @@ function httpdo(type, url, data, callback) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var json = JSON.parse(xhr.responseText);
-            callback(json);
+            if (callback) {
+                callback(json);
+            }
         }
     }
     var data = JSON.stringify(data);

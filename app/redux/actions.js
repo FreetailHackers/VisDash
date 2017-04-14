@@ -14,6 +14,7 @@ export const LOAD_STORED_STATE = "LOAD_STORED_STATE";
 export const SET_TIME   = "SET_TIME";
 export const SET_VOLUME   = "SET_VOLUME";
 export const SET_DROP_DOWN = "SET_DROP_DOWN";
+export const SET_EDITING = "SET_EDITING"
 
 export function togglePlay() {
     return { type: TOGGLE_PLAY };
@@ -37,6 +38,10 @@ export function updateTime(time) {
 
 export function updateVolume(volume) {
     return {type: SET_VOLUME, volume: volume}
+}
+
+export function updateEditing(editing) {
+    return {type: SET_EDITING, editing: editing}
 }
 
 export function setDropdownStatus() {
@@ -92,7 +97,6 @@ export const USER_BY_ID_SUCCESS = 'users/:id/SUCCESS';
 export const USER_BY_ID_FAILURE = 'users/:id/FAILURE';
 
 export function fetchUserById(id) {
-	console.log(id);
 	return {
 		[CALL_API]: {
 			endpoint: `/api/users/${id}`,
@@ -108,6 +112,38 @@ export function fetchUserById(id) {
 						}
 					}
 				},
+				{
+					type: USER_BY_ID_FAILURE,
+					meta: (action, state, res) => {
+						if (res) {
+							return {
+								status: res.status,
+								statusText: res.statusText
+							};
+						} else {
+							return {
+								status: 'Network request failed'
+							}
+						}
+					}
+				}
+			]
+		}
+	}
+}
+
+export const CURR_ID_REQUEST = '/whoami/REQUEST';
+export const CURR_ID_SUCCESS = '/whoami/SUCCESS';
+export const CURR_ID_FAILURE = '/whoami/FAILURE';
+
+export function fetchCurrentUserId() {
+	return {
+		[CALL_API]: {
+			endpoint: '/api/whoami',
+			method: 'GET',
+			types: [
+				CURR_ID_REQUEST,
+				CURR_ID_SUCCESS,
 				{
 					type: USER_BY_ID_FAILURE,
 					meta: (action, state, res) => {
