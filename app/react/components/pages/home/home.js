@@ -81,11 +81,17 @@ export default class Home extends React.Component {
      *it would be useful to add event handlers here
      */
     componentDidMount() {
-	   get("/api/whoami", user => {
-           store.dispatch(setUser(user));
-        });
+	   try {
+            get("/api/whoami", user => {
+                store.dispatch(setUser(user));
+            });
+       }
+       catch(err) {
+           console.log("user doesn't exist")
+       }
        store.subscribe(() => {
-           if (this.state.likes != store.getState().user.likes) {
+           var current_user = store.getState().user;
+           if (current_user && this.state.likes != current_user.likes) {
                 this.setState({likes: store.getState().user.likes});
            }
        })
