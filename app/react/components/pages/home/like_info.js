@@ -7,6 +7,7 @@ export default class LikeInfo extends React.Component {
 		super();
 		this.state = {
 			liked: false,
+			likes: 0,
 		}
 		this.likeColors = {
 			liked: "#FF00FF",
@@ -20,8 +21,10 @@ export default class LikeInfo extends React.Component {
 
 	// checks if the submission is liked when the user is loaded
 	componentDidMount() {
-		// TODO: FINISH THIS
-		this.setState({ liked: (store.getState().user.likes.includes(String(this.props.id))), likes: this.props.likes });
+		this.setState({likes: this.props.likes});
+		if (store.getState().user) {
+			this.setState({ liked: (store.getState().user.likes.includes(String(this.props.id)))});
+		}
 	}
 
 	tempUpdateLikes(liked) {
@@ -54,14 +57,19 @@ export default class LikeInfo extends React.Component {
 	}
 
 	render() {
+		var user_exists = store.getState().user != null;
+		var display = null
+		if (user_exists) {
+			display = <button onClick={this.toggleLike}>
+						<i style={{color: this.getColorFromState()}} className="material-icons">
+							{this.getClassFromState()}
+						</i>
+					  </button>
+		}
 		return (
 			<div className="likes">
 				<span>{this.state.likes}</span>
-				<button onClick={this.toggleLike}>
-					<i style={{color: this.getColorFromState()}} className="material-icons">
-						{this.getClassFromState()}
-					</i>
-				</button>
+				{display}
 			</div>
         )
 	}
