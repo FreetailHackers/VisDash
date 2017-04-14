@@ -21,12 +21,12 @@ export default class Home extends React.Component {
  		   .then(() => {
 				var submissions = [], ids = store.getState().users.result;
 				var users = store.getState().users.entities.user;
-                
+
                 for (var i = 0; i < ids.length; i++) {
                     var id = ids[i];
                     if (users[id].hasOwnProperty("submissions")) {
 						var tempSubmissions = users[id].submissions;
-                        
+
 						for (var j = 0; j < tempSubmissions.length; j++) {
 							var s = tempSubmissions[j];
 							submissions.push({
@@ -38,13 +38,13 @@ export default class Home extends React.Component {
 					}
 				}
 				this.panels = submissions;
-				console.log(this.panels);
+				console.log("[LOG] Panels object: " + this.panels.toString());
 				this.forceUpdate();
  		   })
  		   .catch(error => {
  			   console.error(error);
  		   });
-        
+
         // const dummyId = store.getState().users.result[0];
         // console.log(dummyId);
         // store.dispatch(fetchUserById(dummyId))
@@ -56,7 +56,7 @@ export default class Home extends React.Component {
     getUsers() {
         return store.dispatch(fetchUsers())
             .then(() => {
-                console.log(store.getState().users);
+                console.log("[LOG] Current state is: " + store.getState().users);
             })
             .catch(error => {
                 console.error(error);
