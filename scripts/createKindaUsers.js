@@ -13,7 +13,8 @@ var username = 'hacker';
 
 var submission = new Object();
 submission.title = "submission title";
-submission.code = 'console.log("THIS IS MY CODE")';
+submission.code =
+'var mic, soundFile; var amplitude;var mapMax = 1.0; function preload() { soundFile = loadSound("../../music/Broke_For_Free_-_01_-_As_Colorful_As_Ever.mp3") }function setup() {c = createCanvas(windowWidth, windowHeight);background(0); fill(255);noStroke();  mic = new p5.AudioIn();mic.start();  amplitude = new p5.Amplitude();  amplitude.setInput(mic);}function draw() {background(0);var level = amplitude.getLevel();text("Amplitude: " + level, 20, 20);text("mapMax: " + mapMax, 20, 40);var ellipseHeight = map(level, 0, mapMax, height, 0); ellipse(width/2, ellipseHeight, 100, 100);}';
 submission.likes = 0;
 
 for (var i = 0; i < users; i++){
