@@ -93,9 +93,9 @@ export default class Home extends React.Component {
      Return false if a component should not be re-rendered
      upon a state change. No return or true return = AOK
      */
-    shouldComponentUpdate(nextProps, nextState) {
+    // shouldComponentUpdate(nextProps, nextState) {
 
-    }
+    // }
 
     handleTitleChange(id, title) {
         for (i = 0; i < this.panels.length; i++) {
@@ -106,14 +106,15 @@ export default class Home extends React.Component {
         }
     }
 
-    handleLike(id, liked) {
-        const likes = this.panels[i].likes;
-        for (i = 0; i < this.panels.length; i++) {
-            if (this.panels[i].id === id) {
-                this.panels[i].likes = liked ? likes + 1 : likes - 1;
-                break;
-            }
-        }
+    handleLike() {
+        // const likes = this.panels[i].likes;
+        // for (i = 0; i < this.panels.length; i++) {
+        //     if (this.panels[i].id === id) {
+        //         this.panels[i].likes = liked ? likes + 1 : likes - 1;
+        //         break;
+        //     }
+        // }
+        this.forceUpdate();
     }
 
     render() {
