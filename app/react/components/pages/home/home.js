@@ -14,9 +14,9 @@ export default class Home extends React.Component {
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleLike = this.handleLike.bind(this);
         this.getUsers = this.getUsers.bind(this);
+        this.fetchSubmissions = this.fetchSubmissions.bind(this);
 
 		this.panels = [];
-
 		store.dispatch(fetchUsers())
  		   .then(() => {
 				var submissions = [], ids = store.getState().users.result;
@@ -50,6 +50,7 @@ export default class Home extends React.Component {
         //     .then(() => {
         //         console.log(store.getState().currentUser);
         //     });
+        this.fetchSubmissions();
     }
 
     getUsers() {
@@ -61,6 +62,41 @@ export default class Home extends React.Component {
                 console.error(error);
             });
     }
+
+    fetchSubmissions() {
+        store.dispatch(fetchUsers())
+           .then(() => {
+                var submissions = [], ids = store.getState().users.result;
+                var users = store.getState().users.entities.user;
+                
+                for (var i = 0; i < ids.length; i++) {
+                    var id = ids[i];
+                    if (users[id].hasOwnProperty("submissions")) {
+                        var tempSubmissions = users[id].submissions;
+
+                        for (var j = 0; j < tempSubmissions.length; j++) {
+                            var s = tempSubmissions[j];
+                            submissions.push({
+                                user: users[id].name,
+                                title: s.title,
+                                likes: s.likes
+                            });
+                        }
+                    }
+                }
+                this.panels = submissions;
+                console.log(this.panels);
+                this.forceUpdate();
+           })
+           .catch(error => {
+               console.error(error);
+           });
+    }
+
+    getCurrentUser() {
+
+    }
+
     /*
      *Fires after the component is mounted and the DOM is loaded
      *it would be useful to add event handlers here

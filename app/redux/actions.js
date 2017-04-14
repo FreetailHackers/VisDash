@@ -97,7 +97,6 @@ export const USER_BY_ID_SUCCESS = 'users/:id/SUCCESS';
 export const USER_BY_ID_FAILURE = 'users/:id/FAILURE';
 
 export function fetchUserById(id) {
-	console.log(id);
 	return {
 		[CALL_API]: {
 			endpoint: `/api/users/${id}`,
@@ -113,6 +112,38 @@ export function fetchUserById(id) {
 						}
 					}
 				},
+				{
+					type: USER_BY_ID_FAILURE,
+					meta: (action, state, res) => {
+						if (res) {
+							return {
+								status: res.status,
+								statusText: res.statusText
+							};
+						} else {
+							return {
+								status: 'Network request failed'
+							}
+						}
+					}
+				}
+			]
+		}
+	}
+}
+
+export const CURR_ID_REQUEST = '/whoami/REQUEST';
+export const CURR_ID_SUCCESS = '/whoami/SUCCESS';
+export const CURR_ID_FAILURE = '/whoami/FAILURE';
+
+export function fetchCurrentUserId() {
+	return {
+		[CALL_API]: {
+			endpoint: '/api/whoami',
+			method: 'GET',
+			types: [
+				CURR_ID_REQUEST,
+				CURR_ID_SUCCESS,
 				{
 					type: USER_BY_ID_FAILURE,
 					meta: (action, state, res) => {
