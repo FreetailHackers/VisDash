@@ -6,7 +6,7 @@ export default class LikeInfo extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			liked: false,
+			liked: this.props.id in store.getState().user.likes,
 		}
 		this.likeColors = {
 			liked: "#FF00FF",
@@ -20,6 +20,7 @@ export default class LikeInfo extends React.Component {
 	//checks if the submission is liked when the user is loaded
 	componentDidMount() {
 		//TODO: FINISH THIS
+		
 	}
 
 	//Changes the internal state, then sends to server
