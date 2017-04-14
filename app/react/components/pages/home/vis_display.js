@@ -4,9 +4,18 @@ import React from 'react';
 export default class VisDisplay extends React.Component {
 	render() {
         return (
-			<div className="canvas" id={this.props.canvasID}>
-				<canvas width="400" height="300"></canvas>
-            	{/*<Visualizer/>*/}
+			<div className="canvas">
+				<canvas id={this.props.canvasID} width="400" height="300"></canvas>
+				<script dangerouslySetInnerHTML={{__html:
+				`
+				console.log("TACOOOOOOOOOOOOS");
+				var canvas = document.getElementById("${this.props.canvasID}");
+				var ctx = canvas.getContext("2d");
+				ctx.fillStyle = "#FF0000";
+				ctx.fillRect(0,0,150,75);
+				`
+			}}>
+				</script>
 			</div>
         )
     }

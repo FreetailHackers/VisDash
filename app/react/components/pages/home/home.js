@@ -29,7 +29,7 @@ export default class Home extends React.Component {
     getUsers() {
         return store.dispatch(fetchUsers())
             .then(() => {
-                console.log("[LOG] Current state is: " + store.getState().users);
+                console.log(store.getState().users);
             })
             .catch(error => {
                 console.error(error);
@@ -48,12 +48,13 @@ export default class Home extends React.Component {
                         var tempSubmissions = users[id].submissions;
 
                         tempSubmissions.map((s) => {
-                            submissions.push({
-                                id: s._id,
-                                user: users[id].name,
-                                title: s.title,
-                                likes: s.likes
-                            });
+                          submissions.push({
+                              id: s._id,
+                              user: users[id].name,
+                              code: s.code,
+                              title: s.title,
+                              likes: s.likes
+                          });
                         })
                     }
                 }
@@ -77,7 +78,7 @@ export default class Home extends React.Component {
            if (this.state.likes != store.getState().user.likes) {
                 this.setState({likes: store.getState().user.likes});
            }
-       }) 
+       })
     }
 
     /*
@@ -94,7 +95,7 @@ export default class Home extends React.Component {
      upon a state change. No return or true return = AOK
      */
     shouldComponentUpdate(nextProps, nextState) {
-
+      return true;
     }
 
     handleTitleChange(id, title) {
@@ -121,7 +122,7 @@ export default class Home extends React.Component {
 			var items = [];
 			for (var i = 0; i < this.panels.length; i++) {
 				var panel = this.panels[i];
-				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} onTitleChange={this.handleTitleChange} onLike={this.handleLike} id={panel.id} key={panel.id}/>);
+				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} code={panel.code} onTitleChange={this.handleTitleChange} onLike={this.handleLike} id={panel.id} key={panel.id}/>);
 			}
 	        return (
 	            <div className="dashboard">
