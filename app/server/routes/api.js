@@ -45,7 +45,13 @@ module.exports = function(router) {
    */
   function isOwnerOrAdmin(req, res, next){
     var token = getToken(req);
-    var userId = req.params.id;
+    var userId;
+    if(req.params.userId) {
+      userId = req.params.userId;
+    } else {
+      userId = req.params.id;
+    }
+
 
     UserController.getByToken(token, function(err, user){
 

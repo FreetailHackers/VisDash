@@ -23,7 +23,7 @@ export default class Home extends React.Component {
     getUsers() {
         return store.dispatch(fetchUsers())
             .then(() => {
-                console.log(store.getState().users);
+                console.log("[LOG] Current state is: " + store.getState().users);
             })
             .catch(error => {
                 console.error(error);
@@ -113,7 +113,7 @@ export default class Home extends React.Component {
 			var items = [];
 			for (var i = 0; i < this.panels.length; i++) {
 				var panel = this.panels[i];
-				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} onTitleChange={this.handleTitleChange} onLike={this.handleLike} />);
+				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} onTitleChange={this.handleTitleChange} onLike={this.handleLike} key={panel.id}/>);
 			}
 	        return (
 	            <div className="dashboard">

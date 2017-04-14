@@ -2,7 +2,8 @@ import React from 'react';
 import ModalLogin from '../modal/login';
 import store from '../../../redux/store';
 import Editor from '../editor/editor';
-import { post }from '../../../comm/comm';
+import { post } from '../../../comm/comm';
+import { updateEditing } from '../../../redux/actions';
 
 export default class Login extends React.Component {
     constructor() {
@@ -25,6 +26,9 @@ export default class Login extends React.Component {
             let user = store.getState().user;
             if (this.state.user != user) {
                 this.setState({user: user})
+            }
+            if (store.getState().editing != this.state.editorShown) {
+                this.setState({editorShown: store.getState().editing});
             }
         })
     }
@@ -50,17 +54,21 @@ export default class Login extends React.Component {
     };
 
     showEditor() {
-		this.setState({editorShown: true});
+		//this.setState({editorShown: true});
+        store.dispatch(updateEditing(true));
 		console.log(this.state);
     }
     hideEditor() {
+		//this.setState({editorShown: false});
+        store.dispatch(updateEditing(false));
+		this.setState({editorShown: true});
+    }
+    hideEditor() {
 		this.setState({editorShown: false});
-		console.log(this.state);
     }
 
     render() {
         var current_user = this.state.user;
-        console.log(store.getState());
         var clickAction = null;
         if (this.state.modalIsOpen)
             clickAction = this.closeModal;

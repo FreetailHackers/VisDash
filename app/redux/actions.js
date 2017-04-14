@@ -14,6 +14,7 @@ export const LOAD_STORED_STATE = "LOAD_STORED_STATE";
 export const SET_TIME   = "SET_TIME";
 export const SET_VOLUME   = "SET_VOLUME";
 export const SET_DROP_DOWN = "SET_DROP_DOWN";
+export const SET_EDITING = "SET_EDITING"
 
 export function togglePlay() {
     return { type: TOGGLE_PLAY };
@@ -37,6 +38,10 @@ export function updateTime(time) {
 
 export function updateVolume(volume) {
     return {type: SET_VOLUME, volume: volume}
+}
+
+export function updateEditing(editing) {
+    return {type: SET_EDITING, editing: editing}
 }
 
 export function setDropdownStatus() {

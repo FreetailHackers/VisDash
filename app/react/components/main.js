@@ -1,5 +1,8 @@
 import React from 'react';
 import TopBar from './topbar/topbar';
+import Editor from './editor/editor';
+import store from '../../redux/store';
+import { updateEditing } from '../../redux/actions';
 
 export default class Main extends React.Component {
     /*
@@ -8,6 +11,9 @@ export default class Main extends React.Component {
      */
     constructor(props) {
         super();
+        this.state = {
+            editing: false,
+        }
     }
 
     /*
@@ -15,6 +21,12 @@ export default class Main extends React.Component {
      *it would be useful to add event handlers here
      */
     componentDidMount() {
+        this.setState({editing: store.getState().editing});
+        store.subscribe(() => {
+            if (store.getState().editing != this.state.editing) {
+                this.setState({editing: store.getState.editing});
+            }
+        })
     }
 
     /*
@@ -30,6 +42,7 @@ export default class Main extends React.Component {
      upon a state change. No return or true return = AOK
      */
     shouldComponentUpdate(nextProps, nextState) {
+      return true;
     }
 
     /*
@@ -41,6 +54,7 @@ export default class Main extends React.Component {
         return (
             <div>
                 <TopBar/>
+                {}
                 {this.props.children}
             </div>
         )
