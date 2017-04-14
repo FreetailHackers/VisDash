@@ -26,9 +26,7 @@ export default class Home extends React.Component {
                     var id = ids[i];
                     if (users[id].hasOwnProperty("submissions")) {
 						var tempSubmissions = users[id].submissions;
-
-						for (var j = 0; j < tempSubmissions.length; j++) {
-							var s = tempSubmissions[j];
+						tempSubmissions.map((s) => {
 							submissions.push({
 								user: users[id].name,
 								title: s.title,
@@ -38,7 +36,6 @@ export default class Home extends React.Component {
 					}
 				}
 				this.panels = submissions;
-				console.log("[LOG] Panels object: " + this.panels.toString());
 				this.forceUpdate();
  		   })
  		   .catch(error => {
