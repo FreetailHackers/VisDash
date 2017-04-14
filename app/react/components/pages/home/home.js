@@ -54,7 +54,6 @@ export default class Home extends React.Component {
                     }
                 }
                 this.panels = submissions;
-                console.log(this.panels);
                 this.forceUpdate();
            })
            .catch(error => {
