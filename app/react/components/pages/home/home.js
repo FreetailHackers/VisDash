@@ -26,17 +26,16 @@ export default class Home extends React.Component {
                 for (var i = 0; i < ids.length; i++) {
                     var id = ids[i];
                     if (users[id].hasOwnProperty("submissions")) {
-        	          var tempSubmissions = users[id].submissions;
-
-        						for (var j = 0; j < tempSubmissions.length; j++) {
-        							var s = tempSubmissions[j];
-        							submissions.push({
-                        id: id,
-        								user: users[id].name,
-        								title: s.title,
-        								likes: s.likes
-        							});
-        						}
+        	            var tempSubmissions = users[id].submissions;
+                        for (var j = 0; j < tempSubmissions.length; j++) {
+                            var s = tempSubmissions[j];
+                            submissions.push({
+                                id: id,
+                                user: users[id].name,
+                                title: s.title,
+                                likes: s.likes
+                            });
+                        }
 					}
 				}
 				this.panels = submissions;
@@ -52,6 +51,7 @@ export default class Home extends React.Component {
         //     .then(() => {
         //         console.log(store.getState().currentUser);
         //     });
+        this.fetchSubmissions();
     }
 
     getUsers() {
