@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { TOGGLE_PLAY, SET_TOKEN, SET_DROP_DOWN, SET_USER, SET_USER_AND_TOKEN, SET_TIME, SET_VOLUME, LOAD_STORED_STATE, 
     USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE,
-    USER_BY_ID_REQUEST, USER_BY_ID_SUCCESS, USER_BY_ID_FAILURE } from "./actions";
+    USER_BY_ID_REQUEST, USER_BY_ID_SUCCESS, USER_BY_ID_FAILURE, SET_EDITING } from "./actions";
 
 const initialState = {
     playing: false,
@@ -9,11 +9,16 @@ const initialState = {
     isFetching: false,
     isError: false,
     users: [],
-    currentUser: {}
+    currentUser: {},
+    editing: false,
 }
 
 function reducer(state = initialState, action) {
     switch(action.type) {
+        case SET_EDITING:
+            return Object.assign({}, state, {
+                editing: action.editing,
+            })
         case SET_TOKEN:
             return Object.assign({}, state, {
                 token: action.token,
