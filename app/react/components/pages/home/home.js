@@ -4,6 +4,8 @@ import store from '../../../../redux/store'
 import { fetchUsers, fetchUserById, setUser } from '../../../../redux/actions'
 import { get } from '../../../../comm/comm'
 
+import AlertContainer from 'react-alert';
+
 export default class Home extends React.Component {
     /*
      Initialize your component here. This usually involves creating
@@ -12,14 +14,22 @@ export default class Home extends React.Component {
     constructor(props) {
     	super();
 
-        this.state = {
-            likes: [],
-        }
+      this.alertOptions = {
+        offset: 14,
+        position: 'bottom left',
+        theme: 'light',
+        time: 5000,
+        transition: 'scale'
+      };
 
-        this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleLike = this.handleLike.bind(this);
-        this.getUsers = this.getUsers.bind(this);
-        this.fetchSubmissions = this.fetchSubmissions.bind(this);
+      this.state = {
+          likes: [],
+      }
+
+      this.handleTitleChange = this.handleTitleChange.bind(this);
+      this.handleLike = this.handleLike.bind(this);
+      this.getUsers = this.getUsers.bind(this);
+      this.fetchSubmissions = this.fetchSubmissions.bind(this);
 
 		this.panels = [];
 
@@ -32,7 +42,7 @@ export default class Home extends React.Component {
                 console.log(store.getState().users);
             })
             .catch(error => {
-                console.error(error);
+                this.showAlert();
             });
     }
 
@@ -118,6 +128,13 @@ export default class Home extends React.Component {
         this.forceUpdate();
     }
 
+    showAlert(){
+      msg.show('An Error Occured', {
+        time: 2000,
+        type: 'error'
+      });
+    }
+
     render() {
 		if (this.panels.length > 0) {
 			var items = [];
@@ -128,12 +145,14 @@ export default class Home extends React.Component {
 	        return (
 	            <div className="dashboard">
 	                { items }
+                  <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
 	            </div>
 	        )
 		} else {
 	        return (
 	            <div className="dashboard">
 	                <div className="empty">empty</div>
+                  <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
 	            </div>
 	        )
 		}
