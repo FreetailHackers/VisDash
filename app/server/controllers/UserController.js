@@ -255,8 +255,9 @@ UserController.getById = function (id, callback){
   * @param  {Function} callback       Callback with args (err, user)
   */
  UserController.pushLikeById = function (userId, submissionId, callback){
+   var found = false;
    User
-     .findById(id)
+     .findById(userId)
      .exec(function(err, user){
        if (err) {
          return callback(err);
@@ -269,38 +270,46 @@ UserController.getById = function (id, callback){
              });
            }
          }
-
-         user.update(
-           {$push: {
-             'likes': submissionId
-           }}
-         );
-
-         User.find({}).exec(function(err, bundle){
-           if (err) {
-             return callback(err);
-           }
-           if (bundle) {
-             for (let user of bundle){
-               for (let submission of user.submissions){
-                 if(submission == submissionId){
-                   submission.update(
-                     {$inc: {'likes': 1}}
-                   );
-                   return callback({
-                     message: 'Like recorded :)'
-                   });
-                 }
-               }
+         User.findOneAndUpdate({
+             _id: userId,
+           },
+           {
+             $push: {
+               'likes': submissionId
              }
-            }
-            return callback({
-              message: 'Submission not found'
-            });
-          });
+           },
+           {
+             new: true
+           }, function(){
+             User.find({}).exec(function(err, bundle){
+                 if (err) {
+                   return callback(err);
+                 }
+                 if (bundle) {
+                   for (let user of bundle){
+                     for (let submission of user.submissions){
+                       if(submission._id == submissionId){
+                         found = true;
+                         User.findById(user._id).then(user => {
+                          user.submissions.id(submissionId).likes = user.submissions.id(submissionId).likes + 1;
+                          user.save();
+                          callback(null, user);
+                        });
+                       }
+                     }
+                   }
+                  }
+                  if(! found){
+                  return callback(
+                    {
+                      message: 'Submission not found'
+                    });
+                  }
 
-       }
-     });
+                });
+             });
+           }
+         });
  };
 
  /**
