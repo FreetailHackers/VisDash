@@ -331,7 +331,34 @@ UserController.getById = function (id, callback){
   {
     new: true
   },
-  callback);
+  function(){
+    User.find({}).exec(function(err, bundle){
+        if (err) {
+          return callback(err);
+        }
+        if (bundle) {
+          for (let user of bundle){
+            for (let submission of user.submissions){
+              if(submission._id == submissionId){
+                found = true;
+                User.findById(user._id).then(user => {
+                 user.submissions.id(submissionId).likes = user.submissions.id(submissionId).likes - 1;
+                 user.save();
+                 callback(null, user);
+               });
+              }
+            }
+          }
+         }
+         if(! found){
+         return callback(
+           {
+             message: 'Submission not found'
+           });
+         }
+
+       });
+    });
  };
 
 
