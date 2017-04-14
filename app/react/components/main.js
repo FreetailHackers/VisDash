@@ -42,6 +42,7 @@ export default class Main extends React.Component {
      upon a state change. No return or true return = AOK
      */
     shouldComponentUpdate(nextProps, nextState) {
+      return true;
     }
 
     /*

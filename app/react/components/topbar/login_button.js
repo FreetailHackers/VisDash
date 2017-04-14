@@ -29,7 +29,6 @@ export default class Login extends React.Component {
             }
             if (store.getState().editing != this.state.editorShown) {
                 this.setState({editorShown: store.getState().editing});
-                console.log("passed")
             }
         })
     }
