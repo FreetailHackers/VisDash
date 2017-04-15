@@ -25,7 +25,6 @@ export default class EditorToolbar extends React.Component {
                     canSave = true;
             }
         }
-        console.log(canSave);
         return (
     			<div className="menubar">
                     { canSave ? (

@@ -14,7 +14,7 @@ export default class Editor extends React.Component {
 		this.submission_id = null;
 		this.editor_open = false;
 		this.waiting;
-        
+
         this.postNewSubmission = this.postNewSubmission.bind(this);
         this.forkSubmission = this.forkSubmission.bind(this);
 	}
@@ -37,6 +37,14 @@ export default class Editor extends React.Component {
 		});
   	}
 
+		deleteSubmission() {
+			var user = store.getState().user;
+			var submission = store.getState().submission;
+			console.log(submission);
+			httpdelete (`/api/users/${user.id}/submissions/${submission.submission_id}`, function(res) {
+				console.log(res);
+			});
+		}
   	forkSubmission() {
   		var user = store.getState().user;
   		var currSubmission = store.getState().submission;
@@ -96,11 +104,12 @@ export default class Editor extends React.Component {
 			}
 		})
     }
-    
+
     render() {
     	var currStore = store.getState(), toolbar = <EditorToolbar
 			title={this.props.title}
 			save={this.postNewSubmission}
+			del ={this.deleteSubmission}
 			fork={this.forkSubmission}
 			isShown={this.props.isShown} />;
 		if (this.editor && currStore.submission) {
@@ -111,9 +120,10 @@ export default class Editor extends React.Component {
 			this.editor.setValue(code);
 			toolbar = <EditorToolbar submissionId={this.submission_id}
 				title={currStore.submission.title}
-				save={this.postNewSubmission} 
+				save={this.postNewSubmission}
+				del ={this.deleteSubmission}
 				fork={this.forkSubmission}
-				isShown={this.props.isShown} />;
+				isShown={this.props.isShown} />
 		}
 		return (
 			<div id="editor" className={this.props.isShown ? "shown" : ""}>
