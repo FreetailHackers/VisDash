@@ -36,9 +36,14 @@ export default class EditorToolbar extends React.Component {
     				<input ref="title" type="text" value={this.props.title} placeholder="My cool visualizer" />
     				<div className="buttons">
     					{ canSave ? (
-                                <button className="run" title="Run" onClick={this.props.save}>
-        						    <i className="material-icons">play_arrow</i>
-        					    </button> 
+                                <span className="buttons">
+                                    <button className="run" title="Run" onClick={this.props.save}>
+                                        <i className="material-icons">play_arrow</i>
+                                    </button> 
+                                    <button className="del" title="Del" onClick={this.props.del}>
+                                        <i className="material-icons">delete</i>
+                                    </button> 
+                                </span>
                             ) : (
                                 <button className="fork" title="Fork" onClick={this.props.fork}>
                                     <i className="material-icons">get_app</i>
