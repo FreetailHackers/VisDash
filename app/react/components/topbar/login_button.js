@@ -41,21 +41,22 @@ export default class Login extends React.Component {
             let token = storeState.token;
             let user  = storeState.user;
             if (user) {
-                updateLoginOpen(false);
+                store.dispatch(updateLoginOpen(false));
             }
             if (token && !user) {
                 post("/auth/login", {token: token}, user => {
                     this.setState({user: user});
-                    updateLoginOpen(false);
+                    store.dispatch(updateLoginOpen(false));
                 });
             }
         }
     }
 
     toggleModal() {
-        loginOpen = store.getState().loginOpen;
+        var loginOpen = store.getState().loginOpen;
         store.dispatch(updateLoginOpen(!loginOpen));
     }
+
     showEditor() {
 		//this.setState({editorShown: true});
         store.dispatch(updateEditing(true));
@@ -68,13 +69,12 @@ export default class Login extends React.Component {
     render() {
         var current_user = this.state.user;
         var clickAction = null;
+        if (!current_user)
+            clickAction = this.toggleModal
         if (this.state.user && this.state.editorShown)
             clickAction = this.hideEditor;
         else if (this.state.user)
             clickAction = this.showEditor;
-        else
-            clickAction = this.toggleModal;
-
         return (
             <div>
                 <div className={this.state.editorShown ? "primary close" : "primary"} onClick={clickAction}>

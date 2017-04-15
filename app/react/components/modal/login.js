@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import store from '../../../redux/store';
-import { setUserAndToken } from '../../../redux/actions';
+import { setUserAndToken, updateLoginOpen } from '../../../redux/actions';
 import { post } from '../../../comm/comm';
 
 export default class ModalLogin extends React.Component {
@@ -19,13 +19,13 @@ export default class ModalLogin extends React.Component {
         post('/auth/login', form, user => {
             if (user.token) {
                 store.dispatch(setUserAndToken(user.user, user.token));
-                this.setState({loggedIn: true});
+                store.dispatch(updateLoginOpen(false));
             }
         })
         if (!this.state.loggedIn) {
             post('/auth/register', form, user => {
                 store.dispatch(setUserAndToken(user.user, user.token));
-                this.setState({loggedIn: true});
+                store.dispatch(updateLoginOpen(false));
             })
         }
 		e.preventDefault();

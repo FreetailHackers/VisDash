@@ -16,6 +16,7 @@ export const SET_VOLUME   = "SET_VOLUME";
 export const SET_DROP_DOWN = "SET_DROP_DOWN";
 export const SET_EDITING = "SET_EDITING"
 export const UPDATE_LOGIN_OPEN = "UPDATE_LOGIN_OPEN"
+export const CLEAR_DATA = "CLEAR_DATA"
 
 export function togglePlay() {
     return { type: TOGGLE_PLAY };
@@ -31,6 +32,10 @@ export function setUserAndToken(user, token) {
 
 export function setUser(user) {
     return {type: SET_USER, user: user}
+}
+
+export function clearData() {
+    return {type: CLEAR_DATA}
 }
 
 export function updateTime(time) {
