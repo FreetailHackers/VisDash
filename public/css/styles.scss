@@ -175,41 +175,6 @@ main {
 		width: 33.333%;
 	}
 	float: left;
-	.canvas {
-		background: #dedede;
-		font-size: 0;
-		position: relative;
-		canvas {
-			width: 100% !important; // overwrite the styling from p5
-			height: auto !important;
-			transition: all 0.3s ease-in-out;
-		}
-		.status {
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			background: rgba(255,255,255,0.8);
-			> div {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				text-align: center;
-				width: 100%;
-				opacity: 0.7;
-				i {
-					font-size: 50px;
-				}
-				div {
-					font-size: 14px;
-					margin-top: 1em;
-					padding: $pad;
-				}
-			}
-		}
-	}
 	.bottom {
 		position: relative;
 		.text {
@@ -242,6 +207,42 @@ main {
 						color: #ff00ff !important; // overwrites inline
 					}
 				}
+			}
+		}
+	}
+}
+
+.canvas {
+	background: #dedede;
+	font-size: 0;
+	position: relative;
+	canvas {
+		width: 100% !important; // overwrite the styling from p5
+		height: auto !important;
+		transition: all 0.3s ease-in-out;
+	}
+	.status {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(255,255,255,0.8);
+		> div {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			text-align: center;
+			width: 100%;
+			opacity: 0.7;
+			i {
+				font-size: 50px;
+			}
+			div {
+				font-size: 14px;
+				margin-top: 1em;
+				padding: $pad;
 			}
 		}
 	}
@@ -393,7 +394,7 @@ footer {
 	position: fixed;
 	bottom: 3em;
 	right: 12px;
-	z-index: 5;
+	z-index: 15;
 	border: 1px solid #b7b7b7;
 	background: #f5f7fa;
 	box-shadow: 0 4px 7px rgba(0,0,0,0.3), 0 5px 10px rgba(0,0,0,0.1);
@@ -445,8 +446,10 @@ footer {
 			text-align: left;
 			.hint {
 				text-align: center;
-				padding: 2em $pad;
-				border: 2px solid;
+				padding: 2em 0.5em;
+				border: 3px dashed;
+				margin: 0.3em;
+				border-radius: 10px;
 			}
 			> div {
 				padding: $pad;
@@ -552,6 +555,13 @@ $pad: 0.3em;
 				padding: $pad 2em;
 			}
 		}
+	}
+	#livepreview {
+		position: absolute;
+		bottom: 100px;
+		right: 10px;
+		width: 300px;
+		max-width: 90%;
 	}
 	#code {
 		margin: 0;
