@@ -4,8 +4,8 @@ import InputDropDown from './drop_down';
 import LoginButton from './login_button';
 import Primary from './primary_button';
 import NowPlaying from "./now_playing";
-import { updateTime, clearData } from "../../../redux/actions.js"
-import store from '../../../redux/store'
+import { updateTime, clearData, setNowPlaying } from "../../../redux/actions.js";
+import store from '../../../redux/store';
 
 
 export default class TopBar extends React.Component {
@@ -16,15 +16,57 @@ export default class TopBar extends React.Component {
             playbackProgress: 0,
 			dropDownOpen: false,
 			preparingToCloseDropDown: false,
+			song: "music",
+			title: "",
+			artist: "",
+			currSong: 0
         }
         this.scrub = this.scrub.bind(this);
 		this.logout = this.logout.bind(this);
 		this.openDropDown = this.openDropDown.bind(this);
 		this.requestCloseDropDown = this.requestCloseDropDown.bind(this);
-		setInterval(() => {
-			this.setState({ playbackProgress: song.currentTime()/song.duration() });
-		}, 200);
+		this.songs = [{
+			title: "Detrace",
+			artist: "Waterfront (ft. Skyloud)",
+			file: "DetraceWaterfront.mp3"
+		}, {
+			title: "Jazzy Frenchy",
+			artist: "Bensound",
+			file: "bensound-jazzyfrenchy.mp3"
+		}];
+		this.changeSong = this.changeSong.bind(this);
+		this.prevSong = this.prevSong.bind(this);
+		this.nextSong = this.nextSong.bind(this);
+		this.setSong = this.setSong.bind(this);
     }
+
+	changeSong(e) {
+		this.setSong(parseInt(e.target.id.replace("song", "")));
+	}
+
+	prevSong() {
+		this.setSong(this.state.currSong - 1);
+	}
+
+	nextSong() {
+		this.setSong(this.state.currSong + 1);
+	}
+
+	setSong(index) {
+		if (index < 0) index = 0;
+		else index %= this.songs.length;
+		this.setState({ currSong: index });
+		var selected = this.songs[index];
+		store.dispatch(setNowPlaying(selected));
+		song.stop();
+		//song.dispose();
+		song = p5stuff.i.loadSound("/audio/"+selected.file, () => {
+			song.play();
+			mic.stop();
+			fft.setInput(song);
+			amp.setInput(song);
+		});
+	}
 
 	componentDidMount() {
 		store.subscribe(() => {
@@ -32,7 +74,10 @@ export default class TopBar extends React.Component {
 			if (this.state.user != current_user) {
 				this.setState({user: current_user});
 			}
-		})
+		});
+		setInterval(() => {
+			this.setState({ playbackProgress: song.currentTime()/song.duration() });
+		}, 200);
 	}
 
 	openDropDown() {
@@ -73,12 +118,18 @@ export default class TopBar extends React.Component {
 		if (current_user_exists) {
 			logout = <button className="logout" onClick={this.logout}><i className="material-icons">exit_to_app</i></button>
 		}
+		var items = [];
+		for (var i = 0; i < this.songs.length; i++) {
+			items.push(<div key={i} onClick={this.changeSong} id={`song${i}`}>
+				{this.songs[i].title} - {this.songs[i].artist}
+			</div>);
+		}
         return (
         	<div id="bottom">
 				<div className="current">
-					<button className="prev"><i className="material-icons">skip_previous</i></button>
+					<button className="prev" onClick={this.prevSong}><i className="material-icons">skip_previous</i></button>
 					<NowPlaying artist="" title="" />
-					<button className="next"><i className="material-icons">skip_next</i></button>
+					<button className="next" onClick={this.nextSong}><i className="material-icons">skip_next</i></button>
 				</div>
 				<div className="progress">
 					<div style={{width:this.state.playbackProgress*100+"%"}}><div></div></div>
@@ -95,7 +146,8 @@ export default class TopBar extends React.Component {
 					</button>
 					<LoginButton/>
 				</div>
-				<InputDropDown open={this.state.dropDownOpen}
+				<InputDropDown items={items}
+								open={this.state.dropDownOpen}
 				               onMouseEnter={this.openDropDown}
 							   onMouseLeave={this.requestCloseDropDown}/>
 			</div>

@@ -33,7 +33,7 @@ export function setEditorCode(code, id) {
 }
 
 export function setNowPlaying(now_playing_object) {
-	return {type: SET_EDITOR_CODE, obj: now_playing_object};
+	return {type: SET_NOW_PLAYING, obj: now_playing_object};
 }
 
 export function setUserAndToken(user, token) {

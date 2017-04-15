@@ -443,6 +443,11 @@ footer {
 		}
 		.music {
 			text-align: left;
+			.hint {
+				text-align: center;
+				padding: 2em $pad;
+				border: 2px solid;
+			}
 			> div {
 				padding: $pad;
 				cursor: pointer;

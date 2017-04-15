@@ -16,7 +16,10 @@ const initialState = {
     loginOpen: false,
     user: null,
     code: "",
-    nowPlaying: null,
+    nowPlaying: {
+		title: "Detrace",
+		artist: "Waterfront (ft. Skyloud)"
+	},
 }
 
 function reducer(state = initialState, action) {
