@@ -9,7 +9,7 @@ export default class ModalLogin extends React.Component {
         super();
         this.submit = this.submit.bind(this);
         this.state = {
-            loggedIn: (store.getState().token != null),
+            loginOpen: store.getState().login_open,
         }
     }
 
@@ -34,9 +34,9 @@ export default class ModalLogin extends React.Component {
     //This page will automatically be togglable once the user is no longer logged in.
     componentDidMount() {
         store.subscribe(() => {
-            let userHasToken = (store.getState().token != null);
-            if (this.state.loggedIn != userHasToken) {
-                this.setState({loggedIn: userHasToken});
+            let login_open = store.getState().loginOpen;
+            if (this.state.loginOpen != login_open) {
+                this.setState({loginOpen: login_open});
             }
         })
     }
@@ -45,7 +45,7 @@ export default class ModalLogin extends React.Component {
         return (
             <div>
                 <Modal
-                    isOpen={this.props.isOpen && !this.state.loggedIn}
+                    isOpen={this.state.loginOpen}
                     onAfterOpen={this.props.onAfterOpen}
                     onRequestClose={this.props.onRequestClose}
                     contentLabel="Login">
