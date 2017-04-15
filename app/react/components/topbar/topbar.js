@@ -46,7 +46,7 @@ export default class TopBar extends React.Component {
 			if (this.state.preparingToCloseDropDown) {
 				this.closeDropDown();
 			}
-		}, 2000)
+		}, 200)
 	}
 
 	closeDropDown() {
