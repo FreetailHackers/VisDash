@@ -23,7 +23,7 @@ export default class Editor extends React.Component {
 		var submission = new Object();
 		this.setState({ code: this.editor.getValue() });
 
-		submission.title = "submission title";
+		submission.title = "untitled";
 		submission.code = this.state.code;
 		submission.likes = 0;
 
