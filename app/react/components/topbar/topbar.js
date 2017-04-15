@@ -1,8 +1,6 @@
 import React from 'react';
-import Toggle from './toggle_play';
 import InputDropDown from './drop_down';
 import LoginButton from './login_button';
-import Primary from './primary_button';
 import NowPlaying from "./now_playing";
 import { updateTime, clearData, setNowPlaying } from "../../../redux/actions.js";
 import store from '../../../redux/store';
@@ -53,19 +51,13 @@ export default class TopBar extends React.Component {
 	}
 
 	setSong(index) {
+		ld.status.innerHTML = "";
 		if (index < 0) index = 0;
 		else index %= this.songs.length;
 		this.setState({ currSong: index });
 		var selected = this.songs[index];
 		store.dispatch(setNowPlaying(selected));
-		song.stop();
-		//song.dispose();
-		song = p5stuff.i.loadSound("/audio/"+selected.file, () => {
-			song.play();
-			mic.stop();
-			fft.setInput(song);
-			amp.setInput(song);
-		});
+		p5stuff.loadAudio("/audio/"+selected.file);
 	}
 
 	componentDidMount() {

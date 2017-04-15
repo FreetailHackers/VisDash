@@ -156,7 +156,7 @@ module.exports = function(router) {
       if (err || !user){
         return res.status(400).send(err);
       }
-      return res.json(user);
+      return res.json({"_id" :user.submissions[user.submissions.length - 1]._id});
     });
   });
 

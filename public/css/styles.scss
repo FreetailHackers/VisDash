@@ -1,6 +1,6 @@
 $pad: 0.3em;
 $maindark: #1d2044;
-$textcolor: #69707a;
+$textcolor: #1fc8db; 
 
 html, body {
 	margin: 0;
@@ -9,7 +9,7 @@ html, body {
 	font-size: 16px;
 	line-height: 1.3;
 	background: white;
-	color: $textcolor;
+	color: #1fc8db;
 	background-color: #f5f7fa;
 }
 
@@ -67,7 +67,7 @@ nav {
 			top: 1em+1*$pad;
 			text-align: left;
 			padding-top: 2*$pad;
-			background: white;
+			background: #1d2044;
 			transition: 0.3s transform ease-in-out;
 			transform: translateY(-100%) translateY(-20px);
 			z-index: 1;
@@ -79,14 +79,14 @@ nav {
 				padding: $pad;
 				color: $textcolor;
 				&:hover {
-					color: $maindark;
+					color: #ea3e5a;
 				}
 			}
 		}
 		&:hover {
 			span {
 				position: relative;
-				background: white;
+				background: #1d2044;
 				color: $textcolor;
 			}
 			div {
@@ -276,7 +276,7 @@ footer {
 			top: 0;
 			padding: $pad*1.5;
 			&:hover {
-				color: $maindark;
+				color: #ea3e5a;
 			}
 		}
 		.prev {
@@ -431,7 +431,7 @@ footer {
 			cursor: pointer;
 		}
 		input:checked + label {
-			color: $maindark;
+			color: #ea3e5a;
 		}
 	}
 	.options {
@@ -558,11 +558,10 @@ $pad: 0.3em;
 	}
 	#livepreview {
 		position: absolute;
-		bottom: 10px;
+		bottom: 100px;
 		right: 10px;
 		width: 300px;
 		max-width: 90%;
-		color: $textcolor;
 	}
 	#code {
 		margin: 0;
@@ -641,4 +640,37 @@ input{
 	background-image: -webkit-linear-gradient(bottom, #AC219C 0%, #EB3E58 100%);
 	background-image: -ms-linear-gradient(bottom, #AC219C 0%, #EB3E58 100%);
 	background-image: linear-gradient(to bottom, #AC219C 0%, #EB3E58 100%);
+}
+
+#loading {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(255,255,255,0.6);
+	color: $textcolor;
+	z-index: 20;
+	> div {
+		padding: $pad;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 100%;
+		max-width: 500px;
+		transform: translate(-50%, -50%);
+	}
+	.number {
+		text-align: right;
+		font-size: 2.6em;
+	}
+	.bar {
+		border: 2px solid;
+		padding: 2px;
+		margin: $pad 0 1em 0;
+		div {
+			background: $textcolor;
+			height: 10px;
+		}
+	}
 }

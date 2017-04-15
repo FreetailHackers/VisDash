@@ -139,6 +139,10 @@ export default class Home extends React.Component {
 				var panel = this.panels[i];
 				items.push(<Panel user={panel.user} title={panel.title} likes={panel.likes} code={panel.code} onTitleChange={this.handleTitleChange} onLike={this.handleLike} id={panel.id} key={panel.id}/>);
 			}
+			for (let i = items.length; i; i--) {
+				let j = Math.floor(Math.random() * i);
+				[items[i - 1], items[j]] = [items[j], items[i - 1]];
+			}
 	        return (
 	            <div className="dashboard">
 	                { items }
