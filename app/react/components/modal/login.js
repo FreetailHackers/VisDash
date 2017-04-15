@@ -75,7 +75,6 @@ export default class ModalLogin extends React.Component {
                     		</form>
                     </div>
                 </Modal>
-                <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
             </div>
         )
     }
