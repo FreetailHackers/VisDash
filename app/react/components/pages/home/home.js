@@ -3,7 +3,6 @@ import Panel from './panel';
 import store from '../../../../redux/store'
 import { fetchUsers, fetchUserById, setUser } from '../../../../redux/actions'
 import { get } from '../../../../comm/comm'
-
 import AlertContainer from 'react-alert';
 
 export default class Home extends React.Component {

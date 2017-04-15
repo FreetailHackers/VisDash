@@ -6,6 +6,9 @@ export default class Editor extends React.Component {
 	constructor() {
 		super();
 		this.submit = this.submit.bind(this);
+		this.editor = null;
+		this.session = null;
+		this.submission_id = null;
 	}
 	submit() {
 		var form = {
@@ -47,6 +50,14 @@ export default class Editor extends React.Component {
 		this.session  = session;
     }
     render() {
+				if (this.editor != null) {
+					var curr_store = store.getState();
+					var code = curr_store.code;
+					if (this.submission_id != curr_store.submission_id) {
+						this.submission_id = curr_store.submission_id;
+						this.editor.setValue(code);
+					}
+				}
         return (
             <div id="editor" className={this.props.isShown ? "shown" : ""}>
 				<EditorToolbar title={this.props.title} />

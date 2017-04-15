@@ -1,6 +1,6 @@
 import React from 'react';
 import store from '../../../../redux/store'
-import { updateEditing } from '../../../../redux/actions'
+import { updateEditing, setEditorCode } from '../../../../redux/actions'
 
 // import Visualizer from './magical_p5_shit'
 
@@ -25,7 +25,7 @@ export default class VisDisplay extends React.Component {
 					// if this part of the lib? prefix it if so
 					if (p5stuff.things.indexOf(thing) > -1) thing = "p."+thing;
 					return thing;
-				})+';p.setup=function(){var c=p.createCanvas(400,300);c.drop(gotAudio);'
+				})+';p.setup=function(){p.createCanvas(400,300);'
 				+'if(typeof setup=="function")setup()};p.draw=draw;';
 				try {
 					var instance = new p5(new Function("p", code), this.props.canvasID);
@@ -49,6 +49,7 @@ export default class VisDisplay extends React.Component {
 	setEditorOn() {
 		if (store.getState().user) {
 			store.dispatch(updateEditing(true));
+			store.dispatch(setEditorCode(this.props.code, this.props.canvasID));
 		}
 	}
 	render() {

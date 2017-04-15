@@ -20,7 +20,6 @@ p5stuff.i = new p5(function(p) {
 		fft = new p5.FFT();
 		mic = new p5.AudioIn();
 		amp = new p5.Amplitude();
-		song.loop();
 		song.play();
 		mic.stop();
 		fft.setInput(song);
@@ -28,12 +27,11 @@ p5stuff.i = new p5(function(p) {
 		song.jump(0);
 		p5stuff.songLoaded = true;
 	}
-	p5stuff.gotAudio = function(file) {
-		song.dispose();
-		song = p.loadSound(file, function() {
-			// loaded!
-		});
-	}
+	p.select("html").drop(function(file) {
+		if (file.type == "audio") {
+			song = p.loadSound(file.data);
+		}
+	});
 });
 
 window.addEventListener("scroll", function() {
