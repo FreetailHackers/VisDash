@@ -57,12 +57,19 @@ export default class Editor extends React.Component {
 						this.submission_id = curr_store.submission_id;
 						this.editor.setValue(code);
 					}
-				}
-        return (
+					return (
             <div id="editor" className={this.props.isShown ? "shown" : ""}>
-				<EditorToolbar title={this.props.title} />
-				<pre id="code">{this.props.code}</pre>
+							<EditorToolbar submissionId={this.submission_id} code={this.editor.getValue()} title={this.props.title} />
+							<pre id="code">{this.props.code}</pre>
             </div>
-        )
+	        )
+				}
+				return (
+					<div id="editor" className={this.props.isShown ? "shown" : ""}>
+						<EditorToolbar code="DUMMY VALUE" title={this.props.title} />
+						<pre id="code">{this.props.code}</pre>
+					</div>
+				)
+
     }
 }

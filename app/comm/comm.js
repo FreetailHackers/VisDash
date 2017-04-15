@@ -6,7 +6,7 @@ function httpdo(type, url, data, callback) {
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.setRequestHeader("x-access-token", store.getState().token);
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
+        if (xhr.readyState == 4) {
             var json = JSON.parse(xhr.responseText);
             if (callback) {
                 callback(json);
@@ -27,4 +27,8 @@ export function post(url, data, callback) {
 
 export function httpdelete(url, data, callback) {
     httpdo('DELETE', url, data, callback)
+}
+
+export function put(url, data, callback) {
+    httpdo('PUT', url, data, callback)
 }
