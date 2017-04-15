@@ -1,12 +1,16 @@
 var song, mic, fft, amp, gotAudio, // shared variables
-	source = "file", songLoaded = false, p5instances = {},
-	gotAudio, p5things = []; // will contain p5 instance vars
+	source = "file", p5stuff = {
+		instances: {},
+		things: [], // will contain p5 instance vars
+		gotAudio,
+		songLoaded: false
+	};
 
 window.alert = window.confirm = window.prompt = function(){}; // disable annoying stuff
 
-var p = new p5(function(p) {
+p5stuff.i = new p5(function(p) {
 	// collect all vars now for faster lookup later
-	for (var t in p) p5things.push(t);
+	for (var t in p) p5stuff.things.push(t);
 	p.preload = function() {
 		song = p.loadSound("/audio/DetraceWaterfront.mp3");
 	}
@@ -21,9 +25,10 @@ var p = new p5(function(p) {
 		mic.stop();
 		fft.setInput(song);
 		amp.setInput(song);
-		songLoaded = true;
+		song.jump(0);
+		p5stuff.songLoaded = true;
 	}
-	gotAudio = function(file) {
+	p5stuff.gotAudio = function(file) {
 		song.dispose();
 		song = p.loadSound(file, function() {
 			// loaded!
@@ -34,14 +39,14 @@ var p = new p5(function(p) {
 window.addEventListener("scroll", function() {
 	var canvases = document.getElementsByClassName("canvas");
 	for (var i = 0; i < canvases.length; i++) {
-		var c = canvases[i];
-		if (p5instances[c.id]) {
+		var c = canvases[i], instance = p5stuff.instances[c.id];
+		if (instance) {
 			var p = c.offsetParent,
 				offset = p.offsetTop;
 			if (offset > document.body.scrollTop + document.documentElement.clientHeight || offset < document.body.scrollTop - p.offsetHeight) {
-				p5instances[c.id].noLoop();
+				instance.noLoop();
 			} else {
-				p5instances[c.id].loop();
+				instance.loop();
 			}
 		}
 	}

@@ -14,8 +14,8 @@ export default class InputDropDown extends React.Component {
         this.sourceChange = this.sourceChange.bind(this);
     }
 
-	scrub() {
-		store.dispatch(updateVolume(this.refs.scrubber.value));
+	scrub(e) {
+		p5stuff.i.masterVolume(parseFloat(e.target.value));
 	}
 
 	sourceChange(e) {
@@ -25,6 +25,7 @@ export default class InputDropDown extends React.Component {
 		switch (e.target.value) {
 			case "music":
 			case "file":
+				song.stop();
 				song.loop();
 				song.play();
 				mic.stop();
