@@ -1,8 +1,6 @@
 import React from 'react';
-import Toggle from './toggle_play';
 import InputDropDown from './drop_down';
 import LoginButton from './login_button';
-import Primary from './primary_button';
 import NowPlaying from "./now_playing";
 import { updateTime, clearData, setNowPlaying } from "../../../redux/actions.js";
 import store from '../../../redux/store';
