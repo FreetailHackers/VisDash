@@ -8,6 +8,12 @@ export default class VisDisplay extends React.Component {
 	constructor() {
 		super();
 		this.setEditorOn = this.setEditorOn.bind(this);
+		this.state = {
+			loaded: false,
+			overlay: true,
+			icon: "more_horiz",
+			text: "Loading..."
+		};
 	}
 	componentDidMount(props) {
 		var waiting = setInterval(() => {
@@ -22,8 +28,11 @@ export default class VisDisplay extends React.Component {
 				})+';p.setup=function(){var c=p.createCanvas(400,300);c.drop(gotAudio);'
 				+'if(typeof setup=="function")setup()};p.draw=draw;';
 				var instance = new p5(new Function("p", code), this.props.canvasID);
-				console.log(instance);
-				this.setState({ p5: instance });
+				this.setState({
+					p5: instance,
+					loaded: true,
+					//overlay: false
+				});
 			}
 		}, 10);
 	}
@@ -33,8 +42,19 @@ export default class VisDisplay extends React.Component {
 		}
 	}
 	render() {
+		var overlay, placeholder;
+		if (this.state.overlay) {
+			overlay = <div className="status">
+				<i className="material-icons">{this.state.icon}</i>
+				<div>{this.state.text}</div>
+			</div>
+		}
+		if (!this.state.loaded) placeholder = <canvas width="400" height="300"></canvas>
 		return (
-			<div className="canvas" onClick={this.setEditorOn} id={this.props.canvasID}></div>
+			<div className="canvas" onClick={this.setEditorOn} id={this.props.canvasID}>
+				{placeholder}
+				{overlay}
+			</div>
 		)
 	}
 }

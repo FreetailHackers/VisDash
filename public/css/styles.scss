@@ -158,10 +158,16 @@ main {
 	}
 }
 
+.dashboard {
+	padding-right: 1em;
+}
+
 .item {
 	background-color: #f5f7fa;
 	width: 100%;
 	position: relative;
+	padding: 1em 0 0 1em;
+    box-sizing: border-box;
 	@media (min-width: 400px) {
 		width: 50%;
 	}
@@ -178,7 +184,7 @@ main {
 			height: auto !important;
 			transition: all 0.3s ease-in-out;
 		}
-		.paused {
+		.status {
 			position: absolute;
 			top: 50%;
 			left: 50%;
