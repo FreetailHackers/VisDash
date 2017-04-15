@@ -641,3 +641,36 @@ input{
 	background-image: -ms-linear-gradient(bottom, #AC219C 0%, #EB3E58 100%);
 	background-image: linear-gradient(to bottom, #AC219C 0%, #EB3E58 100%);
 }
+
+#loading {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(255,255,255,0.6);
+	color: $textcolor;
+	z-index: 20;
+	> div {
+		padding: $pad;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 100%;
+		max-width: 500px;
+		transform: translate(-50%, -50%);
+	}
+	.number {
+		text-align: right;
+		font-size: 2.6em;
+	}
+	.bar {
+		border: 2px solid;
+		padding: 2px;
+		margin: $pad 0 1em 0;
+		div {
+			background: $textcolor;
+			height: 10px;
+		}
+	}
+}
