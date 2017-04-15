@@ -14,7 +14,9 @@ export default class Editor extends React.Component {
 		this.submission_id = null;
 		this.editor_open = false;
 		this.waiting;
+        
         this.postNewSubmission = this.postNewSubmission.bind(this);
+        this.forkSubmission = this.forkSubmission.bind(this);
 	}
 
     postNewSubmission() {
@@ -33,6 +35,26 @@ export default class Editor extends React.Component {
 		post(`/api/users/${user.id}/submissions`, wrapper, function(res) {
 			console.log(res);
 		});
+  	}
+
+  	forkSubmission() {
+  		var user = store.getState().user;
+  		var currSubmission = store.getState().submission;
+  		var fork = {
+  			title: currSubmission.title,
+  			code: currSubmission.code
+  		};
+
+  		var wrapper = new Object();
+  		wrapper.submission = fork;
+
+  		post(`/api/users/${user.id}/submissions`, wrapper, function(res) {
+  			if (res.status == 400) {
+  				console.log(res);
+  			} else {
+  				console.log("success!!");
+  			}
+  		});
   	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -79,9 +101,9 @@ export default class Editor extends React.Component {
     	var currStore = store.getState(), toolbar = <EditorToolbar
 			title={this.props.title}
 			save={this.postNewSubmission}
+			fork={this.forkSubmission}
 			isShown={this.props.isShown} />;
 		if (this.editor && currStore.submission) {
-			// console.log(currStore);
 			var code = currStore.submission.code || "";
 			if (this.submission_id != currStore.submission.submission_id) {
 				this.submission_id = currStore.submission.submission_id;
@@ -90,7 +112,8 @@ export default class Editor extends React.Component {
 			toolbar = <EditorToolbar submissionId={this.submission_id}
 				title={currStore.submission.title}
 				save={this.postNewSubmission} 
-				isShown={this.props.isShown} />
+				fork={this.forkSubmission}
+				isShown={this.props.isShown} />;
 		}
 		return (
 			<div id="editor" className={this.props.isShown ? "shown" : ""}>

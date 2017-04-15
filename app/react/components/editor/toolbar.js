@@ -33,7 +33,7 @@ export default class EditorToolbar extends React.Component {
         						    <i className="material-icons">play_arrow</i>
         					    </button> 
                             ) : (
-                                <button className="fork" title="Fork">
+                                <button className="fork" title="Fork" onClick={this.props.fork}>
                                     <i className="material-icons">get_app</i>
                                 </button> 
                             )

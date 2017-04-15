@@ -23,7 +23,7 @@ export default class LikeInfo extends React.Component {
 	componentDidMount() {
 		this.setState({likes: this.props.likes});
 		if (store.getState().user) {
-			this.setState({ liked: (store.getState().user.likes.includes(String(this.props.id)))});
+			this.setState({ liked: (store.getState().user.likes.includes(String(this.props.id))) });
 		}
 	}
 
