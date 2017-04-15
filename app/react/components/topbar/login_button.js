@@ -2,8 +2,8 @@ import React from 'react';
 import ModalLogin from '../modal/login';
 import store from '../../../redux/store';
 import Editor from '../editor/editor';
-import { post } from '../../../comm/comm';
-import { updateEditing, updateLoginOpen } from '../../../redux/actions';
+import { post, get } from '../../../comm/comm';
+import { setEditorState, updateEditing, updateLoginOpen } from '../../../redux/actions';
 
 export default class Login extends React.Component {
     constructor() {
@@ -35,20 +35,23 @@ export default class Login extends React.Component {
 
     //Sets this components user state if token is found
     attemptTokenLogin() {
-        if (this.state.user == null) {
-            /*Attempt to verify*/
-            let storeState = store.getState();
-            let token = storeState.token;
-            let user  = storeState.user;
-            if (user) {
-                store.dispatch(updateLoginOpen(false));
+        /*Attempt to verify*/   
+        console.log(user);        
+        get("/api/whoami", user => {
+            console.log(user);
+            if (user.status == 200) {
+                this.setState({user: user});
+                store.dispatch(setUser(user))
             }
-            if (token && !user) {
-                post("/auth/login", {token: token}, user => {
-                    this.setState({user: user});
-                    store.dispatch(updateLoginOpen(false));
-                });
+            else {
+                console.log(user.message);
             }
+        });
+        let storeState = store.getState();
+        let token = storeState.token;
+        let user  = storeState.user;
+        if (user) {
+            store.dispatch(updateLoginOpen(false));
         }
     }
 
@@ -59,6 +62,35 @@ export default class Login extends React.Component {
 
     showEditor() {
 		//this.setState({editorShown: true});
+        var submission = new Object();
+        submission.title = "submission title";
+        submission.code =
+`var mapMax = 1.0; 
+function setup() {
+    background(0);
+    fill(255);
+    noStroke();
+}
+function draw() {
+    background(0);
+    var level = amp.getLevel();
+    text("Amplitude: " + level, 20, 20);
+    text("mapMax: " + mapMax, 20, 40);
+    var ellipseHeight = map(level, 0, mapMax, height, 0);
+    ellipse(width/2, ellipseHeight, 100, 100);
+}`;
+        submission.likes = 0;
+
+        var wrapper = new Object();
+        wrapper.submission = submission;
+        post(`/api/users/${store.getState().user.id}/submissions/`, wrapper, output => {
+            store.dispatch(setEditorState({
+                title: submission.title,
+                id: output.id,
+                code: submission.code,
+            }))
+        });
+
         store.dispatch(updateEditing(true));
     }
     hideEditor() {
