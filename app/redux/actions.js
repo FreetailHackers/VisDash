@@ -18,6 +18,7 @@ export const SET_EDITING = "SET_EDITING";
 export const UPDATE_LOGIN_OPEN = "UPDATE_LOGIN_OPEN";
 export const CLEAR_DATA = "CLEAR_DATA";
 export const SET_EDITOR_CODE = "SET_EDITOR_CODE";
+export const SET_NOW_PLAYING = "SET_NOW_PLAYING";
 
 export function togglePlay() {
     return { type: TOGGLE_PLAY };
@@ -29,6 +30,10 @@ export function setToken(token) {
 
 export function setEditorCode(code, id) {
 	return {type: SET_EDITOR_CODE, code: code, submission_id: id}
+}
+
+export function setNowPlaying(now_playing_object) {
+	return {type: SET_EDITOR_CODE, obj: now_playing_object};
 }
 
 export function setUserAndToken(user, token) {
