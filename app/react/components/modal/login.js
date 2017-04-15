@@ -44,7 +44,7 @@ export default class ModalLogin extends React.Component {
     render() {
         return (
             <div>
-                <Modal
+                <Modal className = "loginmodal"
                     isOpen={this.state.loginOpen}
                     onAfterOpen={this.props.onAfterOpen}
                     onRequestClose={this.props.onRequestClose}
@@ -53,11 +53,12 @@ export default class ModalLogin extends React.Component {
                         You need to log in!
                         {/*I dont use a standard form here because I dont want
                         the page to refresh*/}
-                        <form ref="login" onSubmit={this.submit}>
-                            <input type="text" ref="email" name="email" />
-                            <input type="password" ref="password" name="password" />
-	                        <button type="submit">login</button>
-                        </form>
+
+                        <form class="form" ref="login" onSubmit={this.submit}>
+                    			<input type="text" ref="email" name="email" placeholder="E-mail Address"></input>
+                    			<input type="password" ref="password" name="password" placeholder="Password"></input>
+                    			<button type="submit" id="login-button" className = "login">Login or Sign Up</button>
+                    		</form>
                     </div>
                 </Modal>
             </div>
