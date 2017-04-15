@@ -26,14 +26,13 @@ export default class InputDropDown extends React.Component {
 			case "music":
 			case "file":
 				song.stop();
-				song.loop();
 				song.play();
 				mic.stop();
 				fft.setInput(song);
 				amp.setInput(song);
 				break;
 			case "mic":
-				mic.start();
+				if (mic.enabled) mic.start();
 				song.stop();
 				fft.setInput(mic);
 				amp.setInput(mic);
@@ -42,21 +41,23 @@ export default class InputDropDown extends React.Component {
 	}
 
     render() {
-		var panel;
+		var panel, volume = <div className="volume">
+			<input type="range" min="0" max="1" step="0.01" ref="scrubber" onChange={this.scrub} />
+		</div>;
 		switch (this.state.optionPane) {
 			case "music":
-				panel = <MediaPlaylist />
+				panel = <MediaPlaylist />;
 				break;
 			case "mic":
-				panel = <MicPrompt />
+				panel = <MicPrompt />;
+				volume = null;
 				break;
 			case "file":
-				panel = <FilePicker />
+				panel = <FilePicker />;
 				break;
 		}
         return (
             <div id="media" onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} className = {this.props.open ? "open" : ""}>
-				<strong>Source</strong>
 				<div className="type">
 					<input type="radio" name="input" value="music" id="musicinput" checked={this.state.optionPane == "music"} onChange={this.sourceChange} />
 					<label htmlFor="musicinput" title="Playlist"><i className="material-icons">queue_music</i></label>
@@ -66,10 +67,7 @@ export default class InputDropDown extends React.Component {
 					<label htmlFor="fileinput" title="File"><i className="material-icons">insert_drive_file</i></label>
 				</div>
 				<div className="options">{panel}</div>
-				<strong>Volume</strong>
-				<div className="volume">
-					<input type="range" min="0" max="1" step="0.01" ref="scrubber" onChange={this.scrub} />
-				</div>
+				{volume}
 				<div className="cover"></div>
 			</div>
         )

@@ -36,7 +36,7 @@ nav {
 	position: relative;
 	color: white;
 	padding: $pad;
-	z-index: 5;
+	z-index: 3;
 	.cover {
 		position: absolute;
 		top: 0;
@@ -404,6 +404,7 @@ footer {
     transform-origin: 57% bottom; // (200-86)/200*100
 	opacity: 0;
 	visibility: hidden;
+	padding: $pad 0;
 	&.open {
 		transform: none;
 		opacity: 1;
@@ -416,12 +417,6 @@ footer {
 		width: 40px;
 		height: 20px;
 		margin-right: -20px;
-	}
-	strong {
-		text-transform: uppercase;
-		font-size: 0.8em;
-		padding: $pad;
-		display: block;
 	}
 	.type {
 		input {
@@ -468,25 +463,7 @@ footer {
 			}
 		}
 		.file {
-			margin: $pad;
-			padding: 2em $pad;
-			border-radius: 5px;
-			border: 2px dashed;
-			position: relative;
-			overflow: hidden;
-			button {
-				display: inline;
-				padding: 0.3em 0.5em;
-			}
-			input {
-				display: block;
-				position: absolute;
-				top: 0;
-				left: 0;
-				border: 999px solid;
-				opacity: 0;
-				cursor: pointer;
-			}
+			padding: $pad;
 		}
 	}
 	.volume {
@@ -533,40 +510,47 @@ $pad: 0.3em;
 	transform-origin: bottom right;
 	visibility: hidden;
 	position: fixed;
-	top: 30px;
 	bottom: 88px;
-	z-index: 2;
+	z-index: 10;
 	opacity: 0;
 	&.shown {
 		transform: none;
 		opacity: 1;
 		visibility: visible;
 	}
-	.tools {
+	.menubar {
 		input, button {
-			position: absolute;
 			padding: $pad;
 			font-size: 1.2em;
 			border: 0;
 			line-height: 1;
 			display: block;
+			color: $maindark;
 		}
 		input {
+			position: absolute;
 			width: 100%;
 			box-sizing: border-box;
 			padding-right: $pad*2+3;
 		}
-		button {
+		.buttons {
+			position: absolute;
 			right: 0;
-			width: 3em;
 			i {
 				font-size: 1em;
+				line-height: 1.2;
+			}
+			button {
+				cursor: pointer;
+			}
+			.run {
+				padding: $pad 2em;
 			}
 		}
 	}
 	#code {
 		margin: 0;
-		top: $pad*5+1.2;
+		top: 34px;
 		.readonly {
 			background: red;
 			opacity: 0.2;
