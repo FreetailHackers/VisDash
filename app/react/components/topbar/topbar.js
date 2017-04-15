@@ -51,19 +51,13 @@ export default class TopBar extends React.Component {
 	}
 
 	setSong(index) {
+		ld.status.innerHTML = "";
 		if (index < 0) index = 0;
 		else index %= this.songs.length;
 		this.setState({ currSong: index });
 		var selected = this.songs[index];
 		store.dispatch(setNowPlaying(selected));
-		song.stop();
-		//song.dispose();
-		song = p5stuff.i.loadSound("/audio/"+selected.file, () => {
-			song.play();
-			mic.stop();
-			fft.setInput(song);
-			amp.setInput(song);
-		});
+		p5stuff.loadAudio("/audio/"+selected.file);
 	}
 
 	componentDidMount() {
