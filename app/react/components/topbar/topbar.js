@@ -5,7 +5,8 @@ import InputDropDown from './drop_down';
 import LoginButton from './login_button';
 import Primary from './primary_button';
 import NowPlaying from "./now_playing";
-import updateTime from "../../../redux/actions.js"
+import { updateTime, setUser } from "../../../redux/actions.js"
+import store from '../../../redux/store'
 
 
 export default class TopBar extends React.Component {
@@ -17,6 +18,7 @@ export default class TopBar extends React.Component {
 			preparingToCloseDropDown: false,
         }
         this.scrub = this.scrub.bind(this);
+		this.logout = this.logout.bind(this);
 		this.openDropDown = this.openDropDown.bind(this);
 		this.requestCloseDropDown = this.requestCloseDropDown.bind(this);
     }
@@ -44,11 +46,21 @@ export default class TopBar extends React.Component {
 		})
 	}
 
+	logout() {
+		store.dispatch(setUser(null));
+		//console.log(store.getState());
+	}
+
 	scrub() {
 		store.dispatch(updateTime(this.refs.scrubber.value));
 	}
 
     render() {
+		var current_user_exists = store.getState().user != null;
+		var logout = null;
+		if (current_user_exists) { 
+			logout = <button className="logout" onClick={this.logout}><i className="material-icons">exit_to_app</i></button> 
+		}
         return (
         	<div id="bottom">
 				<div className="current">
@@ -62,6 +74,7 @@ export default class TopBar extends React.Component {
 				</div>
 				<div className="controls">
 					<a href="/">saffron</a>
+					{ logout }
 					<button className="repeat"><i className="material-icons">repeat</i></button>
 					<button onMouseEnter={this.openDropDown} 
 					        onMouseLeave={this.requestCloseDropDown} 

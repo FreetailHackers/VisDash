@@ -22,6 +22,8 @@ export default class Login extends React.Component {
 
     componentDidMount() {
         this.attemptTokenLogin();
+        let user = store.getState().user;
+        this.setState({user: user});
         store.subscribe(() => {
             let user = store.getState().user;
             if (this.state.user != user) {
