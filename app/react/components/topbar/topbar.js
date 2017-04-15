@@ -1,27 +1,39 @@
 import React from 'react';
-import HomeButton from './home_button';
 import Toggle from './toggle_play';
 import InputDropDown from './drop_down';
 import LoginButton from './login_button';
 import Primary from './primary_button';
 import NowPlaying from "./now_playing";
-import { updateTime, setUser } from "../../../redux/actions.js"
+import { updateTime, clearData } from "../../../redux/actions.js"
 import store from '../../../redux/store'
 
 
 export default class TopBar extends React.Component {
     constructor() {
         super();
-        this.state={
+        this.state = {
+			user: store.getState().user,
             playbackProgress: 0,
-      			dropDownOpen: false,
-      			preparingToCloseDropDown: false,
+			dropDownOpen: false,
+			preparingToCloseDropDown: false,
         }
         this.scrub = this.scrub.bind(this);
-    		this.logout = this.logout.bind(this);
-    		this.openDropDown = this.openDropDown.bind(this);
-    		this.requestCloseDropDown = this.requestCloseDropDown.bind(this);
+		this.logout = this.logout.bind(this);
+		this.openDropDown = this.openDropDown.bind(this);
+		this.requestCloseDropDown = this.requestCloseDropDown.bind(this);
+		setInterval(() => {
+			this.setState({ playbackProgress: song.currentTime()/song.duration() });
+		}, 200);
     }
+
+	componentDidMount() {
+		store.subscribe(() => {
+			var current_user = store.getState().user;
+			if (this.state.user != current_user) {
+				this.setState({user: current_user});
+			}
+		})
+	}
 
 	openDropDown() {
 		this.setState({
@@ -36,7 +48,7 @@ export default class TopBar extends React.Component {
 			if (this.state.preparingToCloseDropDown) {
 				this.closeDropDown();
 			}
-		}, 2000)
+		}, 200)
 	}
 
 	closeDropDown() {
@@ -47,16 +59,16 @@ export default class TopBar extends React.Component {
 	}
 
 	logout() {
-		store.dispatch(setUser(null));
-		//console.log(store.getState());
+		store.dispatch(clearData());
+		console.log(store.getState());
 	}
 
 	scrub() {
-		store.dispatch(updateTime(this.refs.scrubber.value));
+		song.jump(this.refs.scrubber.value*song.duration());
 	}
 
     render() {
-		var current_user_exists = store.getState().user != null;
+		var current_user_exists = this.state.user != null;
 		var logout = null;
 		if (current_user_exists) {
 			logout = <button className="logout" onClick={this.logout}><i className="material-icons">exit_to_app</i></button>

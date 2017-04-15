@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { TOGGLE_PLAY, SET_TOKEN, SET_DROP_DOWN, SET_USER, SET_USER_AND_TOKEN, SET_TIME, SET_VOLUME, LOAD_STORED_STATE, 
     USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE,
     USER_BY_ID_REQUEST, USER_BY_ID_SUCCESS, USER_BY_ID_FAILURE,
-    CURR_ID_REQUEST, CURR_ID_SUCCESS, CURR_ID_FAILURE, SET_EDITING } from "./actions";
+    CURR_ID_REQUEST, CURR_ID_SUCCESS, CURR_ID_FAILURE, SET_EDITING, UPDATE_LOGIN_OPEN, CLEAR_DATA, SET_EDITOR_CODE } from "./actions";
 
 const initialState = {
     playing: false,
@@ -13,13 +13,22 @@ const initialState = {
     fetchedUser: {},
     currentId: '',
     editing: false,
+    loginOpen: false,
+    user: null,
+    code: "",
 }
 
 function reducer(state = initialState, action) {
     switch(action.type) {
+        case CLEAR_DATA:
+            return Object.assign({}, state, initialState)
         case SET_EDITING:
             return Object.assign({}, state, {
                 editing: action.editing,
+            })
+        case SET_EDITOR_CODE:
+            return Object.assign({}, state, {
+                code: action.code,
             })
         case SET_TOKEN:
             return Object.assign({}, state, {
@@ -87,6 +96,10 @@ function reducer(state = initialState, action) {
                 isFetching: false,
                 isError: true,
                 fetchedUser: null
+            })
+        case UPDATE_LOGIN_OPEN:
+            return Object.assign({}, state, {
+                loginOpen: action.login_open,
             })
         case CURR_ID_REQUEST:
             return Object.assign({}, state, {
