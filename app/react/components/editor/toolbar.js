@@ -18,14 +18,22 @@ export default class EditorToolbar extends React.Component {
         if (this.props.isShown) {
             var userSubmissions = store.getState().user.submissions;
             var currSubmissionId = this.props.submissionId;
+            console.log()
             
             for(let sub of userSubmissions) {
                 if (sub._id == currSubmissionId)
                     canSave = true;
             }
         }
+        console.log(canSave);
         return (
     			<div className="menubar">
+                    { canSave ? (
+                            <input ref="title" type="text" value={this.props.title} placeholder="My cool visualizer" />
+                        ) : (
+                            <input ref="title" type="text" value={this.props.title} placeholder="My cool visualizer" readOnly />
+                        )
+                    }
     				<input ref="title" type="text" value={this.props.title} placeholder="My cool visualizer" />
     				<div className="buttons">
     					{ canSave ? (
@@ -35,7 +43,7 @@ export default class EditorToolbar extends React.Component {
                             ) : (
                                 <button className="fork" title="Fork" onClick={this.props.fork}>
                                     <i className="material-icons">get_app</i>
-                                </button> 
+                                </button>
                             )
                         }
     				</div>
