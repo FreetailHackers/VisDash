@@ -11,17 +11,19 @@ import store from '../../../redux/store'
 export default class TopBar extends React.Component {
     constructor() {
         super();
-        this.state={
+        this.state = {
 			user: store.getState().user,
             playbackProgress: 0,
 			dropDownOpen: false,
 			preparingToCloseDropDown: false,
-			
         }
         this.scrub = this.scrub.bind(this);
-    		this.logout = this.logout.bind(this);
-    		this.openDropDown = this.openDropDown.bind(this);
-    		this.requestCloseDropDown = this.requestCloseDropDown.bind(this);
+		this.logout = this.logout.bind(this);
+		this.openDropDown = this.openDropDown.bind(this);
+		this.requestCloseDropDown = this.requestCloseDropDown.bind(this);
+		setInterval(() => {
+			this.setState({ playbackProgress: song.currentTime()/song.duration() });
+		}, 20);
     }
 
 	componentDidMount() {
@@ -62,7 +64,7 @@ export default class TopBar extends React.Component {
 	}
 
 	scrub() {
-		store.dispatch(updateTime(this.refs.scrubber.value));
+		song.jump(this.refs.scrubber.value*song.duration());
 	}
 
     render() {
