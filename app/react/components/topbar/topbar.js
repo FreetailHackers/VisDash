@@ -138,7 +138,6 @@ export default class TopBar extends React.Component {
 				<div className="controls">
 					<a href="/">saffron</a>
 					{ logout }
-					<button className="repeat"><i className="material-icons">repeat</i></button>
 					<button onMouseEnter={this.openDropDown}
 					        onMouseLeave={this.requestCloseDropDown}
 							className="media">
