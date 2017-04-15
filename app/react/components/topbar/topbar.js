@@ -23,7 +23,7 @@ export default class TopBar extends React.Component {
 		this.requestCloseDropDown = this.requestCloseDropDown.bind(this);
 		setInterval(() => {
 			this.setState({ playbackProgress: song.currentTime()/song.duration() });
-		}, 20);
+		}, 200);
     }
 
 	componentDidMount() {
