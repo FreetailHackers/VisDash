@@ -51,6 +51,27 @@
 			&times;
 			<strong>Freetail Hackers</strong>
 		</footer>
+		<div id="loading">
+			<div>
+				<div class="number" id="loadingnumber">waiting</div>
+				<div class="bar"><div style="width:0" id="loadingbar"></div></div>
+				<div class="status" id="loadingstatus">
+					<div>Waiting...</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		var ld = {
+			container: document.getElementById("loading"),
+			status: document.getElementById("loadingstatus"),
+			number: document.getElementById("loadingnumber"),
+			bar: document.getElementById("loadingbar"),
+			percent: 0,
+			text: "Loading scripts..."
+		}, line = document.createElement("div");
+		line.innerHTML = ld.text;
+		ld.status.insertBefore(line, ld.status);
+		</script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/addons/p5.dom.min.js"></script>
