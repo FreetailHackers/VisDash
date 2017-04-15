@@ -8,6 +8,7 @@ export default class LikeInfo extends React.Component {
 		this.state = {
 			liked: false,
 			likes: 0,
+			user_logged_in: false,
 		}
 		this.likeColors = {
 			liked: "#FF00FF",
@@ -23,8 +24,24 @@ export default class LikeInfo extends React.Component {
 	componentDidMount() {
 		this.setState({likes: this.props.likes});
 		if (store.getState().user) {
-			this.setState({ liked: (store.getState().user.likes.includes(String(this.props.id)))});
+			this.setState({ 
+				liked: (store.getState().user.likes.includes(String(this.props.id))),
+				user_logged_in: true,
+			});
 		}
+		else {
+			this.setState({
+				user_logged_in: false,
+			})
+		}
+		store.subscribe(() => {
+			var current_user = store.getState().user;
+			if ((current_user != null) == this.state.user_logged_in) {
+				this.setState({
+					user_logged_in: (current_user != null),
+				});
+			}
+		})
 	}
 
 	tempUpdateLikes(liked) {
