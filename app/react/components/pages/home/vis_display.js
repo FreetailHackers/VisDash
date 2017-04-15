@@ -20,11 +20,9 @@ export default class VisDisplay extends React.Component {
 		this.updateCode(this.props.code);
 	}
 	componentWillReceiveProps(props) {
-		console.log(props);
 		this.updateCode(props.code);
 	}
 	updateCode(code) {
-		console.log(code);
 		var waiting = setInterval(() => {
 			if (p5stuff.songLoaded) {
 				if (this.state.p5) this.state.p5.noLoop();
@@ -51,7 +49,6 @@ export default class VisDisplay extends React.Component {
 					});
 					p5stuff.instances[this.props.canvasID] = instance;
 				} catch (e) {
-					console.log(e);
 					if (this.state.p5) this.state.p5.noLoop();
 					this.setState({
 						overlay: true,
@@ -76,7 +73,7 @@ export default class VisDisplay extends React.Component {
 				<div>{this.state.text}</div>
 			</div></div>
 		}
-		if (!this.state.loaded) placeholder = <canvas width="400" height="300"></canvas>
+		if (!this.state.loaded || this.state.overlay) placeholder = <canvas width="400" height="300"></canvas>
 		return (
 			<div className="canvas" onClick={this.setEditorOn} id={this.props.canvasID} ref="container">
 				{placeholder}

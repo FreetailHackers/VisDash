@@ -21,7 +21,9 @@ export default class Editor extends React.Component {
 		var user = store.getState().user;
 
 		var submission = new Object();
-		submission.title = "submission title";
+		this.setState({ code: this.editor.getValue() });
+
+		submission.title = "untitled";
 		submission.code = this.state.code;
 		submission.likes = 0;
 
@@ -31,13 +33,12 @@ export default class Editor extends React.Component {
 		post(`/api/users/${user.id}/submissions`, wrapper, function(res) {
 			console.log(res);
 		});
-
-		this.setState({ code: this.editor.getValue() });
   	}
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return this.state != nextState;
 	}
+
 	componentDidMount() {
 		var editor = ace.edit("code"),
 			session  = editor.getSession();
@@ -73,10 +74,12 @@ export default class Editor extends React.Component {
 			}
 		})
     }
+    
     render() {
     	var currStore = store.getState(), toolbar = <EditorToolbar
 			title={this.props.title}
-			save={this.postNewSubmission} />;
+			save={this.postNewSubmission}
+			isShown={this.props.isShown} />;
 		if (this.editor && currStore.submission) {
 			// console.log(currStore);
 			var code = currStore.submission.code || "";
@@ -86,7 +89,8 @@ export default class Editor extends React.Component {
 			this.editor.setValue(code);
 			toolbar = <EditorToolbar submissionId={this.submission_id}
 				title={currStore.submission.title}
-				save={this.postNewSubmission} />
+				save={this.postNewSubmission} 
+				isShown={this.props.isShown} />
 		}
 		return (
 			<div id="editor" className={this.props.isShown ? "shown" : ""}>

@@ -17,7 +17,7 @@ const initialState = {
     user: null,
     submission: { 
         title: "untitled",
-        code: "" 
+        code: ""
     },
     nowPlaying: {
 		title: "Detrace",
