@@ -54,7 +54,6 @@ export default class Main extends React.Component {
         return (
             <div>
                 <TopBar/>
-                {}
                 {this.props.children}
             </div>
         )

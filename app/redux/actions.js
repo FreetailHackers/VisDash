@@ -17,6 +17,7 @@ export const SET_DROP_DOWN = "SET_DROP_DOWN";
 export const SET_EDITING = "SET_EDITING"
 export const UPDATE_LOGIN_OPEN = "UPDATE_LOGIN_OPEN"
 export const CLEAR_DATA = "CLEAR_DATA"
+export const SET_EDITOR_CODE = "SET_EDITOR_CODE";
 
 export function togglePlay() {
     return { type: TOGGLE_PLAY };
@@ -24,6 +25,10 @@ export function togglePlay() {
 
 export function setToken(token) {
     return {type: SET_TOKEN, token: token}
+}
+
+export function setEditorCode(code) {
+	return {type: SET_EDITOR_CODE, code: code}
 }
 
 export function setUserAndToken(user, token) {
