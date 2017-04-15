@@ -27,12 +27,22 @@ export default class VisDisplay extends React.Component {
 					return thing;
 				})+';p.setup=function(){var c=p.createCanvas(400,300);c.drop(gotAudio);'
 				+'if(typeof setup=="function")setup()};p.draw=draw;';
-				var instance = new p5(new Function("p", code), this.props.canvasID);
-				this.setState({
-					p5: instance,
-					loaded: true,
-					//overlay: false
-				});
+				try {
+					var instance = new p5(new Function("p", code), this.props.canvasID);
+					this.setState({
+						p5: instance,
+						loaded: true,
+						overlay: false
+					});
+					p5instances[this.props.canvasID] = instance;
+				} catch (e) {
+					if (this.state.p5) this.state.p5.noLoop();
+					this.setState({
+						overlay: true,
+						icon: "error",
+						text: "There was an error running this code"
+					});
+				}
 			}
 		}, 10);
 	}
@@ -43,10 +53,10 @@ export default class VisDisplay extends React.Component {
 	render() {
 		var overlay, placeholder;
 		if (this.state.overlay) {
-			overlay = <div className="status">
+			overlay = <div className="status"><div>
 				<i className="material-icons">{this.state.icon}</i>
 				<div>{this.state.text}</div>
-			</div>
+			</div></div>
 		}
 		if (!this.state.loaded) placeholder = <canvas width="400" height="300"></canvas>
 		return (

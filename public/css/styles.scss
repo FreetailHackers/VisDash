@@ -186,19 +186,27 @@ main {
 		}
 		.status {
 			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			text-align: center;
-			width: 100%;
-			opacity: 0.7;
-			i {
-				font-size: 50px;
-			}
-			div {
-				font-size: 14px;
-				margin-top: 1em;
-				padding: $pad;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(255,255,255,0.8);
+			> div {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				text-align: center;
+				width: 100%;
+				opacity: 0.7;
+				i {
+					font-size: 50px;
+				}
+				div {
+					font-size: 14px;
+					margin-top: 1em;
+					padding: $pad;
+				}
 			}
 		}
 	}

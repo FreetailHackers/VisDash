@@ -1,5 +1,5 @@
 var song, mic, fft, amp, gotAudio, // shared variables
-	source = "file", songLoaded = false,
+	source = "file", songLoaded = false, p5instances = {},
 	gotAudio, p5things = []; // will contain p5 instance vars
 
 window.alert = window.confirm = window.prompt = function(){}; // disable annoying stuff
@@ -16,20 +16,11 @@ var p = new p5(function(p) {
 		fft = new p5.FFT();
 		mic = new p5.AudioIn();
 		amp = new p5.Amplitude();
-		if (source == "file") {
-			fft = new p5.FFT();
-			song.loop();
-			song.play();
-			mic.stop();
-			fft.setInput(song);
-			amp.setInput(song);
-		} else if (source == "mic") {
-			fft = new p5.FFT();
-			mic.start();
-			song.stop();
-			fft.setInput(mic);
-			amp.setInput(mic);
-		}
+		song.loop();
+		song.play();
+		mic.stop();
+		fft.setInput(song);
+		amp.setInput(song);
 		songLoaded = true;
 	}
 	gotAudio = function(file) {
@@ -37,5 +28,21 @@ var p = new p5(function(p) {
 		song = p.loadSound(file, function() {
 			// loaded!
 		});
+	}
+});
+
+window.addEventListener("scroll", function() {
+	var canvases = document.getElementsByClassName("canvas");
+	for (var i = 0; i < canvases.length; i++) {
+		var c = canvases[i];
+		if (p5instances[c.id]) {
+			var p = c.offsetParent,
+				offset = p.offsetTop;
+			if (offset > document.body.scrollTop + document.documentElement.clientHeight || offset < document.body.scrollTop - p.offsetHeight) {
+				p5instances[c.id].noLoop();
+			} else {
+				p5instances[c.id].loop();
+			}
+		}
 	}
 });
