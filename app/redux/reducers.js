@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { TOGGLE_PLAY, SET_TOKEN, SET_DROP_DOWN, SET_USER, SET_USER_AND_TOKEN, SET_TIME, SET_VOLUME, LOAD_STORED_STATE,
     USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE,
     USER_BY_ID_REQUEST, USER_BY_ID_SUCCESS, USER_BY_ID_FAILURE,
-    CURR_ID_REQUEST, CURR_ID_SUCCESS, CURR_ID_FAILURE, SET_EDITING, UPDATE_LOGIN_OPEN, CLEAR_DATA, SET_EDITOR_CODE } from "./actions";
+    CURR_ID_REQUEST, CURR_ID_SUCCESS, CURR_ID_FAILURE, SET_EDITING, UPDATE_LOGIN_OPEN, CLEAR_DATA, SET_EDITOR_CODE, SET_NOW_PLAYING } from "./actions";
 
 const initialState = {
     playing: false,
@@ -16,6 +16,7 @@ const initialState = {
     loginOpen: false,
     user: null,
     code: "",
+    nowPlaying: null,
 }
 
 function reducer(state = initialState, action) {
@@ -25,6 +26,10 @@ function reducer(state = initialState, action) {
         case SET_EDITING:
             return Object.assign({}, state, {
                 editing: action.editing,
+            })
+        case SET_NOW_PLAYING:
+            return Object.assign({}, state, {
+                nowPlaying: action.obj,
             })
         case SET_EDITOR_CODE:
             return Object.assign({}, state, {
