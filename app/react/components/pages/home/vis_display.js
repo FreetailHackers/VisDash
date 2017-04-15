@@ -9,19 +9,21 @@ export default class VisDisplay extends React.Component {
 		super();
 		this.setEditorOn = this.setEditorOn.bind(this);
 	}
-	componentWillReceiveProps(props) {
-		var waiting = setInterval(function() {
+	componentDidMount(props) {
+		var waiting = setInterval(() => {
 			if (songLoaded) {
 				clearInterval(waiting);
-				var code = props.code;
+				var code = this.props.code;
 				// find all things that might be p5 vars or functions
 				code = code.replace(/(\S+?)\b/gi, function(match, thing) {
 					// if this part of the lib? prefix it if so
 					if (p5things.indexOf(thing) > -1) thing = "p."+thing;
 					return thing;
-				})+'p.setup=function(){var c=p.createCanvas(400,300);c.drop(gotAudio);'
+				})+';p.setup=function(){var c=p.createCanvas(400,300);c.drop(gotAudio);'
 				+'if(typeof setup=="function")setup()};p.draw=draw;';
-				this.setState({ p5: new p5(new Function("p", code), props.canvasID) });
+				var instance = new p5(new Function("p", code), this.props.canvasID);
+				console.log(instance);
+				this.setState({ p5: instance });
 			}
 		}, 10);
 	}
@@ -31,9 +33,7 @@ export default class VisDisplay extends React.Component {
 	}
 	render() {
 		return (
-			<div className="canvas">
-				<canvas onClick={this.setEditorOn} id={this.props.canvasID} width="400" height="300"></canvas>
-			</div>
+			<div className="canvas" onClick={this.setEditorOn} id={this.props.canvasID}></div>
 		)
 	}
 }
