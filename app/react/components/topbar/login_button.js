@@ -3,19 +3,17 @@ import ModalLogin from '../modal/login';
 import store from '../../../redux/store';
 import Editor from '../editor/editor';
 import { post } from '../../../comm/comm';
-import { updateEditing } from '../../../redux/actions';
+import { updateEditing, updateLoginOpen } from '../../../redux/actions';
 
 export default class Login extends React.Component {
     constructor() {
         super();
         this.state = {
             user: null,
-            modalIsOpen: false,
 			editorShown: false
         }
         this.attemptTokenLogin = this.attemptTokenLogin.bind(this);
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
         this.showEditor = this.showEditor.bind(this);
         this.hideEditor = this.hideEditor.bind(this);
     }
@@ -42,18 +40,22 @@ export default class Login extends React.Component {
             let storeState = store.getState();
             let token = storeState.token;
             let user  = storeState.user;
+            if (user) {
+                store.dispatch(updateLoginOpen(false));
+            }
             if (token && !user) {
-                post("/auth/login", {token: token}, user => this.setState({user: user}));
+                post("/auth/login", {token: token}, user => {
+                    this.setState({user: user});
+                    store.dispatch(updateLoginOpen(false));
+                });
             }
         }
     }
 
-    openModal() {
-        this.setState({modalIsOpen: true});
+    toggleModal() {
+        var loginOpen = store.getState().loginOpen;
+        store.dispatch(updateLoginOpen(!loginOpen));
     }
-    closeModal() {
-        this.setState({modalIsOpen: false});
-    };
 
     showEditor() {
 		//this.setState({editorShown: true});
@@ -67,15 +69,12 @@ export default class Login extends React.Component {
     render() {
         var current_user = this.state.user;
         var clickAction = null;
-        if (this.state.modalIsOpen)
-            clickAction = this.closeModal;
-        else if (this.state.user && this.state.editorShown)
+        if (!current_user)
+            clickAction = this.toggleModal
+        if (this.state.user && this.state.editorShown)
             clickAction = this.hideEditor;
         else if (this.state.user)
             clickAction = this.showEditor;
-        else
-            clickAction = this.openModal;
-
         return (
             <div>
                 <div className={this.state.editorShown ? "primary close" : "primary"} onClick={clickAction}>
@@ -84,7 +83,6 @@ export default class Login extends React.Component {
                     </div>
                 </div>
                 <ModalLogin
-                    isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
                 />

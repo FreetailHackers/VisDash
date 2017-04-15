@@ -47,8 +47,9 @@ export default class VisDisplay extends React.Component {
 		}, 10);
 	}
 	setEditorOn() {
-		console.log("clicked");
-		store.dispatch(updateEditing(true));
+		if (store.getState().user) {
+			store.dispatch(updateEditing(true));
+		}
 	}
 	render() {
 		var overlay, placeholder;

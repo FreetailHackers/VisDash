@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import store from '../../../redux/store';
-import { setUserAndToken } from '../../../redux/actions';
+import { setUserAndToken, updateLoginOpen } from '../../../redux/actions';
 import { post } from '../../../comm/comm';
 
 export default class ModalLogin extends React.Component {
@@ -9,7 +9,7 @@ export default class ModalLogin extends React.Component {
         super();
         this.submit = this.submit.bind(this);
         this.state = {
-            loggedIn: (store.getState().token != null),
+            loginOpen: store.getState().login_open,
         }
     }
 
@@ -19,13 +19,13 @@ export default class ModalLogin extends React.Component {
         post('/auth/login', form, user => {
             if (user.token) {
                 store.dispatch(setUserAndToken(user.user, user.token));
-                this.setState({loggedIn: true});
+                store.dispatch(updateLoginOpen(false));
             }
         })
         if (!this.state.loggedIn) {
             post('/auth/register', form, user => {
                 store.dispatch(setUserAndToken(user.user, user.token));
-                this.setState({loggedIn: true});
+                store.dispatch(updateLoginOpen(false));
             })
         }
 		e.preventDefault();
@@ -34,9 +34,9 @@ export default class ModalLogin extends React.Component {
     //This page will automatically be togglable once the user is no longer logged in.
     componentDidMount() {
         store.subscribe(() => {
-            let userHasToken = (store.getState().token != null);
-            if (this.state.loggedIn != userHasToken) {
-                this.setState({loggedIn: userHasToken});
+            let login_open = store.getState().loginOpen;
+            if (this.state.loginOpen != login_open) {
+                this.setState({loginOpen: login_open});
             }
         })
     }
@@ -45,7 +45,7 @@ export default class ModalLogin extends React.Component {
         return (
             <div>
                 <Modal
-                    isOpen={this.props.isOpen && !this.state.loggedIn}
+                    isOpen={this.state.loginOpen}
                     onAfterOpen={this.props.onAfterOpen}
                     onRequestClose={this.props.onRequestClose}
                     contentLabel="Login">

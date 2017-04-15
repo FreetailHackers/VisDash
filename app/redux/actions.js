@@ -15,6 +15,8 @@ export const SET_TIME   = "SET_TIME";
 export const SET_VOLUME   = "SET_VOLUME";
 export const SET_DROP_DOWN = "SET_DROP_DOWN";
 export const SET_EDITING = "SET_EDITING"
+export const UPDATE_LOGIN_OPEN = "UPDATE_LOGIN_OPEN"
+export const CLEAR_DATA = "CLEAR_DATA"
 
 export function togglePlay() {
     return { type: TOGGLE_PLAY };
@@ -32,6 +34,10 @@ export function setUser(user) {
     return {type: SET_USER, user: user}
 }
 
+export function clearData() {
+    return {type: CLEAR_DATA}
+}
+
 export function updateTime(time) {
     return {type: SET_TIME, time: time}
 }
@@ -42,6 +48,10 @@ export function updateVolume(volume) {
 
 export function updateEditing(editing) {
     return {type: SET_EDITING, editing: editing}
+}
+
+export function updateLoginOpen(login_open) {
+    return {type: UPDATE_LOGIN_OPEN, login_open: login_open}
 }
 
 export function setDropdownStatus() {
