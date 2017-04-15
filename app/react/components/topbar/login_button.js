@@ -50,9 +50,11 @@ export default class Login extends React.Component {
     }
 
     openModal() {
+        console.log("pressed")
         this.setState({modalIsOpen: true});
     }
     closeModal() {
+        console.log("pressed")
         this.setState({modalIsOpen: false});
     };
 
