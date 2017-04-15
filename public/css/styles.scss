@@ -1,6 +1,6 @@
 $pad: 0.3em;
 $maindark: #1d2044;
-$textcolor: #1fc8db; 
+$textcolor: #1fc8db;
 
 html, body {
 	margin: 0;
@@ -543,6 +543,7 @@ $pad: 0.3em;
 		}
 		.buttons {
 			position: absolute;
+			display:inline;
 			right: 0;
 			i {
 				font-size: 1em;
@@ -552,7 +553,16 @@ $pad: 0.3em;
 				cursor: pointer;
 			}
 			.run {
-				padding: $pad 2em;
+				padding: $pad 1em;
+				display: inline-block;
+			}
+			.del{
+				padding: $pad 1em;
+				display: inline-block;
+			}
+			.fork{
+				padding: $pad 1em;
+				display: inline-block;
 			}
 		}
 	}
