@@ -16,7 +16,7 @@ const initialState = {
     loginOpen: false,
     user: null,
     submission: { 
-        title: "default",
+        title: "untitled",
         code: "" 
     },
     nowPlaying: {
@@ -38,7 +38,6 @@ function reducer(state = initialState, action) {
                 nowPlaying: action.obj,
             })
         case SET_EDITOR_CODE:
-            console.log(action);
             return Object.assign({}, state, {
                 submission: action.submission,
             })

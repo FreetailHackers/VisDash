@@ -81,7 +81,7 @@ export default class Editor extends React.Component {
 			}
 			return (
             <div id="editor" className={this.props.isShown ? "shown" : ""}>
-				<EditorToolbar submissionId={this.submission_id} code={this.editor.getValue()} title={currStore.submission.title} save={this.postNewSubmission} />
+				<EditorToolbar submissionId={this.submission_id} code={this.editor.getValue()} title={currStore.submission.title} save={this.postNewSubmission} isShown={this.props.isShown} />
 				<pre id="code">{this.editor.getValue()}</pre>
 				<VisDisplay code={this.state.code} canvasID="livepreview" />
             </div>
