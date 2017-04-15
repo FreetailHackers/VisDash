@@ -35,7 +35,8 @@
     "build:css": "node-sass public/css/styles.scss public/css/styles.css",
     "build:all": "npm run build:dll && npm run build",
     "build": "node_modules/.bin/webpack --config build/webpack.config.js && npm run build:css",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "npm run build:all"
   },
   "keywords": [
     "music",

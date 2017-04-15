@@ -2729,6 +2729,13 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-addons-css-transition-group@^15.5.2:
+  version "15.5.2"
+  resolved "https://registry.yarnpkg.com/react-addons-css-transition-group/-/react-addons-css-transition-group-15.5.2.tgz#ea7e0a9f0e1c27ca426da4efd3559915bd42ead2"
+  dependencies:
+    fbjs "^0.8.4"
+    object-assign "^4.1.0"
+
 react-alert@^1.0.14:
   version "1.0.14"
   resolved "https://registry.yarnpkg.com/react-alert/-/react-alert-1.0.14.tgz#487bfcbb1223ede7d0f3d2d12ddd635fb2d9e62a"
