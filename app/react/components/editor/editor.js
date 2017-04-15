@@ -71,26 +71,27 @@ export default class Editor extends React.Component {
 		})
     }
     render() {
-    	var currStore = store.getState();
-		if (this.editor != null) {
+    	var currStore = store.getState(), toolbar = <EditorToolbar
+			code="DUMMY VALUE"
+			title={this.props.title}
+			save={this.postNewSubmission} />;
+		if (this.editor && currStore.submission) {
 			// console.log(currStore);
-			var code = currStore.submission.code;
+			var code = currStore.submission.code || "";
 			if (this.submission_id != currStore.submission.submission_id) {
 				this.submission_id = currStore.submission.submission_id;
 				this.editor.setValue(code);
 			}
-			return (
-            <div id="editor" className={this.props.isShown ? "shown" : ""}>
-				<EditorToolbar submissionId={this.submission_id} code={this.editor.getValue()} title={currStore.submission.title} save={this.postNewSubmission} />
-				<pre id="code">{this.editor.getValue()}</pre>
-				<VisDisplay code={this.state.code} canvasID="livepreview" />
-            </div>
-	        )
+			toolbar = <EditorToolbar submissionId={this.submission_id}
+				code={this.editor.getValue()}
+				title={currStore.submission.title}
+				save={this.postNewSubmission} />
 		}
 		return (
 			<div id="editor" className={this.props.isShown ? "shown" : ""}>
-				<EditorToolbar code="DUMMY VALUE" title={this.props.title} />
+				{ toolbar }
 				<pre id="code">{this.props.code}</pre>
+				<VisDisplay code={this.state.code} canvasID="livepreview" />
 			</div>
 		)
     }

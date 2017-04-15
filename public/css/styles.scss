@@ -558,10 +558,11 @@ $pad: 0.3em;
 	}
 	#livepreview {
 		position: absolute;
-		bottom: 100px;
+		bottom: 10px;
 		right: 10px;
 		width: 300px;
 		max-width: 90%;
+		color: $textcolor;
 	}
 	#code {
 		margin: 0;

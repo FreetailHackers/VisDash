@@ -20,14 +20,14 @@ export default class VisDisplay extends React.Component {
 		this.updateCode(this.props.code);
 	}
 	componentWillReceiveProps(props) {
+		console.log(props);
 		this.updateCode(props.code);
 	}
 	updateCode(code) {
+		console.log(code);
 		var waiting = setInterval(() => {
 			if (p5stuff.songLoaded) {
-				if (p5stuff.instances[this.props.canvasID]) {
-					p5stuff.instances[this.props.canvasID].remove();
-				}
+				if (this.state.p5) this.state.p5.noLoop();
 				clearInterval(waiting);
 				// find all things that might be p5 vars or functions
 				code = code.replace(/(\S+?)\b/gi, function(match, thing) {
@@ -45,6 +45,7 @@ export default class VisDisplay extends React.Component {
 					});
 					p5stuff.instances[this.props.canvasID] = instance;
 				} catch (e) {
+					console.log(e);
 					if (this.state.p5) this.state.p5.noLoop();
 					this.setState({
 						overlay: true,
