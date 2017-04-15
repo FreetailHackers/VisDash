@@ -50,7 +50,6 @@ export default class Home extends React.Component {
            .then(() => {
                 var submissions = [], ids = store.getState().users.result;
                 var users = store.getState().users.entities.user;
-                console.log(users);
                 for (var i = 0; i < ids.length; i++) {
                     var id = ids[i];
                     if (users[id].hasOwnProperty("submissions") && users[id].submissions.length > 0) {

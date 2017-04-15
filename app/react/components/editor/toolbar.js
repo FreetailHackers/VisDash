@@ -25,8 +25,15 @@ export default class EditorToolbar extends React.Component {
                     canSave = true;
             }
         }
+        console.log(canSave);
         return (
     			<div className="menubar">
+                    { canSave ? (
+                            <input ref="title" type="text" value={this.props.title} placeholder="My cool visualizer" />
+                        ) : (
+                            <input ref="title" type="text" value={this.props.title} placeholder="My cool visualizer" readOnly />
+                        )
+                    }
     				<input ref="title" type="text" value={this.props.title} placeholder="My cool visualizer" />
     				<div className="buttons">
     					{ canSave ? (
@@ -36,7 +43,7 @@ export default class EditorToolbar extends React.Component {
                             ) : (
                                 <button className="fork" title="Fork" onClick={this.props.fork}>
                                     <i className="material-icons">get_app</i>
-                                </button> 
+                                </button>
                             )
                         }
     				</div>
