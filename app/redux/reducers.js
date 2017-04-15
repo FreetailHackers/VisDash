@@ -15,7 +15,10 @@ const initialState = {
     editing: false,
     loginOpen: false,
     user: null,
-    code: "",
+    submission: { 
+        title: "default",
+        code: "" 
+    },
     nowPlaying: {
 		title: "Detrace",
 		artist: "Waterfront (ft. Skyloud)"
@@ -35,9 +38,9 @@ function reducer(state = initialState, action) {
                 nowPlaying: action.obj,
             })
         case SET_EDITOR_CODE:
+            console.log(action);
             return Object.assign({}, state, {
-                code: action.code,
-                submission_id: action.submission_id,
+                submission: action.submission,
             })
         case SET_TOKEN:
             return Object.assign({}, state, {

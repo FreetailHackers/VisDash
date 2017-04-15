@@ -1,6 +1,6 @@
 import React from 'react';
 import store from '../../../../redux/store'
-import { updateEditing, setEditorCode } from '../../../../redux/actions'
+import { updateEditing, setEditorState } from '../../../../redux/actions'
 
 // import Visualizer from './magical_p5_shit'
 
@@ -49,7 +49,7 @@ export default class VisDisplay extends React.Component {
 	setEditorOn() {
 		if (store.getState().user) {
 			store.dispatch(updateEditing(true));
-			store.dispatch(setEditorCode(this.props.code, this.props.canvasID));
+			store.dispatch(setEditorState({ title: this.props.title, code: this.props.code, submission_id: this.props.canvasID }));
 		}
 	}
 	render() {

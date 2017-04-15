@@ -50,26 +50,26 @@ export default class Editor extends React.Component {
 		this.session  = session;
     }
     render() {
-				if (this.editor != null) {
-					var curr_store = store.getState();
-					var code = curr_store.code;
-					if (this.submission_id != curr_store.submission_id) {
-						this.submission_id = curr_store.submission_id;
-						this.editor.setValue(code);
-					}
-					return (
+    	var currStore = store.getState();
+		if (this.editor != null) {
+			// console.log(currStore);
+			var code = currStore.submission.code;
+			if (this.submission_id != currStore.submission.submission_id) {
+				this.submission_id = currStore.submission.submission_id;
+				this.editor.setValue(code);
+			}
+			return (
             <div id="editor" className={this.props.isShown ? "shown" : ""}>
-							<EditorToolbar submissionId={this.submission_id} code={this.editor.getValue()} title={this.props.title} />
-							<pre id="code">{this.props.code}</pre>
+				<EditorToolbar submissionId={this.submission_id} code={this.editor.getValue()} title={currStore.submission.title} />
+				<pre id="code">{this.props.code}</pre>
             </div>
 	        )
-				}
-				return (
-					<div id="editor" className={this.props.isShown ? "shown" : ""}>
-						<EditorToolbar code="DUMMY VALUE" title={this.props.title} />
-						<pre id="code">{this.props.code}</pre>
-					</div>
-				)
-
+		}
+		return (
+			<div id="editor" className={this.props.isShown ? "shown" : ""}>
+				<EditorToolbar code="DUMMY VALUE" title={this.props.title} />
+				<pre id="code">{this.props.code}</pre>
+			</div>
+		)
     }
 }

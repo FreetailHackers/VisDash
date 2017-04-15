@@ -25,11 +25,14 @@ export function togglePlay() {
 }
 
 export function setToken(token) {
-    return {type: SET_TOKEN, token: token}
+    return { type: SET_TOKEN, token: token }
 }
 
-export function setEditorCode(code, id) {
-	return {type: SET_EDITOR_CODE, code: code, submission_id: id}
+// export function setEditorCode(code, id) {
+// 	return {type: SET_EDITOR_CODE, code: code, submission_id: id}
+// }
+export function setEditorState(submission) {
+	return { type: SET_EDITOR_CODE, submission: submission };
 }
 
 export function setNowPlaying(now_playing_object) {

@@ -22,7 +22,7 @@ export default class Panel extends React.Component {
 	render() {
 		return (
             <div className="item">
-            	<VisDisplay code={this.props.code} canvasID={this.props.id}/>
+            	<VisDisplay code={this.props.code} canvasID={this.props.id} title={this.props.title}/>
             	<VisInfo username={this.props.user} title={this.props.title} likes={this.props.likes} id={this.props.id}/>
             </div>
         )
