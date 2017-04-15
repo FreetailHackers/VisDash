@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import AlertContainer from 'react-alert';
 import store from '../../../redux/store';
 import { setUserAndToken, updateLoginOpen } from '../../../redux/actions';
 import { post } from '../../../comm/comm';
@@ -11,6 +12,7 @@ export default class ModalLogin extends React.Component {
         this.state = {
             loginOpen: store.getState().login_open,
         }
+        this.showAlert = this.showAlert.bind(this);
     }
 
     //Attempts to log the user in with their email and password before registering
@@ -23,9 +25,14 @@ export default class ModalLogin extends React.Component {
             }
         })
         if (!this.state.loggedIn) {
-            post('/auth/register', form, user => {
-                store.dispatch(setUserAndToken(user.user, user.token));
-                store.dispatch(updateLoginOpen(false));
+            post('/auth/register', form, response => {
+                if (response.status == 200) {
+                    store.dispatch(setUserAndToken(response.user, response.token));
+                    store.dispatch(updateLoginOpen(false));
+                }
+                else if (response.status == 400) {
+                    this.showAlert(response.message);
+                }
             })
         }
 		e.preventDefault();
@@ -41,6 +48,13 @@ export default class ModalLogin extends React.Component {
         })
     }
 
+    showAlert(error){
+      msg.show(error, {
+        time: 2000,
+        type: 'error'
+      });
+    }
+
     render() {
         return (
             <div>
@@ -54,13 +68,14 @@ export default class ModalLogin extends React.Component {
                         {/*I dont use a standard form here because I dont want
                         the page to refresh*/}
 
-                        <form class="form" ref="login" onSubmit={this.submit}>
+                        <form className="form" ref="login" onSubmit={this.submit}>
                     			<input type="text" ref="email" name="email" placeholder="E-mail Address"></input>
                     			<input type="password" ref="password" name="password" placeholder="Password"></input>
                     			<button type="submit" id="login-button" className = "login">Login or Sign Up</button>
                     		</form>
                     </div>
                 </Modal>
+                <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
             </div>
         )
     }

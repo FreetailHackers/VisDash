@@ -1,26 +1,42 @@
 import React from 'react';
 import store from '../../../redux/store';
+import { updateEditing } from '../../../redux/actions';
 import EditorToolbar from './toolbar';
+import VisDisplay from '../pages/home/vis_display';
+import { post, put, httpdelete } from '../../../comm/comm';
 
 export default class Editor extends React.Component {
 	constructor() {
 		super();
-		this.submit = this.submit.bind(this);
+		this.state = { code: "" };
 		this.editor = null;
 		this.session = null;
 		this.submission_id = null;
+		this.editor_open = false;
+		this.waiting;
+        this.postNewSubmission = this.postNewSubmission.bind(this);
 	}
-	submit() {
-		var form = {
-			title: this.refs.title.value,
-			submission: this.editor.getValue()
-		};
-		post('/auth/login', form, user => {
-			if (user.token) {
-				store.dispatch(setUserAndToken(user.user, user.token));
-				this.setState({loggedIn: true});
-			}
+
+    postNewSubmission() {
+		var user = store.getState().user;
+
+		var submission = new Object();
+		submission.title = "submission title";
+		submission.code = this.props.code;
+		submission.likes = 0;
+
+		var wrapper = new Object();
+		wrapper.submission = submission;
+
+		post(`/api/users/${user.id}/submissions`, wrapper, function(res) {
+			console.log(res);
 		});
+
+		this.setState({ code: this.editor.getValue() });
+  	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return this.state != nextState;
 	}
 	componentDidMount() {
 		var editor = ace.edit("code"),
@@ -41,13 +57,18 @@ export default class Editor extends React.Component {
 					passEvent: false
 				};
 			}
-		});
-		//editor.getValue();
-		/*editor.getSession().on("change", function(e) {
-		    // e.type, etc
 		});*/
+		//editor.getValue();
 		this.editor = editor;
 		this.session  = session;
+		store.dispatch(updateEditing(false));
+		store.subscribe(() => {
+			console.log(store.getState().editing);
+			console.log(this.state.editor_open)
+			if (this.state.editor_open != store.getState().editing) {
+				this.setState({editor_open: store.getState().editing});
+			}
+		})
     }
     render() {
     	var currStore = store.getState();
@@ -60,8 +81,9 @@ export default class Editor extends React.Component {
 			}
 			return (
             <div id="editor" className={this.props.isShown ? "shown" : ""}>
-				<EditorToolbar submissionId={this.submission_id} code={this.editor.getValue()} title={currStore.submission.title} />
-				<pre id="code">{this.props.code}</pre>
+				<EditorToolbar submissionId={this.submission_id} code={this.editor.getValue()} title={currStore.submission.title} save={this.postNewSubmission} />
+				<pre id="code">{this.editor.getValue()}</pre>
+				<VisDisplay code={this.state.code} canvasID="livepreview" />
             </div>
 	        )
 		}

@@ -8,6 +8,7 @@ export default class VisDisplay extends React.Component {
 	constructor() {
 		super();
 		this.setEditorOn = this.setEditorOn.bind(this);
+		this.updateCode = this.updateCode.bind(this);
 		this.state = {
 			loaded: false,
 			overlay: true,
@@ -15,11 +16,19 @@ export default class VisDisplay extends React.Component {
 			text: "Loading..."
 		};
 	}
-	componentDidMount(props) {
+	componentDidMount() {
+		this.updateCode(this.props.code);
+	}
+	componentWillReceiveProps(props) {
+		this.updateCode(props.code);
+	}
+	updateCode(code) {
 		var waiting = setInterval(() => {
 			if (p5stuff.songLoaded) {
+				if (p5stuff.instances[this.props.canvasID]) {
+					p5stuff.instances[this.props.canvasID].remove();
+				}
 				clearInterval(waiting);
-				var code = this.props.code;
 				// find all things that might be p5 vars or functions
 				code = code.replace(/(\S+?)\b/gi, function(match, thing) {
 					// if this part of the lib? prefix it if so

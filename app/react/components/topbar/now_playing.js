@@ -11,7 +11,7 @@ export default class NowPlaying extends React.Component {
     }
 
 	componentDidMount() {
-		this.setState(store.getState().nowPlaying);
+		if (store.getState().nowPlaying != null) this.setState(store.getState().nowPlaying);
 		store.subscribe(() => {
 			if (store.getState().nowPlaying != null) this.setState(store.getState().nowPlaying);
 		});

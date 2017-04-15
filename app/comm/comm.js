@@ -9,7 +9,8 @@ function httpdo(type, url, data, callback) {
         if (xhr.readyState == 4) {
             var json = JSON.parse(xhr.responseText);
             if (callback) {
-                callback(json);
+                console.log(xhr.status)
+                callback(Object.assign({}, json, {status: xhr.status}));
             }
         }
     }
