@@ -24,7 +24,7 @@ export default class ModalLogin extends React.Component {
                 store.dispatch(updateLoginOpen(false));
             }
         })
-        if (store.getState().user != null) {
+        if (store.getState().user == null) {
             post('/auth/register', form, response => {
                 if (response.status == 200) {
                     store.dispatch(setUserAndToken(response.user, response.token));

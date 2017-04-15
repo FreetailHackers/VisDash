@@ -3,7 +3,7 @@ import ModalLogin from '../modal/login';
 import store from '../../../redux/store';
 import Editor from '../editor/editor';
 import { post, get } from '../../../comm/comm';
-import { setEditorState, updateEditing, updateLoginOpen } from '../../../redux/actions';
+import { setEditorState, updateEditing, updateLoginOpen, setUser } from '../../../redux/actions';
 
 export default class Login extends React.Component {
     constructor() {
@@ -63,7 +63,7 @@ export default class Login extends React.Component {
     showEditor() {
 		//this.setState({editorShown: true});
         var submission = new Object();
-        submission.title = "submission title";
+        submission.title = "";
         submission.code =
 `var mapMax = 1.0; 
 function setup() {
