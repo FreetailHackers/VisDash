@@ -14,13 +14,13 @@ export default class TopBar extends React.Component {
         super();
         this.state={
             playbackProgress: 0,
-			dropDownOpen: false,
-			preparingToCloseDropDown: false,
+      			dropDownOpen: false,
+      			preparingToCloseDropDown: false,
         }
         this.scrub = this.scrub.bind(this);
-		this.logout = this.logout.bind(this);
-		this.openDropDown = this.openDropDown.bind(this);
-		this.requestCloseDropDown = this.requestCloseDropDown.bind(this);
+    		this.logout = this.logout.bind(this);
+    		this.openDropDown = this.openDropDown.bind(this);
+    		this.requestCloseDropDown = this.requestCloseDropDown.bind(this);
     }
 
 	openDropDown() {
@@ -58,8 +58,8 @@ export default class TopBar extends React.Component {
     render() {
 		var current_user_exists = store.getState().user != null;
 		var logout = null;
-		if (current_user_exists) { 
-			logout = <button className="logout" onClick={this.logout}><i className="material-icons">exit_to_app</i></button> 
+		if (current_user_exists) {
+			logout = <button className="logout" onClick={this.logout}><i className="material-icons">exit_to_app</i></button>
 		}
         return (
         	<div id="bottom">
@@ -76,15 +76,15 @@ export default class TopBar extends React.Component {
 					<a href="/">saffron</a>
 					{ logout }
 					<button className="repeat"><i className="material-icons">repeat</i></button>
-					<button onMouseEnter={this.openDropDown} 
-					        onMouseLeave={this.requestCloseDropDown} 
+					<button onMouseEnter={this.openDropDown}
+					        onMouseLeave={this.requestCloseDropDown}
 							className="media">
 						<i className="material-icons">volume_up</i>
 					</button>
 					<LoginButton/>
 				</div>
-				<InputDropDown open={this.state.dropDownOpen} 
-				               onMouseEnter={this.openDropDown} 
+				<InputDropDown open={this.state.dropDownOpen}
+				               onMouseEnter={this.openDropDown}
 							   onMouseLeave={this.requestCloseDropDown}/>
 			</div>
         )
