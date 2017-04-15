@@ -28,6 +28,12 @@ export default class VisDisplay extends React.Component {
 		var waiting = setInterval(() => {
 			if (p5stuff.songLoaded) {
 				if (this.state.p5) this.state.p5.noLoop();
+				var prev = this.refs.container.getElementsByTagName("canvas");
+				for (var i = 0; i < prev.length; i++) {
+					if (prev[i].id.indexOf("defaultCanvas") > -1) {
+						prev[i].parentElement.removeChild(prev[i]);
+					}
+				}
 				clearInterval(waiting);
 				// find all things that might be p5 vars or functions
 				code = code.replace(/(\S+?)\b/gi, function(match, thing) {
@@ -72,7 +78,7 @@ export default class VisDisplay extends React.Component {
 		}
 		if (!this.state.loaded) placeholder = <canvas width="400" height="300"></canvas>
 		return (
-			<div className="canvas" onClick={this.setEditorOn} id={this.props.canvasID}>
+			<div className="canvas" onClick={this.setEditorOn} id={this.props.canvasID} ref="container">
 				{placeholder}
 				{overlay}
 			</div>

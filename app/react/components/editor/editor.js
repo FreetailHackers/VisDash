@@ -22,7 +22,7 @@ export default class Editor extends React.Component {
 
 		var submission = new Object();
 		submission.title = "submission title";
-		submission.code = this.props.code;
+		submission.code = this.state.code;
 		submission.likes = 0;
 
 		var wrapper = new Object();
@@ -63,16 +63,18 @@ export default class Editor extends React.Component {
 		this.session  = session;
 		store.dispatch(updateEditing(false));
 		store.subscribe(() => {
-			console.log(store.getState().editing);
-			console.log(this.state.editor_open)
-			if (this.state.editor_open != store.getState().editing) {
-				this.setState({editor_open: store.getState().editing});
+			var current_state = store.getState()
+			if (this.state.editor_open != current_state.editing) {
+				this.setState({editor_open: current_state.editing});
+			}
+			if (this.state.code != current_state.submission.code) {
+				this.setState({code: current_state.submission.code});
+				this.editor.setValue(current_state.submission.code);
 			}
 		})
     }
     render() {
     	var currStore = store.getState(), toolbar = <EditorToolbar
-			code="DUMMY VALUE"
 			title={this.props.title}
 			save={this.postNewSubmission} />;
 		if (this.editor && currStore.submission) {
@@ -80,17 +82,16 @@ export default class Editor extends React.Component {
 			var code = currStore.submission.code || "";
 			if (this.submission_id != currStore.submission.submission_id) {
 				this.submission_id = currStore.submission.submission_id;
-				this.editor.setValue(code);
 			}
+			this.editor.setValue(code);
 			toolbar = <EditorToolbar submissionId={this.submission_id}
-				code={this.editor.getValue()}
 				title={currStore.submission.title}
 				save={this.postNewSubmission} />
 		}
 		return (
 			<div id="editor" className={this.props.isShown ? "shown" : ""}>
 				{ toolbar }
-				<pre id="code">{this.props.code}</pre>
+				<pre id="code"></pre>
 				<VisDisplay code={this.state.code} canvasID="livepreview" />
 			</div>
 		)
