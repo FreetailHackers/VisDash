@@ -54,7 +54,6 @@ export default class Editor extends React.Component {
 					var curr_store = store.getState();
 					var code = curr_store.code;
 					if (this.submission_id != curr_store.submission_id) {
-						console.log(code);
 						this.submission_id = curr_store.submission_id;
 						this.editor.setValue(code);
 					}
