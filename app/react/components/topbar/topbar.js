@@ -68,7 +68,9 @@ export default class TopBar extends React.Component {
 			}
 		});
 		setInterval(() => {
-			this.setState({ playbackProgress: song.currentTime()/song.duration() });
+			var progress = song.currentTime()/song.duration();
+			this.setState({ playbackProgress: progress });
+			if (progress == 0) song.jump(0);
 		}, 200);
 	}
 
