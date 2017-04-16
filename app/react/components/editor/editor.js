@@ -14,7 +14,9 @@ export default class Editor extends React.Component {
 		this.submission_id = null;
 		this.editor_open = false;
 		this.waiting;
+
         this.postNewSubmission = this.postNewSubmission.bind(this);
+        this.forkSubmission = this.forkSubmission.bind(this);
 	}
 
     postNewSubmission() {
@@ -33,6 +35,34 @@ export default class Editor extends React.Component {
 		post(`/api/users/${user.id}/submissions`, wrapper, function(res) {
 			console.log(res);
 		});
+  	}
+
+		deleteSubmission() {
+			var user = store.getState().user;
+			var submission = store.getState().submission;
+			console.log(submission);
+			httpdelete (`/api/users/${user.id}/submissions/${submission.submission_id}`, function(res) {
+				console.log(res);
+			});
+		}
+  	forkSubmission() {
+  		var user = store.getState().user;
+  		var currSubmission = store.getState().submission;
+  		var fork = {
+  			title: currSubmission.title,
+  			code: currSubmission.code
+  		};
+
+  		var wrapper = new Object();
+  		wrapper.submission = fork;
+
+  		post(`/api/users/${user.id}/submissions`, wrapper, function(res) {
+  			if (res.status == 400) {
+  				console.log(res);
+  			} else {
+  				console.log("success!!");
+  			}
+  		});
   	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -74,14 +104,15 @@ export default class Editor extends React.Component {
 			}
 		})
     }
-    
+
     render() {
     	var currStore = store.getState(), toolbar = <EditorToolbar
 			title={this.props.title}
 			save={this.postNewSubmission}
+			del ={this.deleteSubmission}
+			fork={this.forkSubmission}
 			isShown={this.props.isShown} />;
 		if (this.editor && currStore.submission) {
-			// console.log(currStore);
 			var code = currStore.submission.code || "";
 			if (this.submission_id != currStore.submission.submission_id) {
 				this.submission_id = currStore.submission.submission_id;
@@ -89,7 +120,9 @@ export default class Editor extends React.Component {
 			this.editor.setValue(code);
 			toolbar = <EditorToolbar submissionId={this.submission_id}
 				title={currStore.submission.title}
-				save={this.postNewSubmission} 
+				save={this.postNewSubmission}
+				del ={this.deleteSubmission}
+				fork={this.forkSubmission}
 				isShown={this.props.isShown} />
 		}
 		return (

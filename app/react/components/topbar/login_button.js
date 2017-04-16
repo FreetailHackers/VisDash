@@ -3,7 +3,7 @@ import ModalLogin from '../modal/login';
 import store from '../../../redux/store';
 import Editor from '../editor/editor';
 import { post, get } from '../../../comm/comm';
-import { setEditorState, updateEditing, updateLoginOpen } from '../../../redux/actions';
+import { setEditorState, updateEditing, updateLoginOpen, setUser } from '../../../redux/actions';
 
 export default class Login extends React.Component {
     constructor() {
@@ -35,13 +35,14 @@ export default class Login extends React.Component {
 
     //Sets this components user state if token is found
     attemptTokenLogin() {
-        /*Attempt to verify*/   
-        console.log(user);        
+        /*Attempt to verify*/       
         get("/api/whoami", user => {
-            console.log(user);
             if (user.status == 200) {
                 this.setState({user: user});
                 store.dispatch(setUser(user))
+
+                console.log(store.getState());
+                console.log("user updated");
             }
             else {
                 console.log(user.message);
@@ -56,14 +57,14 @@ export default class Login extends React.Component {
     }
 
     toggleModal() {
-        var loginOpen = store.getState().loginOpen;
+        let loginOpen = store.getState().loginOpen;
         store.dispatch(updateLoginOpen(!loginOpen));
     }
 
     showEditor() {
 		//this.setState({editorShown: true});
-        var submission = new Object();
-        submission.title = "submission title";
+        let submission = new Object();
+        submission.title = "untitled";
         submission.code =
 `var mapMax = 1.0; 
 function setup() {
@@ -81,18 +82,46 @@ function draw() {
 }`;
         submission.likes = 0;
 
-        var wrapper = new Object();
+        let wrapper = new Object();
         wrapper.submission = submission;
-        post(`/api/users/${store.getState().user.id}/submissions/`, wrapper, output => {
+        
+        let user_has_untitled_submission = false;
+        let user = store.getState().user;
+        user.submissions.map(this_submission => {
+            if (this_submission.title == submission.title) {
+                user_has_untitled_submission = true;
+                submission.likes = this_submission.likes;
+                submission.code  = this_submission.code;
+                submission._id   = this_submission._id;
+            }
+        })
+        if (!user_has_untitled_submission) {
+            post(`/api/users/${store.getState().user.id}/submissions/`, wrapper, output => {
+                console.log(output);
+                store.dispatch(setEditorState({
+                    title: submission.title,
+                    _id: output._id,
+                    code: submission.code,
+
+                }))
+                console.log(store.getState());      
+            });
+        }
+        else {
             store.dispatch(setEditorState({
                 title: submission.title,
-                id: output.id,
+                _id: submission._id,
                 code: submission.code,
-            }))
-        });
-
+            }))    
+            msg.show("You must title your untitled project to create a new submission", {
+                time: 5000,
+                type: 'error'
+            });
+        }
+        this.attemptTokenLogin();
         store.dispatch(updateEditing(true));
     }
+
     hideEditor() {
 		//this.setState({editorShown: false});
         store.dispatch(updateEditing(false));
