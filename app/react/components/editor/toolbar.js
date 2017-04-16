@@ -19,12 +19,13 @@ export default class EditorToolbar extends React.Component {
         if (this.props.isShown) {
             var userSubmissions = store.getState().user.submissions;
             var currSubmissionId = store.getState().submission._id;
-            
+
             for(let sub of userSubmissions) {
                 if (sub._id == currSubmissionId)
                     canSave = true;
             }
         }
+		canSave = true;
         return (
     			<div className="menubar">
                     { canSave ? (
@@ -39,10 +40,10 @@ export default class EditorToolbar extends React.Component {
                                 <span className="buttons">
                                     <button className="run" title="Run" onClick={this.props.save}>
                                         <i className="material-icons">play_arrow</i>
-                                    </button> 
+                                    </button>
                                     <button className="del" title="Del" onClick={this.props.del}>
                                         <i className="material-icons">delete</i>
-                                    </button> 
+                                    </button>
                                 </span>
                             ) : (
                                 <button className="fork" title="Fork" onClick={this.props.fork}>

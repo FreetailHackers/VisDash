@@ -20,7 +20,7 @@ export default class Editor extends React.Component {
 	}
 
     postNewSubmission() {
-		var user = store.getState().user;
+		var user = store.getState().user, sid = store.getState().submission.submission_id;
 
 		var submission = new Object();
 		this.setState({ code: this.editor.getValue() });
@@ -32,7 +32,7 @@ export default class Editor extends React.Component {
 		var wrapper = new Object();
 		wrapper.submission = submission;
 
-		post(`/api/users/${user.id}/submissions`, wrapper, function(res) {
+		put(`/api/users/${user.id}/submissions/${sid}`, wrapper, function(res) {
 			console.log(res);
 		});
   	}
