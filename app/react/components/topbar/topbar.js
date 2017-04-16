@@ -112,7 +112,7 @@ export default class TopBar extends React.Component {
 		}
 		var items = [];
 		for (var i = 0; i < this.songs.length; i++) {
-			items.push(<div key={i} onClick={this.changeSong} id={`song${i}`}>
+			items.push(<div key={i} onClick={this.changeSong} id={`song${i}`} className={i == this.state.currSong ? "current" : ""}>
 				{this.songs[i].title} - {this.songs[i].artist}
 			</div>);
 		}

@@ -48,7 +48,7 @@ p5stuff.i = new p5(function(p) {
 			progress("Failed to load audio!", 1);
 		}, function(p) {
 			progress("Loading audio...", p);
-			if (parseInt(p*100) == 99) progress("Almost there...", 1);
+			if (parseInt(p*100) == 99) progress("Decoding audio data...", 1);
 		});
 	};
 	p.preload = function() {
