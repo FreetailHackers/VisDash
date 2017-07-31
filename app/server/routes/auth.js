@@ -52,6 +52,7 @@ module.exports = function(router){
             });
           });
       }
+
   });
 
   /**
@@ -69,6 +70,7 @@ module.exports = function(router){
       // Register with an email and password
       var email = req.body.email;
       var password = req.body.password;
+
       UserController.createUser(email, password,
         function(err, user){
           if (err){
@@ -76,6 +78,64 @@ module.exports = function(router){
           }
           return res.json(user);
       });
+  });
+
+  router.post('/reset',
+    function(req, res, next){
+      var email = req.body.email;
+      if (!email){
+        return res.status(400).send();
+      }
+
+      UserController.sendPasswordResetEmail(email, function(err){
+        if(err){
+          return res.status(400).send(err);
+        }
+        return res.json({
+          message: 'Email Sent'
+        });
+      });
+  });
+
+  /**
+   * Reset user's password.
+   * {
+   *   token: STRING
+   *   password: STRING,
+   * }
+   */
+  router.post('/reset/password', function(req, res){
+    var pass = req.body.password;
+    var token = req.body.token;
+
+    UserController.resetPassword(token, pass, function(err, user){
+      if (err || !user){
+        return res.status(400).send(err);
+      }
+      return res.json(user);
+    });
+  });
+
+  /**
+   * Resend a password verification email for this user.
+   *
+   * body {
+   *   id: user id
+   * }
+   */
+  router.post('/verify/resend',
+    function(req, res, next){
+      var id = req.body.id;
+      if (id){
+        UserController.sendVerificationEmailById(id, function(err, user){
+          if (err || !user){
+            return res.status(400).send();
+          }
+          return res.status(200).send();
+        });
+      } else {
+        return res.status(400).send();
+      }
   });
 
   /**

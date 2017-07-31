@@ -1,0 +1,98 @@
+<div class="ui top attached segment">
+
+  <div class="ui header">
+    {{selectedUser.profile.name ? selectedUser.profile.name : selectedUser.email}}
+    <span
+      ng-show="selectedUser.admin">
+      (Admin)
+    </span>
+  </div>
+
+</div>
+
+<div class="ui botom attached segment">
+
+  <div class="ui form">
+
+    <fieldset ng-disabled="false">
+
+      <div class="ui header">
+        Basic Info
+      </div>
+
+      <div class="field">
+        <strong>
+          Created on:
+        </strong>
+        {{formatTime(selectedUser.timestamp)}}
+      </div>
+
+      <div class="field">
+        <strong>
+          Last Updated:
+        </strong>
+        {{formatTime(selectedUser.lastUpdated)}}
+      </div>
+
+
+      <div class="field">
+        <label> Email </label>
+        <input type="text" ng-model="selectedUser.email" />
+      </div>
+
+    </fieldset>
+
+  </div>
+
+  <div class="ui divider"></div>
+
+  <div class="ui form">
+
+    <fieldset ng-disabled="false">
+
+      <div class="ui header">
+       Profile
+      </div>
+
+      <div class="field">
+        <label> Email </label>
+        <input type="email"
+               name="email"
+               disabled="disabled"
+               ng-model="selectedUser.email">
+      </div>
+
+      <div class="field">
+        <label> Full Name </label>
+        <input type="text"
+               name="name"
+               ng-model="selectedUser.profile.name">
+      </div>
+
+      <div class="field" ng-show="autoFilledSchool">
+        <label> School </label>
+        <input class="ui input"
+               disabled="disabled"
+               ng-show="autoFilledSchool"
+               ng-model="selectedUser.profile.school">
+      </div>
+
+      <div class="field" ng-show="!autoFilledSchool">
+        <label> School </label>
+        <input class="ui input"
+               name="school"
+               ng-model="selectedUser.profile.school">
+      </div>
+
+      <div class="field">
+        <div
+          ng-click="updateProfile()"
+          class="ui positive right labeled icon button">
+          Update Profile
+          <i class="checkmark icon"></i>
+        </div>
+      </div>
+
+    </fieldset>
+  </div>
+</div>

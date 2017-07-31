@@ -4,29 +4,35 @@ var mongoose   = require('mongoose'),
     jwt        = require('jsonwebtoken');
     JWT_SECRET = process.env.JWT_SECRET;
 
-var submission = {
+var profile = {
 
-  title: {
+  // Basic info
+  name: {
     type: String,
-    required: true,
     min: 1,
     max: 100,
   },
 
-  code: {
+  school: {
     type: String,
-    required: true,
-    default: ""
-  },
-
-  likes: {
-    type: Number,
-    required: true,
-    default: 0,
+    min: 1,
+    max: 150,
   }
 };
 
-// define the schema for our model
+var status = {
+  /**
+   * Whether or not the user's profile has been completed.
+   * @type {Object}
+   */
+  completedProfile: {
+    type: Boolean,
+    required: true,
+    default: false,
+  }
+};
+
+// define the schema for our admin model
 var schema = new mongoose.Schema({
 
   email: {
@@ -44,16 +50,10 @@ var schema = new mongoose.Schema({
     select: false
   },
 
-  name: {
-    type: String,
-    required: true,
-    default: "Real Lyfe Hacker"
-  },
-
   admin: {
     type: Boolean,
     required: true,
-    default: false
+    default: false,
   },
 
   timestamp: {
@@ -67,6 +67,12 @@ var schema = new mongoose.Schema({
     default: Date.now(),
   },
 
+  verified: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+
   salt: {
     type: Number,
     required: true,
@@ -74,13 +80,22 @@ var schema = new mongoose.Schema({
     select: false
   },
 
-  likes: {
-    type: [String],
-    required: false,
-    select: true
-  },
+  /**
+   * User Profile.
+   *
+   * This is the only part of the user that the user can edit.
+   *
+   * Profile validation will exist here.
+   */
+  profile: profile,
 
-  submissions: [submission]
+  /**
+   * Confirmation information
+   *
+   * Extension of the user model, but can only be edited after acceptance.
+   */
+
+  status: status,
 
 });
 
@@ -102,13 +117,16 @@ schema.methods.checkPassword = function(password) {
 };
 
 // Token stuff
+schema.methods.generateEmailVerificationToken = function(){
+  return jwt.sign(this.email, JWT_SECRET);
+};
+
 schema.methods.generateAuthToken = function(){
   return jwt.sign(this._id, JWT_SECRET);
 };
 
 /**
  * Generate a temporary authentication token (for changing passwords)
- * TODO: Add control flow to API, (pairs with UserController.resetPassword)
  * @return JWT
  * payload: {
  *   id: userId
@@ -133,8 +151,18 @@ schema.statics.generateHash = function(password) {
 };
 
 /**
+ * Verify an an email verification token.
+ * @param  {[type]}   token token
+ * @param  {Function} cb    args(err, email)
+ */
+schema.statics.verifyEmailVerificationToken = function(token, callback){
+  jwt.verify(token, JWT_SECRET, function(err, email){
+    return callback(err, email);
+  });
+};
+
+/**
  * Verify a temporary authentication token.
- * Generate a temporary authentication token (for changing passwords)
  * @param  {[type]}   token    temporary auth token
  * @param  {Function} callback args(err, id)
  */
@@ -177,8 +205,47 @@ schema.statics.getByToken = function(token, callback){
 
 schema.statics.validateProfile = function(profile, cb){
   return cb(!(
-    profile.name.length > 0
+    profile.name.length > 0 &&
+    profile.school.length > 0
     ));
 };
+
+//=========================================
+// Virtuals
+//=========================================
+
+/**
+ * Has the user completed their profile?
+ * This provides a verbose explanation of their furthest state.
+ */
+schema.virtual('status.name').get(function(){
+
+  if (this.status.checkedIn) {
+    return 'checked in';
+  }
+
+  if (this.status.declined) {
+    return "declined";
+  }
+
+  if (this.status.confirmed) {
+    return "confirmed";
+  }
+
+  if (this.status.admitted) {
+    return "admitted";
+  }
+
+  if (this.status.completedProfile){
+    return "submitted";
+  }
+
+  if (!this.verified){
+    return "unverified";
+  }
+
+  return "incomplete";
+
+});
 
 module.exports = mongoose.model('User', schema);

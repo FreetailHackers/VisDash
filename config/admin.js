@@ -15,6 +15,7 @@ User
       u.email = ADMIN_EMAIL;
       u.password = User.generateHash(ADMIN_PASSWORD);
       u.admin = true;
+      u.verified = true;
       u.save(function(err){
         if (err){
           console.log(err);

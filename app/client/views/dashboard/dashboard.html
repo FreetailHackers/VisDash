@@ -1,0 +1,25 @@
+<div id="dashboard" class="page">
+  <div class="divided title">
+    Dashboard
+  </div>
+  <div class="ui stackable centered page grid" ng-if= "!user.verified">
+    <div class="column">
+      <div class="ui status segment">
+        <div
+          class="description">
+          <p>
+            <strong>
+            Your email address ({{user.email}}) is not yet verified.
+            </strong>
+          </p>
+          <p>
+            YOU ARE UNVERIFIED BEEP BOOP
+          </p>
+          <div class="ui purple button" ng-click="resendEmail()">
+            Resend verification email
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

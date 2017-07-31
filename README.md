@@ -20,14 +20,18 @@ mkdir db
 mongod --dbpath db --bind_ip 127.0.0.1 --nohttpinterface
 ```
 
-`yarn install` or `npm install` to install dependencies. `npm run build:all` to build the entire project.
+Install the necessary dependencies:
+```
+npm install
+bower install
+npm run config
+```
+
+Edit the configuration file in `.env` with your own credentials, and then run the application:
+```
+gulp server
+```
 
 ## Development
 
-To speed up the build process, many static packages have been moved to a separate build script. `npm run build:dll` to recompile vendor packages found in `build/vendors.js`.
-
-`npm run build:css` to recompile CSS only. `npm run build:all` to rebuild everything. Unless you add packages using `build/vendors.js` you will not need to rebuild `dll` or `all`.
-
-Usually you will only need to rebuild custom modules and CSS. Use `npm run build` for that.
-
-`npm start` to launch the site.
+There are gulp tasks for minifying or building  just the JS and CSS alone as `gulp js` and `gulp sass` respectively 

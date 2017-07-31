@@ -2,7 +2,6 @@
 require('dotenv').load();
 
 var express         = require('express');
-var path            = require('path');
 
 // Middleware!
 var bodyParser      = require('body-parser');
@@ -18,9 +17,6 @@ var adminConfig     = require('./config/admin');
 
 var app             = express();
 
-// Static directory!
-app.use(express.static(path.join(__dirname + '/public')))
-
 // Connect to mongodb
 mongoose.connect(database);
 
@@ -33,6 +29,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.use(methodOverride());
+
+app.use(express.static(__dirname + '/app/client'));
 
 // Routers =====================================================================
 

@@ -1,43 +1,18 @@
 var _ = require('underscore');
 var User = require('../models/User');
-const util = require('util');
+var Mailer = require('../services/email');
 
 var validator = require('validator');
 var moment = require('moment');
 
 var UserController = {};
 
+var maxTeamSize = process.env.TEAM_MAX_SIZE || 4;
+
 
 // Tests a string if it ends with target s
 function endsWith(s, test){
   return test.indexOf(s, test.length - s.length) !== -1;
-}
-
-/**
- * Determines whether or not a given title is valid
- * @param  {String}   id      Id of the user
- * @param  {String}   title   proposed submission title
- * @param  {Function} callback args(err, true, false)
- * @return {[type]}            [description]
- */
-function isValidTitle(id, title, callback){
-  User
-    .findById(id)
-    .exec(function(err, bundle){
-      if (err) {
-        return callback(err);
-      }
-      if (bundle) {
-        for (let submission of bundle.submissions){
-          if(submission.title == title){
-            return callback({
-              message: 'You already have a submission with this title, please choose a new one.'
-            });
-          }
-        }
-      }
-      return callback(null, true);
-  });
 }
 
 /**
@@ -47,10 +22,15 @@ function isValidTitle(id, title, callback){
  * @return {[type]}            [description]
  */
 function canRegister(email, password, callback){
+
   if (!password || password.length < 6){
     return callback({ message: "Password must be 6 or more characters."}, false);
   }
-  return callback(null, true);
+  else {
+    return callback(null, true);
+  }
+
+
 }
 
 /**
@@ -129,16 +109,18 @@ UserController.createUser = function(email, password, callback) {
 
   email = email.toLowerCase();
 
+
   // Check that there isn't a user with this email already.
   canRegister(email, password, function(err, valid){
+
     if (err || !valid){
       return callback(err);
     }
 
+
     User
       .findOneByEmail(email)
       .exec(function(err, user){
-
         if (err) {
           return callback(err);
         }
@@ -153,13 +135,16 @@ UserController.createUser = function(email, password, callback) {
           var u = new User();
           u.email = email;
           u.password = User.generateHash(password);
-          u.name = email;
           u.save(function(err){
             if (err){
               return callback(err);
             } else {
               // yay! success.
               var token = u.generateAuthToken();
+
+              // Send over a verification email
+              var verificationToken = u.generateEmailVerificationToken();
+              Mailer.sendVerificationEmail(email, verificationToken);
 
               return callback(
                 null,
@@ -171,7 +156,9 @@ UserController.createUser = function(email, password, callback) {
             }
 
           });
+
         }
+
     });
   });
 };
@@ -190,6 +177,57 @@ UserController.getAll = function (callback) {
 };
 
 /**
+ * Get a page of users.
+ * @param  {[type]}   page     page number
+ * @param  {[type]}   size     size of the page
+ * @param  {Function} callback args(err, {users, page, totalPages})
+ */
+UserController.getPage = function(query, callback){
+  var page = query.page;
+  var size = parseInt(query.size);
+  var searchText = query.text;
+
+  var findQuery = {};
+  if (searchText.length > 0){
+    var queries = [];
+    var re = new RegExp(searchText, 'i');
+    queries.push({ email: re });
+    queries.push({ 'profile.name': re });
+    queries.push({ 'teamCode': re });
+
+    findQuery.$or = queries;
+  }
+
+  User
+    .find(findQuery)
+    .sort({
+      'profile.name': 'asc'
+    })
+    .skip(page * size)
+    .limit(size)
+    .exec(function (err, users){
+      if (err || !users){
+        return callback(err);
+      }
+
+      User.count(findQuery).exec(function(err, count){
+
+        if (err){
+          return callback(err);
+        }
+
+        return callback(null, {
+          users: users,
+          page: page,
+          size: size,
+          totalPages: Math.ceil(count / size)
+        });
+      });
+
+    });
+};
+
+/**
  * Get a user by id.
  * @param  {String}   id       User id
  * @param  {Function} callback args(err, user)
@@ -199,221 +237,107 @@ UserController.getById = function (id, callback){
 };
 
 /**
- * Update a user's name field given an id and a name.
+ * Update a user's profile object, given an id and a profile.
  *
  * @param  {String}   id       Id of the user
- * @param  {String}   name     Name string
+ * @param  {Object}   profile  Profile object
  * @param  {Function} callback Callback with args (err, user)
  */
- UserController.updateNameById = function (id, name, callback){
-   User.findOneAndUpdate({
-     _id: id,
-   },
-     {
-       $set: {
-         'lastUpdated': Date.now(),
-         'name': name,
-       }
-     },
-     {
-       new: true
-     },
-     callback);
- };
+UserController.updateProfileById = function (id, profile, callback){
 
- /**
-  * Push a user's new submission, given an id and a submission.
-  *
-  * @param  {String}   id          Id of the user
-  * @param  {Object}   submission  submission object
-  * @param  {Function} callback    Callback with args (err, user)
-  */
- UserController.pushSubmissionById = function (id, submission, callback){
-   isValidTitle(id, submission.title, function(err, valid){
-     if (err || !valid){
-       return callback(err);
-     }
-      User.findOneAndUpdate({
-        _id: id,
-      },
+  // Validate the user profile, and mark the user as profile completed
+  // when successful.
+  User.validateProfile(profile, function(err){
+
+    if (err){
+      return callback({message: 'invalid profile'});
+    }
+
+    User.findOneAndUpdate({
+      _id: id,
+      verified: true
+    },
       {
-        $push: {
-          'submissions': submission
+        $set: {
+          'lastUpdated': Date.now(),
+          'profile': profile,
+          'status.completedProfile': true
         }
       },
       {
         new: true
       },
       callback);
-   });
- };
 
- /**
-  * Push a user's new like given a user id and a submission id.
-  *
-  * @param  {String}   userId         Id of the user
-  * @param  {Object}   submissionId   submission object
-  * @param  {Function} callback       Callback with args (err, user)
-  */
- UserController.pushLikeById = function (userId, submissionId, callback){
-   var found = false;
-   User
-     .findById(userId)
-     .exec(function(err, user){
-       if (err) {
-         return callback(err);
-       }
-       if (user) {
-         for (let like of user.likes){
-           if(like == submissionId){
-             return callback({
-               message: 'You already liked this submission.'
-             });
-           }
-         }
-         User.findOneAndUpdate({
-             _id: userId,
-           },
-           {
-             $push: {
-               'likes': submissionId
-             }
-           },
-           {
-             new: true
-           }, function(){
-             User.find({}).exec(function(err, bundle){
-                 if (err) {
-                   return callback(err);
-                 }
-                 if (bundle) {
-                   for (let user of bundle){
-                     for (let submission of user.submissions){
-                       if(submission._id == submissionId){
-                         found = true;
-                         User.findById(user._id).then(user => {
-                          user.submissions.id(submissionId).likes = user.submissions.id(submissionId).likes + 1;
-                          user.save();
-                          callback(null, user);
-                        });
-                       }
-                     }
-                   }
-                  }
-                  if(! found){
-                  return callback(
-                    {
-                      message: 'Submission not found'
-                    });
-                  }
-
-                });
-             });
-           }
-         });
- };
-
- /**
-  * Pull a user's like, given a user id and a submission id.
-  *
-  * @param  {String}   userId          Id of the user
-  * @param  {Object}   submissionId    Id of the submission
-  * @param  {Function} callback        Callback with args (err, user)
-  */
- UserController.pullLikeById = function (userId, submissionId, callback){
-  User.findOneAndUpdate({
-    _id: userId,
-  },
-  {
-    $pull: {
-      'likes': submissionId
-    }
-  },
-  {
-    new: true
-  },
-  function(){
-    User.find({}).exec(function(err, bundle){
-        if (err) {
-          return callback(err);
-        }
-        if (bundle) {
-          for (let user of bundle){
-            for (let submission of user.submissions){
-              if(submission._id == submissionId){
-                found = true;
-                User.findById(user._id).then(user => {
-                 user.submissions.id(submissionId).likes = user.submissions.id(submissionId).likes - 1;
-                 user.save();
-                 callback(null, user);
-               });
-              }
-            }
-          }
-         }
-         if(! found){
-         return callback(
-           {
-             message: 'Submission not found'
-           });
-         }
-
-       });
-    });
- };
-
-
- /**
-  * Pull a user's submission, given a user id and a submission id.
-  *
-  * @param  {String}   userId          Id of the user
-  * @param  {Object}   submissionId    Id of the submission
-  * @param  {Function} callback        Callback with args (err, user)
-  */
- UserController.pullSubmissionById = function (userId, submissionId, callback){
-  User.findOneAndUpdate({
-    _id: userId,
-  },
-  {
-    $pull: {
-      'submissions': {
-        _id: submissionId
-      }
-    }
-  },
-  {
-    new: true
-  },
-  callback);
- };
-
- /**
-  * Update a user's submission, given a user id and a submission title.
-  *
-  * @param  {String}   userId             Id of the user
-  * @param  {String}   submissionId       title of the submission
-  * @param  {Object}   submission         submission object
-  * @param  {Function} callback           Callback with args (err, user)
-  */
- UserController.updateSubmissionById = function (userId, submissionId, submission, callback){
-   User.findById(userId).then(user => {
-    let old_submission = user.submissions.id(submissionId);
-    if (submission.code) {
-      old_submission.code = submission.code;
-    }
-    if (submission.likes) {
-      old_submission.likes = submission.likes;
-    }
-    user.save();
-    callback(null, user);
   });
- };
+};
+
 
 /**
- * Change a user's password, given their old password and a new one.
- * @param  {String}   id          User id
- * @param  {String}   oldPassword old password
- * @param  {String}   newPassword new password
+ * Verify a user's email based on an email verification token.
+ * @param  {[type]}   token    token
+ * @param  {Function} callback args(err, user)
+ */
+UserController.verifyByToken = function(token, callback){
+  User.verifyEmailVerificationToken(token, function(err, email){
+    User.findOneAndUpdate({
+      email: new RegExp('^' + email + '$', 'i')
+    },{
+      $set: {
+        'verified': true
+      }
+    }, {
+      new: true
+    },
+    callback);
+  });
+};
+
+/**
+ * Resend an email verification email given a user id.
+ */
+UserController.sendVerificationEmailById = function(id, callback){
+  User.findOne(
+    {
+      _id: id,
+      verified: false
+    },
+    function(err, user){
+      if (err || !user){
+        return callback(err);
+      }
+      var token = user.generateEmailVerificationToken();
+      Mailer.sendVerificationEmail(user.email, token);
+      return callback(err, user);
+  });
+};
+
+/**
+ * Password reset email
+ * @param  {[type]}   email    [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+UserController.sendPasswordResetEmail = function(email, callback){
+  User
+    .findOneByEmail(email)
+    .exec(function(err, user){
+      if (err || !user){
+        return callback(err);
+      }
+
+      var token = user.generateTempAuthToken();
+      Mailer.sendPasswordResetEmail(email, token, callback);
+    });
+};
+
+/**
+ * UNUSED
+ *
+ * Change a user's password, given their old password.
+ * @param  {[type]}   id          User id
+ * @param  {[type]}   oldPassword old password
+ * @param  {[type]}   newPassword new password
  * @param  {Function} callback    args(err, user)
  */
 UserController.changePassword = function(id, oldPassword, newPassword, callback){
@@ -448,8 +372,6 @@ UserController.changePassword = function(id, oldPassword, newPassword, callback)
 
 /**
  * Reset a user's password to a given password, given a authentication token.
- * NOT DONE OR WORKING YET
- * TODO: Add control flow to rest of backend api
  * @param  {String}   token       Authentication token
  * @param  {String}   password    New Password
  * @param  {Function} callback    args(err, user)
@@ -484,17 +406,12 @@ UserController.resetPassword = function(token, password, callback){
         if (err || !user){
           return callback(err);
         }
+
+        Mailer.sendPasswordChangedEmail(user.email);
+        return callback(null, {
+          message: 'Password successfully reset!'
+        });
       });
   });
 };
-
-/**
- * Remove a user by id.
- * @param  {String}   id       User id
- * @param  {Function} callback args(err, user)
- */
-UserController.removeById = function (id, callback){
-  User.findByIdAndRemove(id, callback);
-};
-
 module.exports = UserController;

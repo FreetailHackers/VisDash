@@ -100,10 +100,19 @@ module.exports = function(router) {
    *
    * GET - Get all users
    */
-  router.get('/users', function(req, res){
-    UserController.getAll(defaultResponse(req, res));
-  });
+   router.get('/users', function(req, res){
+     var query = req.query;
 
+     if (query.page && query.size){
+
+       UserController.getPage(query, defaultResponse(req, res));
+
+     } else {
+
+       UserController.getAll(defaultResponse(req, res));
+
+     }
+   });
   /**
    * [PUBLIC]
    *
