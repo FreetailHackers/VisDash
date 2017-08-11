@@ -41,7 +41,7 @@ angular.module('reg')
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
           .success(function(data){
-            sweetAlert({ch
+            sweetAlert({
               title: "Awesome!",
               text: "Your profile has been saved.",
               type: "success",
