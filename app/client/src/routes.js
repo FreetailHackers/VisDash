@@ -53,6 +53,17 @@ angular.module('reg')
 
         },
       })
+      .state('app.editor', {
+        url: "/",
+        templateUrl: "views/editor/editor.html",
+        controller: 'EditorCtrl',
+        resolve: {
+          currentUser: function(UserService){
+            return UserService.getCurrentUser();
+          },
+
+        },
+      })
       .state('app.profile', {
         url: "/profile",
         templateUrl: "views/profile/profile.html",
