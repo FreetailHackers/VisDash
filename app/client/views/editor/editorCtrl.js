@@ -27,13 +27,27 @@ angular.module('reg')
       };
 
 	  $scope.initializeEditor = function() {
-			var flask = new CodeFlask;
-			flask.run('#my-code-wrapper', {
+			var flask = new CodeFlask,
+				selector = '#editorwrapper',
+				fixing = true,
+				textarea;
+			flask.run(selector, {
 				language: 'javascript',
 				lineNumbers: true
 			});
+			textarea = document.querySelector(selector+" textarea");
 			flask.onUpdate(function(code) {
-				console.log(code);
+				if (fixing) {
+					var prevStart = textarea.selectionStart,
+						prevEnd = textarea.selectionEnd,
+						cleaned = code.replace(/^\s+/g, ""),
+						offset = cleaned.length - code.length;
+					fixing = false;
+					flask.update(cleaned);
+					fixing = true;
+					textarea.selectionStart = prevStart + offset;
+					textarea.selectionEnd = prevEnd + offset;
+				}
 			});
 			flask.update($scope.editorCode);
 			return true; // because I don't get Angular
