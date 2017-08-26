@@ -17,13 +17,25 @@ angular.module('reg')
 
 
       $scope.updateCode = function(){
-        submission = {};
-        submission['title'] = $scope.title;
-        submission['owner'] = currentUser.data.id;
-        submission['likes'] = 0;
-        submission['code'] = $scope.editorCode;
-        console.log(submission);
-        UserService.addSubmission(currentUser.data.id, submission);
+        swal({
+  	    title: "Are you sure?",
+  	    text: "Please confirm your submission",
+  	    type: "warning",
+  	    showCancelButton: true,
+  	    confirmButtonColor: "#7FFF00",
+  	    confirmButtonText: "Yes",
+  	    closeOnConfirm: false
+	},
+	function(){
+ 	 swal("Success!", "Your project has been successfully submitted", "success");
+	 submission = {};
+         submission['title'] = $scope.title;
+         submission['owner'] = currentUser.data.id;
+         submission['likes'] = 0;
+         submission['code'] = $scope.editorCode;
+         console.log(submission);
+         UserService.addSubmission(currentUser.data.id, submission);
+	});
       };
 
 	  $scope.initializeEditor = function() {
