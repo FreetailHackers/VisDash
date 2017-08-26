@@ -22,6 +22,7 @@ angular.module('reg')
         submission['owner'] = currentUser.data.id;
         submission['likes'] = 0;
         submission['code'] = $scope.editorCode;
+        console.log(submission);
         UserService.addSubmission(currentUser.data.id, submission);
       };
 
