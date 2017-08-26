@@ -2,15 +2,10 @@
   <div class="ui purple button" ng-click="updateCode()">
     Submit
   </div>
-  <div class="divided title" ng-bind="title" contenteditable="true" style="outline: none">
-  </div>
-    <div class="code-editor">
-  			<span class="control"></span>
-  			<span class="control"></span>
-  			<span class="control"></span>
-  			<pre class="line-numbers">
-  				<code class="language-css" ng-bind="editorCode" contenteditable="true" style="outline: none"></code>
-        </pre>
+  <input class="divided title" ng-model="title" style="outline: none">
+</input>
+    <textarea class="code-editor" ng-model="editorCode" style="outline: none" cols="40" rows="20">
+  </textarea>
   </div>
 </div>
 
@@ -47,6 +42,8 @@
     -moz-transition: wall .5s ease-in-out;
     -o-transition: all .5s ease-in-out;
     transition: all .5s ease-in-out;
+    color: #ccc;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
 }
 
 /**
