@@ -40,6 +40,19 @@ angular.module('reg')
         });
       },
 
+      addSubmission: function(id, submission){
+        return $http.post(base + id + '/submissions', {
+          submission: submission
+        });
+      },
+
+      updateSubmission: function(id, submission, submissionId){
+        return $http.post(base + id + '/submissions/' + submissionId, {
+          submission: submission
+        });
+      },
+
+
       // -------------------------
       // Admin Only
       // -------------------------

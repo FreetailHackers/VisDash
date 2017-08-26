@@ -3,12 +3,13 @@ angular.module('reg')
     '$rootScope',
     '$scope',
     '$sce',
+    '$http',
     'currentUser',
     'Utils',
     'AuthService',
     'UserService',
     'EVENT_INFO',
-    function($rootScope, $scope, $sce, currentUser, Utils, AuthService, UserService){
+    function($rootScope, $scope, $sce, $http, currentUser, Utils, AuthService, UserService){
       var user = currentUser.data;
       $scope.user = user;
       $scope.title = "Your Title Here";
@@ -16,7 +17,12 @@ angular.module('reg')
 
 
       $scope.updateCode = function(){
-        console.log($scope.editorCode);
+        submission = {};
+        submission['title'] = $scope.title;
+        submission['owner'] = currentUser.data.id;
+        submission['likes'] = 0;
+        submission['code'] = $scope.editorCode;
+        UserService.addSubmission(currentUser.data.id, submission);
       };
 
     }]);

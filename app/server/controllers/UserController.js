@@ -414,4 +414,26 @@ UserController.resetPassword = function(token, password, callback){
       });
   });
 };
+
+/**
+* Push a user's new submission, given an id and a submission.
+*
+* @param  {String}   id          Id of the user
+* @param  {Object}   submission  submission object
+* @param  {Function} callback    Callback with args (err, user)
+*/
+UserController.pushSubmissionById = function (id, submission, callback){
+    User.findOneAndUpdate({
+      _id: id,
+    },
+    {
+      $push: {
+        'submissions': submission
+      }
+    },
+    {
+      new: true
+    },
+    callback);
+};
 module.exports = UserController;
