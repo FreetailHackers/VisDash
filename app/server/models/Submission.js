@@ -18,10 +18,14 @@ var schema = new mongoose.Schema({
     type: Number,
     required: true,
     default: 0
+  },
+  
+  code: {
+    type: String,
+    required: true,
+    default: ""
   }
-
 });
-s
 schema.set('toJSON', {
   virtuals: true
 });
