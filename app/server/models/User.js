@@ -73,6 +73,12 @@ var schema = new mongoose.Schema({
     default: false
   },
 
+  submissions: {
+    type: Array,
+    required: false,
+    default: []
+  },
+
   salt: {
     type: Number,
     required: true,
