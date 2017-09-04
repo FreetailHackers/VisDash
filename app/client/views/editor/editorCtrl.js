@@ -53,6 +53,7 @@ angular.module('reg')
 			textarea = document.querySelector(selector+" textarea");
 
 			flask.onUpdate(function(code) {
+                $scope.editorCode = code;
 				if (fixing) {
 					var prevStart = textarea.selectionStart,
 						prevEnd = textarea.selectionEnd,

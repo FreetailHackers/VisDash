@@ -2,8 +2,8 @@
   <div class="ui purple button" ng-click="updateCode()">
     Submit
   </div>
-  <input class="divided title" ng-model="title" contenteditable="true" style="outline: none"></input>
-  <textarea id="editorwrapper" ng-model="editorCode" contenteditable="true" style="width:100%; border:none; outline: none" rows="40"></textarea>
+  <input class="divided title" ng-model="title" style="outline: none"></input>
+  <div id="editorwrapper" class="code-editor" ng-bind="editorCode" ng-show="initializeEditor()"></div>
 </div>
 
 <style media="screen">
