@@ -17,6 +17,7 @@ angular.module('reg')
 
 
       $scope.updateCode = function(){
+        console.log($scope.editorCode);
         swal({
   	    title: "Are you sure?",
   	    text: "Please confirm your submission",
@@ -43,11 +44,14 @@ angular.module('reg')
 				selector = '#editorwrapper',
 				fixing = true,
 				textarea;
+
 			flask.run(selector, {
 				language: 'javascript',
 				lineNumbers: true
 			});
+
 			textarea = document.querySelector(selector+" textarea");
+
 			flask.onUpdate(function(code) {
 				if (fixing) {
 					var prevStart = textarea.selectionStart,

@@ -1,18 +1,18 @@
-<div id="editor" class="page">
+<div id="editor" class="page" ng-init="initializeEditor()">
   <div class="ui purple button" ng-click="updateCode()">
     Submit
   </div>
-  <div class="divided title" ng-bind="title" contenteditable="true" style="outline: none"></div>
-  <div id="editorwrapper" class="code-editor" ng-bind="editorCode" ng-show="initializeEditor()"></div>
+  <input class="divided title" ng-model="title" contenteditable="true" style="outline: none"></input>
+  <textarea id="editorwrapper" ng-model="editorCode" contenteditable="true" style="width:100%; border:none; outline: none" rows="40"></textarea>
 </div>
 
 <style media="screen">
-.CodeFlask__pre {
-	position: relative;
-}
+  .CodeFlask__pre {
+  	position: relative;
+  }
 
-.CodeFlask__textarea, .CodeFlask__pre, .CodeFlask__code {
-    white-space: pre-wrap !important;
-    word-wrap: break-word !important;
-}
+  .CodeFlask__textarea, .CodeFlask__pre, .CodeFlask__code {
+      white-space: pre-wrap !important;
+      word-wrap: break-word !important;
+  }
 </style>
