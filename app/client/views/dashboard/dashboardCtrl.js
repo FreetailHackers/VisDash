@@ -11,8 +11,8 @@ angular.module('reg')
     function($rootScope, $scope, $sce, currentUser, Utils, AuthService, UserService){
       var user = currentUser.data;
       var users = [];
-      var submissions = [];
 
+      $scope.submissions = [];
       $scope.user = user;
 
       $scope.resendEmail = function(){
@@ -22,15 +22,18 @@ angular.module('reg')
             sweetAlert('Your email has been sent.');
           });
       };
-      
+
       $scope.grabSubmissions = function() {
         user = UserService.getAll();
-        users.forEach(user => {
-          user.submissions.forEach(submission => {
-            submissions.push(submission);
-          })
-        })
-        console.log(submissions);
+        users = UserService.getAll();
+        setTimeout(function(){
+            users = users.$$state.value.data;
+            users.forEach(user => {
+              user.submissions.forEach(submission => {
+                $scope.submissions.push(submission);
+              })
+            });
+        }, 100);
       }
 
     }]);
