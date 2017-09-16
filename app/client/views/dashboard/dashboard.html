@@ -25,18 +25,19 @@
   <div class="ui stackable centered page grid" >
     <div class="column">
       <div class="submission" ng-init="grabSubmissions()">
-        <span ng-repeat="item in submissions">
-          <div class="submission detail">
+        <span ng-repeat="item in users">
+              <p>{{item.email}}</p>
+          <!-- <div class="submission detail">
               <img src="" class="detail-item image"></img>
           </div>
           <div class="submission detail">
-              <div class="detail-item name">{{item.title}}</div>
-              <div class="detail-item author">{{item.owner}}</div>
+              <p class="detail-item name">{{item.title}}</p>
+              <div class="detail-item author">{{item.email}}</div>
           </div>
           <div class="submission detail">
-              <span class="detail-item likes-diplay">{{item.likes}}</span>
+              <span class="detail-item likes-diplay">{{item.likes.length}}</span>
               <input class="detail-item like-button">Like</input>
-          </div>
+          </div> -->
         </span>
       </div>
     </div>

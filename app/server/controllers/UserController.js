@@ -423,12 +423,14 @@ UserController.resetPassword = function(token, password, callback){
 * @param  {Function} callback    Callback with args (err, user)
 */
 UserController.pushSubmissionById = function (id, submission, callback){
+    console.log(submission.title);
     User.findOneAndUpdate({
       _id: id,
     },
     {
-      $push: {
-        'submissions': submission
+      $set: {
+        'code': submission.code,
+        'title': submission.title
       }
     },
     {

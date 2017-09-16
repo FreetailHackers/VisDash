@@ -73,11 +73,23 @@ var schema = new mongoose.Schema({
     default: false
   },
 
-  submissions: {
+  title: {
+    type: String,
+    required: false,
+    default: ""
+  },
+
+  code: {
+    type: String,
+    required: false,
+    default: ""
+    },
+
+  likes: {
     type: Array,
     required: false,
     default: []
-  },
+    },
 
   salt: {
     type: Number,
